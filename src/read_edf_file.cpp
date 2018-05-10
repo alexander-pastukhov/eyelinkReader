@@ -265,3 +265,141 @@ void append_recording(TRIAL_RECORDINGS &recordings, RECORDINGS new_rec, unsigned
   recordings.pos_type.push_back(new_rec.pos_type);
   recordings.eye.push_back(new_rec.eye);
 }
+
+// @title Appends sample to the samples structure
+// @description Appends a new sample to the samples structure and copies all the data
+// @param TRIAL_SAMPLES &samples, reference to the trial samples structure
+// @param FSAMPLE new_sample, structure with sample info, as described in the EDF API manual
+// @param int iTrial, the index of the trial the event belongs to
+// @param UINT32 trial_start, the timestamp of the trial start.
+// @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
+// @param NumericVector pixels_per_degree, pixels per degree for the screen that was used for the recording
+// positive values overwrite rx and ry fields' values from the file
+// Is used to compute event time relative to it.
+// @return modifies samples structure
+// @keywords internal
+void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTrial, UINT32 trial_start, LogicalVector sample_attr_flag, NumericVector pixels_per_degree)
+{
+  samples.trial_index.push_back(iTrial+1);
+  if (sample_attr_flag[0]){
+    samples.time.push_back(new_sample.time);
+    samples.time_rel.push_back(new_sample.time-trial_start);
+  }
+  if (sample_attr_flag[1]){
+    samples.pxL.push_back(new_sample.px[0]);
+    samples.pxR.push_back(new_sample.px[1]);
+  }
+  if (sample_attr_flag[2]){
+    samples.pyL.push_back(new_sample.py[0]);
+    samples.pyR.push_back(new_sample.py[1]);
+  }
+  if (sample_attr_flag[3]){
+    samples.hxL.push_back(new_sample.hx[0]);
+    samples.hxR.push_back(new_sample.hx[1]);
+  }
+  if (sample_attr_flag[4]){
+    samples.hyL.push_back(new_sample.hy[0]);
+    samples.hyR.push_back(new_sample.hy[1]);
+  }
+  if (sample_attr_flag[5]){
+    samples.paL.push_back(new_sample.pa[0]);
+    samples.paR.push_back(new_sample.pa[1]);
+  }
+  if (sample_attr_flag[6]){
+    samples.gxL.push_back(new_sample.gx[0]);
+    samples.gxR.push_back(new_sample.gx[1]);
+  }
+  if (sample_attr_flag[7]){
+    samples.gyL.push_back(new_sample.gy[0]);
+    samples.gyR.push_back(new_sample.gy[1]);
+  }
+  if (sample_attr_flag[8]){
+    if (pixels_per_degree[0]>0){
+      samples.rx.push_back(pixels_per_degree[0]);
+    }
+    else{
+      samples.rx.push_back(new_sample.rx);
+    }
+  }
+  if (sample_attr_flag[9]){
+    if (pixels_per_degree[1]>0){
+      samples.ry.push_back(pixels_per_degree[1]);
+    }
+    else{
+      samples.ry.push_back(new_sample.ry);
+    }
+  }
+  if (sample_attr_flag[10]){
+    samples.gxvelL.push_back(new_sample.gxvel[0]);
+    samples.gxvelR.push_back(new_sample.gxvel[1]);
+  }
+  if (sample_attr_flag[11]){
+    samples.gyvelL.push_back(new_sample.gyvel[0]);
+    samples.gyvelR.push_back(new_sample.gyvel[1]);
+  }
+  if (sample_attr_flag[12]){
+    samples.hxvelL.push_back(new_sample.hxvel[0]);
+    samples.hxvelR.push_back(new_sample.hxvel[1]);
+  }
+  if (sample_attr_flag[13]){
+    samples.hyvelL.push_back(new_sample.hyvel[0]);
+    samples.hyvelR.push_back(new_sample.hyvel[1]);
+  }
+  if (sample_attr_flag[14]){
+    samples.rxvelL.push_back(new_sample.rxvel[0]);
+    samples.rxvelR.push_back(new_sample.rxvel[1]);
+  }
+  if (sample_attr_flag[15]){
+    samples.ryvelL.push_back(new_sample.ryvel[0]);
+    samples.ryvelR.push_back(new_sample.ryvel[1]);
+  }
+  if (sample_attr_flag[16]){
+    samples.fgxvelL.push_back(new_sample.fgxvel[0]);
+    samples.fgxvelR.push_back(new_sample.fgxvel[1]);
+  }
+  if (sample_attr_flag[17]){
+    samples.fgyvelL.push_back(new_sample.fgyvel[0]);
+    samples.fgyvelR.push_back(new_sample.fgyvel[1]);
+  }
+  if (sample_attr_flag[18]){
+    samples.fhxvelL.push_back(new_sample.fhxvel[0]);
+    samples.fhxvelR.push_back(new_sample.fhxvel[1]);
+  }
+  if (sample_attr_flag[19]){
+    samples.fhyvelL.push_back(new_sample.fhyvel[0]);
+    samples.fhyvelR.push_back(new_sample.fhyvel[1]);
+  }
+  if (sample_attr_flag[20]){
+    samples.frxvelL.push_back(new_sample.frxvel[0]);
+    samples.frxvelR.push_back(new_sample.frxvel[1]);
+  }
+  if (sample_attr_flag[21]){
+    samples.fryvelL.push_back(new_sample.fryvel[0]);
+    samples.fryvelR.push_back(new_sample.fryvel[1]);
+  }
+  if (sample_attr_flag[22]){
+    samples.hdata_1.push_back(new_sample.hdata[0]);
+    samples.hdata_2.push_back(new_sample.hdata[1]);
+    samples.hdata_3.push_back(new_sample.hdata[2]);
+    samples.hdata_4.push_back(new_sample.hdata[3]);
+    samples.hdata_5.push_back(new_sample.hdata[4]);
+    samples.hdata_6.push_back(new_sample.hdata[5]);
+    samples.hdata_7.push_back(new_sample.hdata[6]);
+    samples.hdata_8.push_back(new_sample.hdata[7]);
+  }
+  if (sample_attr_flag[23]){
+    samples.flags.push_back(new_sample.flags);
+  }
+  if (sample_attr_flag[24]){
+    samples.input.push_back(new_sample.input);
+  }
+  if (sample_attr_flag[25]){
+    samples.buttons.push_back(new_sample.buttons);
+  }
+  if (sample_attr_flag[26]){
+    samples.htype.push_back(new_sample.htype);
+  }
+  if (sample_attr_flag[27]){
+    samples.errors.push_back(new_sample.errors);
+  }
+}
