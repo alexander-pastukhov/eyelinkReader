@@ -12,3 +12,6 @@ Returns version of the EDF API library used to interface an EDF file.
 \details{
 Returns version of the EDF API library
 }
+\examples{
+edfR::library_version()
+}

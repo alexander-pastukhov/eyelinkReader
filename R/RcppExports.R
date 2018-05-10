@@ -8,6 +8,8 @@
 #' @description Returns version of the EDF API library used to interface an EDF file.
 #'
 #' @export
+#' @examples
+#' edfR::library_version()
 library_version <- function() {
     .Call('_edfR_library_version', PACKAGE = 'edfR')
 }
