@@ -241,3 +241,27 @@ void append_event(TRIAL_EVENTS &events, FEVENT new_event, unsigned int iTrial, U
   }
 }
 
+// @title Appends recording to the recording structure
+// @description Appends a new recording to the recordings structure and copies all the data
+// @param TRIAL_RECORDINGS &recordings, reference to the trial recording structure
+// @param RECORDINGS new_rec, structure with recordiong info, as described in the EDF API manual
+// @param int iTrial, the index of the trial the event belongs to
+// @param UINT32 trial_start, the timestamp of the trial start.
+// Is used to compute event time relative to it.
+// @return modifies recordings structure
+// @keywords internal
+void append_recording(TRIAL_RECORDINGS &recordings, RECORDINGS new_rec, unsigned int iTrial, UINT32 trial_start){
+  recordings.trial_index.push_back(iTrial+1);
+  recordings.time.push_back(new_rec.time);
+  recordings.time_rel.push_back(new_rec.time-trial_start);
+  recordings.sample_rate.push_back(new_rec.sample_rate);
+  recordings.eflags.push_back(new_rec.eflags);
+  recordings.sflags.push_back(new_rec.sflags);
+  recordings.state.push_back(new_rec.state);
+  recordings.record_type.push_back(new_rec.record_type);
+  recordings.pupil_type.push_back(new_rec.pupil_type);
+  recordings.recording_mode.push_back(new_rec.recording_mode);
+  recordings.filter_type.push_back(new_rec.filter_type);
+  recordings.pos_type.push_back(new_rec.pos_type);
+  recordings.eye.push_back(new_rec.eye);
+}
