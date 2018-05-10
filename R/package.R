@@ -1,6 +1,6 @@
 #' edfR
 #'
-#' Imports and preprocesses eye data from Eyelink eye tracker
+#' Imports eye data from Eyelink eye tracker
 #'
 #' @docType package
 #' @author Alexander (Sasha) Pastukhov
