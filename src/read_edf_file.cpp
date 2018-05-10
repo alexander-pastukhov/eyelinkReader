@@ -16,6 +16,7 @@ using namespace Rcpp;
 //' 2, check consistency and fix.
 //' @param int loadevents, load/skip loading events 0, do not load events. 1, load events.
 //' @param int loadsamples, load/skip loading of samples 0, do not load samples. 1, load samples.
+//' @return pointer to the EDF file
 //' @keywords internal
 EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadevents, int loadsamples){
   // opening the edf file
@@ -34,6 +35,7 @@ EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadeve
 
 //' @title Reads preamble of the EDF file.
 //' @description Reads preamble of the EDF file.
+//' @return string with the preamble
 //' @export
 //' @examples
 //' read_preamble(system.file("extdata", "example.edf", package = "edfR"))
@@ -99,4 +101,30 @@ void jump_to_trial(EDFFILE* edfFile, int iTrial){
     error_message_stream << "Error jumping to trial " << iTrial+1;
     ::Rf_error(error_message_stream.str().c_str());
   }
+}
+
+//' @title Prepare matrix for trial headers
+//' @description Prepare matrix for trial headers.
+//' @param int total_trials, total number of trials, i.e. number of rows in the matrix
+//' @return NumericMatrix total_trials (rows) x 15 (columns)
+//' @keywords internal
+NumericMatrix prepare_trial_headers(int total_trials){
+  // row names
+  NumericVector row_index(total_trials);
+  for(unsigned int iTrial= 0; iTrial< total_trials; iTrial++)
+  {
+    row_index[iTrial]= iTrial+1;
+  };
+
+  // column names
+  CharacterVector col_names= CharacterVector::create("trial", "duration", "starttime", "endtime",
+                                                     "rec.time", "rec.sample_rate", "rec.eflags",
+                                                     "rec.sflags", "rec.state", "rec.record_type",
+                                                     "rec.pupil_type", "rec.recording_mode", "rec.filter_type",
+                                                     "rec.pos_type", "rec.eye");
+
+  // create the matrix
+  NumericMatrix trial_headers= NumericMatrix(total_trials, col_names.size());
+  trial_headers.attr("dimnames")= List::create(row_index, col_names);
+  return (trial_headers);
 }
