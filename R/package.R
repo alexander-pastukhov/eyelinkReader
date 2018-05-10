@@ -4,7 +4,6 @@
 #'
 #' @docType package
 #' @author Alexander (Sasha) Pastukhov
-#' @maintainer Alexander (Sasha) Pastukhov <pastukhov.alexander@gmail.com>
 #' @import Rcpp
 #' @importFrom Rcpp evalCpp
 #' @useDynLib edfR

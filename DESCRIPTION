@@ -10,6 +10,6 @@ License: GPL-3
 Encoding: UTF-8
 NeedsCompilation: yes
 LazyData: true
-LinkingTo: Rcpp
+LinkingTo: Rcpp, RcppProgress
 Imports: Rcpp
 RoxygenNote: 6.0.1
