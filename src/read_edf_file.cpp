@@ -138,8 +138,6 @@ NumericMatrix prepare_trial_headers(int total_trials){
   return (trial_headers);
 }
 
-//' Read header for the i-th trial
-//'
 //' @title Read header for the i-th trial
 //' @description Read head and store it in the i-th row of the headers matrix
 //' @param EDFFILE* edfFile, pointer to the EDF file
@@ -174,5 +172,72 @@ void read_trial_header(EDFFILE* edfFile, NumericMatrix &trial_headers, int iTria
   trial_headers(iTrial,12)= current_header.rec->filter_type;
   trial_headers(iTrial,13)= current_header.rec->pos_type;
   trial_headers(iTrial,14)= current_header.rec->eye;
+}
+
+//' @title Appends event to the even structure
+//' @description Appends a new event to the even structure and copies all the data
+//' @param TRIAL_EVENTS &events, reference to the trial events structure
+//' @param FEVENT new_event, structure with event info, as described in the EDF API manual
+//' @param int iTrial, the index of the trial the event belongs to
+//' @param UINT32 trial_start, the timestamp of the trial start.
+//' Is used to compute event time relative to it.
+//' @return modifies events structure
+//' @keywords internal
+void append_event(TRIAL_EVENTS &events, FEVENT new_event, unsigned int iTrial, UINT32 trial_start){
+  events.trial_index.push_back(iTrial+1);
+  events.time.push_back(new_event.time);
+  events.type.push_back(new_event.type);
+  events.read.push_back(new_event.read);
+  events.sttime.push_back(new_event.sttime);
+  events.sttime_rel.push_back(new_event.sttime-trial_start);
+  events.entime.push_back(new_event.entime);
+  if (new_event.entime>0){
+    events.entime_rel.push_back(new_event.entime-trial_start);
+  }
+  else
+  {
+    events.entime_rel.push_back(new_event.entime);
+  }
+  events.hstx.push_back(new_event.hstx);
+  events.hsty.push_back(new_event.hsty);
+  events.gstx.push_back(new_event.gstx);
+  events.gsty.push_back(new_event.gsty);
+  events.sta.push_back(new_event.sta);
+  events.henx.push_back(new_event.henx);
+  events.heny.push_back(new_event.heny);
+  events.genx.push_back(new_event.genx);
+  events.geny.push_back(new_event.geny);
+  events.ena.push_back(new_event.ena);
+  events.havx.push_back(new_event.havx);
+  events.havy.push_back(new_event.havy);
+  events.gavx.push_back(new_event.gavx);
+  events.gavy.push_back(new_event.gavy);
+  events.ava.push_back(new_event.ava);
+  events.avel.push_back(new_event.avel);
+  events.pvel.push_back(new_event.pvel);
+  events.svel.push_back(new_event.svel);
+  events.evel.push_back(new_event.evel);
+  events.supd_x.push_back(new_event.supd_x);
+  events.eupd_x.push_back(new_event.eupd_x);
+  events.supd_y.push_back(new_event.supd_y);
+  events.eupd_y.push_back(new_event.eupd_y);
+  events.eye.push_back(new_event.eye);
+  events.status.push_back(new_event.status);
+  events.flags.push_back(new_event.flags);
+  events.input.push_back(new_event.input);
+  events.buttons.push_back(new_event.buttons);
+  events.parsedby.push_back(new_event.parsedby);
+
+  // special case: LSTRING message
+  LSTRING* message_ptr= ((LSTRING*)new_event.message);
+  if (message_ptr==0 || message_ptr==NULL){
+    events.message.push_back("");
+  }
+  else{
+    char* message_char= new char[message_ptr->len];
+    strncpy(message_char, &(message_ptr->c), message_ptr->len);
+    events.message.push_back(message_char);
+    delete[] message_char;
+  }
 }
 
