@@ -33,9 +33,7 @@ EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadeve
 }
 
 //' @title Reads preamble of the EDF file.
-//'
 //' @description Reads preamble of the EDF file.
-//'
 //' @export
 //' @examples
 //' read_preamble(system.file("extdata", "example.edf", package = "edfR"))
@@ -59,4 +57,32 @@ std::string read_preamble(std::string filename){
   edf_close_file(edfFile);
 
   return preamble;
+}
+
+
+//' @title Sets trial navigation for EDF API
+//' @description Sets trial navigation via the markers for the start and the end of the trial.
+//' @param EDFFILE* edfFile, pointer to the EDF file
+//' @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
+//' @param std::string end_marker_string, event that marks trial end
+//' @seealso safely_open_edf_file
+//' @keywords internal
+void set_trial_navigation_up(EDFFILE* edfFile, std::string start_marker_string, std::string end_marker_string){
+  // converting strings to char buffers
+  char * start_marker_char = new char[start_marker_string.size() + 1];
+  std::copy(start_marker_string.begin(), start_marker_string.end(), start_marker_char);
+  start_marker_char[start_marker_string.size()] = '\0';
+
+  char * end_marker_char = new char[end_marker_string.size() + 1];
+  std::copy(end_marker_string.begin(), end_marker_string.end(), end_marker_char);
+  end_marker_char[end_marker_string.size()] = '\0';
+
+  // setting the trial identifier
+  if (edf_set_trial_identifier(edfFile, start_marker_char, end_marker_char)){
+    ::Rf_error("Error while setting up trial navigation identifier");
+  }
+
+  // cleaning up
+  delete[] start_marker_char;
+  delete[] end_marker_char;
 }
