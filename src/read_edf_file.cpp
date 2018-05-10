@@ -67,13 +67,13 @@ std::string read_preamble(std::string filename){
 }
 
 
-//' @title Sets trial navigation for EDF API
-//' @description Sets trial navigation via the markers for the start and the end of the trial.
-//' @param EDFFILE* edfFile, pointer to the EDF file
-//' @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
-//' @param std::string end_marker_string, event that marks trial end
-//' @seealso safely_open_edf_file
-//' @keywords internal
+// @title Sets trial navigation for EDF API
+// @description Sets trial navigation via the markers for the start and the end of the trial.
+// @param EDFFILE* edfFile, pointer to the EDF file
+// @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
+// @param std::string end_marker_string, event that marks trial end
+// @seealso safely_open_edf_file
+// @keywords internal
 void set_trial_navigation_up(EDFFILE* edfFile, std::string start_marker_string, std::string end_marker_string){
   // converting strings to char buffers
   char * start_marker_char = new char[start_marker_string.size() + 1];
@@ -95,14 +95,12 @@ void set_trial_navigation_up(EDFFILE* edfFile, std::string start_marker_string, 
 }
 
 
-//' Jumps to the i-th trial
-//'
-//' @title Jumps to the i-th trial
-//' @description Jumps to the i-th trial, throws an exception and prints an error message, if fails.
-//' @param EDFFILE* edfFile, pointer to the EDF file
-//' @param int iTrial, index of the desired trial
-//' @seealso safely_open_edf_file, set_trial_navigation_up
-//' @keywords internal
+// @title Jumps to the i-th trial
+// @description Jumps to the i-th trial, throws an exception and prints an error message, if fails.
+// @param EDFFILE* edfFile, pointer to the EDF file
+// @param int iTrial, index of the desired trial
+// @seealso safely_open_edf_file, set_trial_navigation_up
+// @keywords internal
 void jump_to_trial(EDFFILE* edfFile, int iTrial){
   if (edf_jump_to_trial(edfFile, iTrial) != 0){
     std::stringstream error_message_stream;
@@ -111,13 +109,11 @@ void jump_to_trial(EDFFILE* edfFile, int iTrial){
   }
 }
 
-//' Prepare matrix for trial headers
-//'
-//' @title Prepare matrix for trial headers
-//' @description Prepare matrix for trial headers.
-//' @param int total_trials, total number of trials, i.e. number of rows in the matrix
-//' @return NumericMatrix total_trials (rows) x 15 (columns)
-//' @keywords internal
+// @title Prepare matrix for trial headers
+// @description Prepare matrix for trial headers.
+// @param int total_trials, total number of trials, i.e. number of rows in the matrix
+// @return NumericMatrix total_trials (rows) x 15 (columns)
+// @keywords internal
 NumericMatrix prepare_trial_headers(int total_trials){
   // row names
   NumericVector row_index(total_trials);
@@ -139,14 +135,14 @@ NumericMatrix prepare_trial_headers(int total_trials){
   return (trial_headers);
 }
 
-//' @title Read header for the i-th trial
-//' @description Read head and store it in the i-th row of the headers matrix
-//' @param EDFFILE* edfFile, pointer to the EDF file
-//' @param NumericMatrix &trial_headers, reference to the trial header matrix
-//' @param int iTrial, the row in which the header will be stored.
-//' Functions assumes that the correct trial within the EDF file was already navigated to.
-//' @return modifes trial_headers i-th row in place
-//' @keywords internal
+// @title Read header for the i-th trial
+// @description Read head and store it in the i-th row of the headers matrix
+// @param EDFFILE* edfFile, pointer to the EDF file
+// @param NumericMatrix &trial_headers, reference to the trial header matrix
+// @param int iTrial, the row in which the header will be stored.
+// Functions assumes that the correct trial within the EDF file was already navigated to.
+// @return modifes trial_headers i-th row in place
+// @keywords internal
 void read_trial_header(EDFFILE* edfFile, NumericMatrix &trial_headers, int iTrial){
 
   // obtaining the trial header
@@ -175,15 +171,15 @@ void read_trial_header(EDFFILE* edfFile, NumericMatrix &trial_headers, int iTria
   trial_headers(iTrial,14)= current_header.rec->eye;
 }
 
-//' @title Appends event to the even structure
-//' @description Appends a new event to the even structure and copies all the data
-//' @param TRIAL_EVENTS &events, reference to the trial events structure
-//' @param FEVENT new_event, structure with event info, as described in the EDF API manual
-//' @param int iTrial, the index of the trial the event belongs to
-//' @param UINT32 trial_start, the timestamp of the trial start.
-//' Is used to compute event time relative to it.
-//' @return modifies events structure
-//' @keywords internal
+// @title Appends event to the even structure
+// @description Appends a new event to the even structure and copies all the data
+// @param TRIAL_EVENTS &events, reference to the trial events structure
+// @param FEVENT new_event, structure with event info, as described in the EDF API manual
+// @param int iTrial, the index of the trial the event belongs to
+// @param UINT32 trial_start, the timestamp of the trial start.
+// Is used to compute event time relative to it.
+// @return modifies events structure
+// @keywords internal
 void append_event(TRIAL_EVENTS &events, FEVENT new_event, unsigned int iTrial, UINT32 trial_start){
   events.trial_index.push_back(iTrial+1);
   events.time.push_back(new_event.time);
