@@ -6,6 +6,8 @@ using namespace Rcpp;
 
 #include "SRResearch/edf.h"
 
+#include "edf_structures.h"
+
 //' @title Opens EDF file, throws exception on error
 //' @description Opens EDF file for reading, throws exception and prints error message if fails.
 //' @param std::string filename, name of the EDF file
@@ -36,7 +38,7 @@ EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadeve
 //'
 //' @export
 //' @examples
-//' read_preamble('test.edf')
+//' read_preamble(system.file("extdata", "example.edf", package = "edfR"))
 //[[Rcpp::export]]
 std::string read_preamble(std::string filename){
   EDFFILE* edfFile= safely_open_edf_file(filename, 2, 0, 0);
