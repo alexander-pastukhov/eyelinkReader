@@ -418,9 +418,8 @@ void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTri
 //' @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
 //' @param std::string end_marker_string, event that marks trial end
 //' @param NumericVector pixels_per_degree, pixels per degree for the screen that was used for the recording
-// positive values overwrite rx and ry fields' values from the file
+//' positive values overwrite rx and ry fields' values from the file
 //' @return List, contents of the EDF file. Please see read_edf for details.
-//' @keywords internal
 //[[Rcpp::export]]
 List read_edf_file(std::string filename,
               int consistency,
