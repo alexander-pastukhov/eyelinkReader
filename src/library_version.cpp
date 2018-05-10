@@ -3,12 +3,8 @@ using namespace Rcpp;
 
 #include "SRResearch/edf.h"
 
-//' Returns version of the EDF API library
-//'
 //' @title Version of the EDF API library
-//'
 //' @description Returns version of the EDF API library used to interface an EDF file.
-//'
 //' @export
 //' @examples
 //' edfR::library_version()
