@@ -4,22 +4,23 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+// [[Rcpp::depends(RcppProgress)]]
+#include <progress.hpp>
+
 #include "SRResearch/edf.h"
 
 #include "edf_structures.h"
 
-//' Opens EDF file, throws exception on error
-//'
-//' @title Opens EDF file, throws exception on error
-//' @description Opens EDF file for reading, throws exception and prints error message if fails.
-//' @param std::string filename, name of the EDF file
-//' @param int consistency, consistency check control (for the time stamps of the start
-//' and end events, etc). 0, no consistency check. 1, check consistency and report.
-//' 2, check consistency and fix.
-//' @param int loadevents, load/skip loading events 0, do not load events. 1, load events.
-//' @param int loadsamples, load/skip loading of samples 0, do not load samples. 1, load samples.
-//' @return pointer to the EDF file
-//' @keywords internal
+// @title Opens EDF file, throws exception on error
+// @description Opens EDF file for reading, throws exception and prints error message if fails.
+// @param std::string filename, name of the EDF file
+// @param int consistency, consistency check control (for the time stamps of the start
+// and end events, etc). 0, no consistency check. 1, check consistency and report.
+// 2, check consistency and fix.
+// @param int loadevents, load/skip loading events 0, do not load events. 1, load events.
+// @param int loadsamples, load/skip loading of samples 0, do not load samples. 1, load samples.
+// @return pointer to the EDF file
+// @keywords internal
 EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadevents, int loadsamples){
   // opening the edf file
   int ReturnValue;
@@ -271,11 +272,10 @@ void append_recording(TRIAL_RECORDINGS &recordings, RECORDINGS new_rec, unsigned
 // @param TRIAL_SAMPLES &samples, reference to the trial samples structure
 // @param FSAMPLE new_sample, structure with sample info, as described in the EDF API manual
 // @param int iTrial, the index of the trial the event belongs to
-// @param UINT32 trial_start, the timestamp of the trial start.
+// @param UINT32 trial_start, the timestamp of the trial start. Is used to compute event time relative to it.
 // @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
 // @param NumericVector pixels_per_degree, pixels per degree for the screen that was used for the recording
 // positive values overwrite rx and ry fields' values from the file
-// Is used to compute event time relative to it.
 // @return modifies samples structure
 // @keywords internal
 void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTrial, UINT32 trial_start, LogicalVector sample_attr_flag, NumericVector pixels_per_degree)
@@ -402,4 +402,359 @@ void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTri
   if (sample_attr_flag[27]){
     samples.errors.push_back(new_sample.errors);
   }
+}
+
+
+//' @title Internal funciton that reads EDF file
+//' @description Reads EDF file into a list that contains events, samples, and recordings.
+//' DO NOT call this function directly. Instead, use read_edf function that implements
+//' parameter checks and additional postprocessing.
+//' @param std::string filename, full name of the EDF file
+//' @param int consistency, consistency check control (for the time stamps of the start
+//' and end events, etc). 0, no consistency check. 1, check consistency and report.
+//' 2, check consistency and fix.
+//' @param bool import_events, load/skip loading events.
+//' @param bool import_recordings, load/skip loading recordings.
+//' @param bool import_samples, load/skip loading of samples.
+//' @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
+//' @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
+//' @param std::string end_marker_string, event that marks trial end
+//' @param NumericVector pixels_per_degree, pixels per degree for the screen that was used for the recording
+// positive values overwrite rx and ry fields' values from the file
+//' @return List, contents of the EDF file. Please see read_edf for details.
+//' @keywords internal
+//[[Rcpp::export]]
+List read_edf_file(std::string filename,
+              int consistency,
+              bool import_events,
+              bool import_recordings,
+              bool import_samples,
+              LogicalVector sample_attr_flag,
+              std::string start_marker_string,
+              std::string end_marker_string,
+              NumericVector pixels_per_degree){
+
+  // opening the edf file
+  EDFFILE* edfFile= safely_open_edf_file(filename, consistency, import_events, import_samples);
+
+  // set the trial navigation up
+  set_trial_navigation_up(edfFile, start_marker_string, end_marker_string);
+
+  // figure out, just how many trials we have
+  unsigned int total_trials= edf_get_trial_count(edfFile);
+  ::Rprintf("Trials count: %d\n", total_trials);
+
+  // creating headers, events, and samples
+  NumericMatrix trial_headers= prepare_trial_headers(total_trials);
+  TRIAL_EVENTS all_events;
+  TRIAL_SAMPLES all_samples;
+  TRIAL_RECORDINGS all_recordings;
+
+  // looping over the trials
+  Progress trial_counter(total_trials, true);
+  for(unsigned int iTrial= 0; iTrial< total_trials; iTrial++){
+    // visuals and interaction
+    if (Progress::check_abort() ){
+      break;
+    }
+    trial_counter.increment();
+
+    jump_to_trial(edfFile, iTrial);
+
+    // read headers
+    read_trial_header(edfFile, trial_headers, iTrial);
+
+    // read trial
+    ALLF_DATA* current_data;
+    UINT32 trial_start_time= trial_headers(iTrial, 2);
+    UINT32 trial_end_time= trial_headers(iTrial, 3);
+
+    bool TrialIsOver= false;
+    UINT32 data_timestamp;
+    for(int DataType= edf_get_next_data(edfFile);
+        DataType!=NO_PENDING_ITEMS && !TrialIsOver;
+        DataType= edf_get_next_data(edfFile)){
+
+      // obtaining next data piece
+      current_data= edf_get_float_data(edfFile);
+      switch(DataType){
+      case SAMPLE_TYPE:
+        data_timestamp= current_data->fs.time;
+        if (import_samples){
+          append_sample(all_samples, current_data->fs, iTrial, trial_start_time, sample_attr_flag, pixels_per_degree);
+        }
+        break;
+
+      case STARTPARSE:
+      case ENDPARSE:
+      case BREAKPARSE:
+      case STARTBLINK :
+      case ENDBLINK:
+      case STARTSACC:
+      case ENDSACC:
+      case STARTFIX:
+      case ENDFIX:
+      case FIXUPDATE:
+      case MESSAGEEVENT:
+      case STARTSAMPLES:
+      case ENDSAMPLES:
+      case STARTEVENTS:
+      case ENDEVENTS:
+      case BUTTONEVENT:
+      case INPUTEVENT:
+      case LOST_DATA_EVENT:
+        data_timestamp= current_data->fe.sttime;
+        if (data_timestamp>trial_end_time)
+        {
+          TrialIsOver= true;
+          break;
+        }
+        if (import_events){
+          append_event(all_events, current_data->fe, iTrial, trial_start_time);
+        }
+        break;
+
+      case RECORDING_INFO:
+        data_timestamp= current_data->fe.time;
+        if (import_recordings){
+          append_recording(all_recordings, current_data->rec, iTrial, trial_start_time);
+        }
+        break;
+
+      default:
+        data_timestamp= current_data->fe.time;
+      }
+
+      // end of trial check
+      if (data_timestamp>trial_end_time)
+        break;
+    }
+  }
+
+  // closing file
+  edf_close_file(edfFile);
+
+  // attempting to identify display info, should be BEFORE the first trial
+  edfFile= safely_open_edf_file(filename, consistency, 1, 0);
+  bool found_info= false;
+  std::string display_coords;
+
+  for(bool keep_looking= true; keep_looking; ){
+    LSTRING* message_ptr;
+    int DataType= edf_get_next_data(edfFile);
+    ALLF_DATA* current_data= edf_get_float_data(edfFile);
+    switch(DataType){
+    case MESSAGEEVENT:
+      message_ptr= ((LSTRING*)current_data->fe.message);
+      if (message_ptr==0 || message_ptr==NULL){
+      }
+      else{
+        char* message_char= new char[message_ptr->len];
+        strncpy(message_char, &(message_ptr->c), message_ptr->len);
+        std::string message_str(message_char);
+        if (message_str.find("DISPLAY_COORDS") != std::string::npos){
+          display_coords= message_str;
+          found_info= true;
+          keep_looking= false;
+        }
+        delete[] message_char;
+      }
+      break;
+    case RECORDING_INFO:
+      // if recording has started, this means that there was no preliminary information stored at all
+      keep_looking= false;
+      break;
+    }
+  }
+  edf_close_file(edfFile);
+
+  // returning data
+  List edf_recording;
+  edf_recording["headers"]= trial_headers;
+
+  if (found_info){
+    edf_recording["display.coords"]= display_coords;
+  }
+
+  // converting structure of vectors into a data frame
+  if (import_events){
+    DataFrame events;
+    events["trial"]= all_events.trial_index;
+    events["time"]= all_events.time;
+    events["type"]= all_events.type;
+    events["read"]= all_events.read;
+    events["sttime"]= all_events.sttime;
+    events["entime"]= all_events.entime;
+    events["sttime.rel"]= all_events.sttime_rel;
+    events["entime.rel"]= all_events.entime_rel;
+    events["hstx"]= all_events.hstx;
+    events["hsty"]= all_events.hsty;
+    events["gstx"]= all_events.gstx;
+    events["gsty"]= all_events.gsty;
+    events["sta"]= all_events.sta;
+    events["henx"]= all_events.henx;
+    events["heny"]= all_events.heny;
+    events["genx"]= all_events.genx;
+    events["geny"]= all_events.geny;
+    events["ena"]= all_events.ena;
+    events["havx"]= all_events.havx;
+    events["havy"]= all_events.havy;
+    events["gavx"]= all_events.gavx;
+    events["gavy"]= all_events.gavy;
+    events["ava"]= all_events.ava;
+    events["avel"]= all_events.avel;
+    events["pvel"]= all_events.pvel;
+    events["svel"]= all_events.svel;
+    events["evel"]= all_events.evel;
+    events["supd_x"]= all_events.supd_x;
+    events["eupd_x"]= all_events.eupd_x;
+    events["supd_y"]= all_events.supd_y;
+    events["eupd_y"]= all_events.eupd_y;
+    events["eye"]= all_events.eye;
+    events["status"]= all_events.status;
+    events["flags"]= all_events.flags;
+    events["input"]= all_events.input;
+    events["buttons"]= all_events.buttons;
+    events["parsedby"]= all_events.parsedby;
+    events["message"]= all_events.message;
+    edf_recording["events"]= events;
+  }
+
+  if (import_recordings){
+    DataFrame recordings;
+    recordings["trial_index"]= all_recordings.trial_index;
+    recordings["time"]= all_recordings.time;
+    recordings["time.rel"]= all_recordings.time_rel;
+    recordings["sample_rate"]= all_recordings.sample_rate;
+    recordings["eflags"]= all_recordings.eflags;
+    recordings["sflags"]= all_recordings.sflags;
+    recordings["state"]= all_recordings.state;
+    recordings["record_type"]= all_recordings.record_type;
+    recordings["pupil_type"]= all_recordings.pupil_type;
+    recordings["recording_mode"]= all_recordings.recording_mode;
+    recordings["filter_type"]= all_recordings.filter_type;
+    recordings["pos_type"]= all_recordings.pos_type;
+    recordings["eye"]= all_recordings.eye;
+    edf_recording["recordings"]= recordings;
+  }
+
+  if (import_samples){
+    DataFrame samples;
+    samples["trial"]= all_samples.trial_index;
+    if (sample_attr_flag[0]){
+      samples["time"]= all_samples.time;
+      samples["time.rel"]= all_samples.time_rel;
+    }
+    if (sample_attr_flag[1]){
+      samples["pxL"]= all_samples.pxL;
+      samples["pxR"]= all_samples.pxR;
+    }
+    if (sample_attr_flag[2]){
+      samples["pyL"]= all_samples.pyL;
+      samples["pyR"]= all_samples.pyR;
+    }
+    if (sample_attr_flag[3]){
+      samples["hxL"]= all_samples.hxL;
+      samples["hxR"]= all_samples.hxR;
+    }
+    if (sample_attr_flag[4]){
+      samples["hyL"]= all_samples.hyL;
+      samples["hyR"]= all_samples.hyR;
+    }
+    if (sample_attr_flag[5]){
+      samples["paL"]= all_samples.paL;
+      samples["paR"]= all_samples.paR;
+    }
+    if (sample_attr_flag[6]){
+      samples["gxL"]= all_samples.gxL;
+      samples["gxR"]= all_samples.gxR;
+    }
+    if (sample_attr_flag[7]){
+      samples["gyL"]= all_samples.gyL;
+      samples["gyR"]= all_samples.gyR;
+    }
+    if (sample_attr_flag[8]){
+      samples["rx"]= all_samples.rx;
+    }
+    if (sample_attr_flag[9]){
+      samples["ry"]= all_samples.ry;
+    }
+    if (sample_attr_flag[10]){
+      samples["gxvelL"]= all_samples.gxvelL;
+      samples["gxvelR"]= all_samples.gxvelR;
+    }
+    if (sample_attr_flag[11]){
+      samples["gyvelL"]= all_samples.gyvelL;
+      samples["gyvelR"]= all_samples.gyvelR;
+    }
+    if (sample_attr_flag[12]){
+      samples["hxvelL"]= all_samples.hxvelL;
+      samples["hxvelR"]= all_samples.hxvelR;
+    }
+    if (sample_attr_flag[13]){
+      samples["hyvelL"]= all_samples.hyvelL;
+      samples["hyvelR"]= all_samples.hyvelR;
+    }
+    if (sample_attr_flag[14]){
+      samples["rxvelL"]= all_samples.rxvelL;
+      samples["rxvelR"]= all_samples.rxvelR;
+    }
+    if (sample_attr_flag[15]){
+      samples["ryvelL"]= all_samples.ryvelL;
+      samples["ryvelR"]= all_samples.ryvelR;
+    }
+    if (sample_attr_flag[16]){
+      samples["fgxvelL"]= all_samples.fgxvelL;
+      samples["fgxvelR"]= all_samples.fgxvelR;
+    }
+    if (sample_attr_flag[17]){
+      samples["fgyvelL"]= all_samples.fgyvelL;
+      samples["fgyvelR"]= all_samples.fgyvelR;
+    }
+    if (sample_attr_flag[18]){
+      samples["fhxvelL"]= all_samples.fhxvelL;
+      samples["fhxvelR"]= all_samples.fhxvelR;
+    }
+    if (sample_attr_flag[19]){
+      samples["fhyvelL"]= all_samples.fhyvelL;
+      samples["fhyvelR"]= all_samples.fhyvelR;
+    }
+    if (sample_attr_flag[20]){
+      samples["frxvelL"]= all_samples.frxvelL;
+      samples["frxvelR"]= all_samples.frxvelR;
+    }
+    if (sample_attr_flag[21]){
+      samples["fryvelL"]= all_samples.fryvelL;
+      samples["fryvelR"]= all_samples.fryvelR;
+    }
+    if (sample_attr_flag[22]){
+      samples["hdata.1"]= all_samples.hdata_1;
+      samples["hdata.2"]= all_samples.hdata_2;
+      samples["hdata.3"]= all_samples.hdata_3;
+      samples["hdata.4"]= all_samples.hdata_4;
+      samples["hdata.5"]= all_samples.hdata_5;
+      samples["hdata.6"]= all_samples.hdata_6;
+      samples["hdata.7"]= all_samples.hdata_7;
+      samples["hdata.8"]= all_samples.hdata_8;
+    }
+    if (sample_attr_flag[23]){
+      samples["flags"]= all_samples.flags;
+    }
+    if (sample_attr_flag[24]){
+      samples["input"]= all_samples.input;
+    }
+    if (sample_attr_flag[25]){
+      samples["buttons"]= all_samples.buttons;
+    }
+    if (sample_attr_flag[26]){
+      samples["htype"]= all_samples.htype;
+    }
+    if (sample_attr_flag[27]){
+      samples["errors"]= all_samples.errors;
+    }
+    edf_recording["samples"]= samples;
+  }
+
+  edf_recording.attr("class")= "edf";
+  return (edf_recording);
 }
