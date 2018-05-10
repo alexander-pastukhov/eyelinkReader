@@ -86,3 +86,17 @@ void set_trial_navigation_up(EDFFILE* edfFile, std::string start_marker_string, 
   delete[] start_marker_char;
   delete[] end_marker_char;
 }
+
+//' @title Jumps to the i-th trial
+//' @description Jumps to the i-th trial, throws an exception and prints an error message, if fails.
+//' @param EDFFILE* edfFile, pointer to the EDF file
+//' @param int iTrial, index of the desired trial
+//' @seealso safely_open_edf_file, set_trial_navigation_up
+//' @keywords internal
+void jump_to_trial(EDFFILE* edfFile, int iTrial){
+  if (edf_jump_to_trial(edfFile, iTrial) != 0){
+    std::stringstream error_message_stream;
+    error_message_stream << "Error jumping to trial " << iTrial+1;
+    ::Rf_error(error_message_stream.str().c_str());
+  }
+}
