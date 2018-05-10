@@ -401,6 +401,8 @@ void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTri
 }
 
 
+//' Internal funciton that reads EDF file
+//'
 //' @title Internal funciton that reads EDF file
 //' @description Reads EDF file into a list that contains events, samples, and recordings.
 //' DO NOT call this function directly. Instead, use read_edf function that implements
