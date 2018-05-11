@@ -1,3 +1,8 @@
 import(Rcpp)
 exportPattern("^[[:alpha:]]+")
 useDynLib(edfR)
+
+importFrom(magrittr, `%>%`)
+importFrom(dplyr, filter)
+importFrom(dplyr, mutate)
+importFrom(dplyr, select)
