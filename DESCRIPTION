@@ -11,5 +11,5 @@ Encoding: UTF-8
 NeedsCompilation: yes
 LazyData: true
 LinkingTo: Rcpp, RcppProgress
-Imports: Rcpp
+Imports: dplyr, Rcpp 
 RoxygenNote: 6.0.1
