@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// convert_NAs
+List convert_NAs(List original_frame);
+RcppExport SEXP _edfR_convert_NAs(SEXP original_frameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type original_frame(original_frameSEXP);
+    rcpp_result_gen = Rcpp::wrap(convert_NAs(original_frame));
+    return rcpp_result_gen;
+END_RCPP
+}
 // library_version
 CharacterVector library_version();
 RcppExport SEXP _edfR_library_version() {
@@ -15,14 +26,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// read_preamble
-std::string read_preamble(std::string filename);
-RcppExport SEXP _edfR_read_preamble(SEXP filenameSEXP) {
+// read_preamble_str
+std::string read_preamble_str(std::string filename);
+RcppExport SEXP _edfR_read_preamble_str(SEXP filenameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_preamble(filename));
+    rcpp_result_gen = Rcpp::wrap(read_preamble_str(filename));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -47,8 +58,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_edfR_convert_NAs", (DL_FUNC) &_edfR_convert_NAs, 1},
     {"_edfR_library_version", (DL_FUNC) &_edfR_library_version, 0},
-    {"_edfR_read_preamble", (DL_FUNC) &_edfR_read_preamble, 1},
+    {"_edfR_read_preamble_str", (DL_FUNC) &_edfR_read_preamble_str, 1},
     {"_edfR_read_edf_file", (DL_FUNC) &_edfR_read_edf_file, 9},
     {NULL, NULL, 0}
 };
