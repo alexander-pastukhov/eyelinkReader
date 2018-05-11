@@ -124,10 +124,10 @@ NumericMatrix prepare_trial_headers(int total_trials){
 
   // column names
   CharacterVector col_names= CharacterVector::create("trial", "duration", "starttime", "endtime",
-                                                     "rec.time", "rec.sample_rate", "rec.eflags",
-                                                     "rec.sflags", "rec.state", "rec.record_type",
-                                                     "rec.pupil_type", "rec.recording_mode", "rec.filter_type",
-                                                     "rec.pos_type", "rec.eye");
+                                                     "rec_time", "rec_sample_rate", "rec_eflags",
+                                                     "rec_sflags", "rec_state", "rec_record_type",
+                                                     "rec_pupil_type", "rec_recording_mode", "rec_filter_type",
+                                                     "rec_pos_type", "rec_eye");
 
   // create the matrix
   NumericMatrix trial_headers= NumericMatrix(total_trials, col_names.size());
@@ -570,7 +570,7 @@ List read_edf_file(std::string filename,
   edf_recording["headers"]= trial_headers;
 
   if (found_info){
-    edf_recording["display.coords"]= display_coords;
+    edf_recording["display_coords"]= display_coords;
   }
 
   // converting structure of vectors into a data frame
@@ -582,8 +582,8 @@ List read_edf_file(std::string filename,
     events["read"]= all_events.read;
     events["sttime"]= all_events.sttime;
     events["entime"]= all_events.entime;
-    events["sttime.rel"]= all_events.sttime_rel;
-    events["entime.rel"]= all_events.entime_rel;
+    events["sttime_rel"]= all_events.sttime_rel;
+    events["entime_rel"]= all_events.entime_rel;
     events["hstx"]= all_events.hstx;
     events["hsty"]= all_events.hsty;
     events["gstx"]= all_events.gstx;
@@ -621,7 +621,7 @@ List read_edf_file(std::string filename,
     DataFrame recordings;
     recordings["trial_index"]= all_recordings.trial_index;
     recordings["time"]= all_recordings.time;
-    recordings["time.rel"]= all_recordings.time_rel;
+    recordings["time_rel"]= all_recordings.time_rel;
     recordings["sample_rate"]= all_recordings.sample_rate;
     recordings["eflags"]= all_recordings.eflags;
     recordings["sflags"]= all_recordings.sflags;
@@ -640,7 +640,7 @@ List read_edf_file(std::string filename,
     samples["trial"]= all_samples.trial_index;
     if (sample_attr_flag[0]){
       samples["time"]= all_samples.time;
-      samples["time.rel"]= all_samples.time_rel;
+      samples["time_rel"]= all_samples.time_rel;
     }
     if (sample_attr_flag[1]){
       samples["pxL"]= all_samples.pxL;
