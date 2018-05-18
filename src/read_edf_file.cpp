@@ -419,6 +419,7 @@ void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTri
 //' @param std::string end_marker_string, event that marks trial end
 //' @param NumericVector pixels_per_degree, pixels per degree for the screen that was used for the recording
 //' positive values overwrite rx and ry fields' values from the file
+//' @param verbose, whether to show progressbar and report number of trials
 //' @return List, contents of the EDF file. Please see read_edf for details.
 //[[Rcpp::export]]
 List read_edf_file(std::string filename,
@@ -451,9 +452,7 @@ List read_edf_file(std::string filename,
   TRIAL_RECORDINGS all_recordings;
 
   // looping over the trials
-  if (verbose){
-    Progress trial_counter(total_trials, true);
-  }
+  Progress trial_counter(total_trials, true);
   for(unsigned int iTrial= 0; iTrial< total_trials; iTrial++){
     // visuals and interaction
     if (verbose){
@@ -472,6 +471,10 @@ List read_edf_file(std::string filename,
     ALLF_DATA* current_data;
     UINT32 trial_start_time= trial_headers(iTrial, 2);
     UINT32 trial_end_time= trial_headers(iTrial, 3);
+    if (trial_end_time <= trial_start_time){
+      ::warning("Skipping trial %d due to zero or negative duration.", iTrial+1);
+      continue;
+    }
 
     bool TrialIsOver= false;
     UINT32 data_timestamp;
@@ -524,9 +527,8 @@ List read_edf_file(std::string filename,
           append_recording(all_recordings, current_data->rec, iTrial, trial_start_time);
         }
         break;
-
-      default:
-        data_timestamp= current_data->fe.time;
+      case NO_PENDING_ITEMS:
+        break;
       }
 
       // end of trial check

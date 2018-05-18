@@ -37,7 +37,8 @@ read_edf <- function(file,
                      import_saccades= TRUE,
                      import_blinks= TRUE,
                      import_fixations= TRUE,
-                     import_variables= TRUE){
+                     import_variables= TRUE,
+                     verbose= TRUE){
 
   # converting consistency to integer constant that C-code understands
   requested_consistency <-  factor(consistency, levels= c('no consistency check', 'check consistency and report', 'check consistency and fix'))
@@ -82,7 +83,7 @@ read_edf <- function(file,
   }
 
   # importing data
-  edf_recording<- read_edf_file(file, requested_consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, pixels_per_degree)
+  edf_recording<- read_edf_file(file, requested_consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, pixels_per_degree, verbose)
 
   # adding preamble !!!!!!! REMEMBER TO REPLACE WITH read_preamble, ONCE IT IS READY!
   edf_recording$preamble <- read_preamble_str(file)
