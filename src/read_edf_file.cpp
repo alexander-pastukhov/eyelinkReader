@@ -41,7 +41,6 @@ EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadeve
 //' Please, do not use this function directly. Instead, call \code{\link{read_preamble}} function
 //' that provides a more consistent interface.
 //' @return string with the preamble
-//' @export
 //' @examples
 //' read_preamble(system.file("extdata", "example.edf", package = "edfR"))
 //[[Rcpp::export]]
@@ -452,7 +451,7 @@ List read_edf_file(std::string filename,
   TRIAL_RECORDINGS all_recordings;
 
   // looping over the trials
-  Progress trial_counter(total_trials, true);
+  Progress trial_counter(total_trials, verbose);
   for(unsigned int iTrial= 0; iTrial< total_trials; iTrial++){
     // visuals and interaction
     if (verbose){
