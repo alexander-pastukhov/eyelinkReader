@@ -429,7 +429,8 @@ List read_edf_file(std::string filename,
               LogicalVector sample_attr_flag,
               std::string start_marker_string,
               std::string end_marker_string,
-              NumericVector pixels_per_degree){
+              NumericVector pixels_per_degree,
+              bool verbose){
 
   // opening the edf file
   EDFFILE* edfFile= safely_open_edf_file(filename, consistency, import_events, import_samples);
@@ -439,7 +440,9 @@ List read_edf_file(std::string filename,
 
   // figure out, just how many trials we have
   unsigned int total_trials= edf_get_trial_count(edfFile);
-  ::Rprintf("Trials count: %d\n", total_trials);
+  if (verbose){
+    ::Rprintf("Trials count: %d\n", total_trials);
+  }
 
   // creating headers, events, and samples
   NumericMatrix trial_headers= prepare_trial_headers(total_trials);
@@ -448,13 +451,17 @@ List read_edf_file(std::string filename,
   TRIAL_RECORDINGS all_recordings;
 
   // looping over the trials
-  Progress trial_counter(total_trials, true);
+  if (verbose){
+    Progress trial_counter(total_trials, true);
+  }
   for(unsigned int iTrial= 0; iTrial< total_trials; iTrial++){
     // visuals and interaction
-    if (Progress::check_abort() ){
-      break;
+    if (verbose){
+      if (Progress::check_abort() ){
+        break;
+      }
+      trial_counter.increment();
     }
-    trial_counter.increment();
 
     jump_to_trial(edfFile, iTrial);
 
