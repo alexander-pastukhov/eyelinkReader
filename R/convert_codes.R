@@ -4,7 +4,7 @@
 #' Please refer to EDF API manual for further details.
 #' @param trial_headers data.frame that contains trial headers.
 #'
-#' @return
+#' @return a modified trial_headers table
 #' @export
 #'
 #' @examples
@@ -26,7 +26,7 @@ convert_header_codes <- function(trial_headers){
 #' Please refer to EDF API manual for further details.
 #' @param trial_recordings data.frame that contains trial recordings.
 #'
-#' @return
+#' @return a modified trial_recordings table
 #' @export
 #' @keywords internal
 convert_recording_codes <- function(trial_recordings){
