@@ -43,10 +43,22 @@ Please note that an \strong{empty} string \code{''} means that a trial lasts fro
 
 \item{import_variables}{logical, wheather to extract stored variables into a separate table for convinience. Defaults to \code{TRUE}.}
 }
+\value{
+an \code{\link{edfRecording}} object that contains events, samples,
+and recordings, as well as specific events such as saccades, fixations, blinks, etc.
+}
 \description{
 Reads EDF file and returns an \code{\link{edfRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }
 \examples{
+# Import only events and recordings information
 recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+
+# Import events and samples (only time and  screen gaze coordinates)
+recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), sample_attributes = c('time', 'gx', 'gy'))
+
+# Import events and samples (all attributes)
+recording <- read_edf('example.edf', import_samples= TRUE)
+
 }
