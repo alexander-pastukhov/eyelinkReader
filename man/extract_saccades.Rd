@@ -2,13 +2,31 @@
 % Please edit documentation in R/extract_specific_events.R
 \name{extract_saccades}
 \alias{extract_saccades}
-\title{Title}
+\title{Extract saccades}
 \usage{
 extract_saccades(events)
 }
 \arguments{
-\item{events}{}
+\item{events}{An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.}
+}
+\value{
+A data.frame with information on \code{\link[=edfRecording$saccades]{saccades}}
 }
 \description{
-Title
+Extracts saccades from the events table. Normally, you don't need to call this function yourself,
+as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
+}
+\examples{
+# saccades are extracted during the initial read_edf call
+recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_saccades = TRUE)
+
+# saccades are extracted during the initial read_edf call by default
+recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+
+# saccades are extracted later
+recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_saccades = FALSE)
+recording$saccades <- extract_saccades(recording$events)
+}
+\seealso{
+read_edf, edfRecording
 }
