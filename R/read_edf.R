@@ -4,35 +4,40 @@
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 #'
 #' @param file full name of the EDF file
-#' @param consistency consistency check control (for the time stamps of the start
-#' and end events, etc). Could be \code{'no consistency check'},
+#' @param consistency consistency check control for the time stamps of the start
+#' and end events, etc. Could be \code{'no consistency check'},
 #' \code{'check consistency and report'} (default), \code{'check consistency and fix'}.
-#' @param import_events
-#' @param import_recordings
-#' @param import_samples
-#' @param sample_attributes
-#' @param start_marker_string
-#' @param end_marker_string
-#' @param screen
+#' @param import_events logical, whether to import events, defaults to
+#' code{TRUE}
+#' @param import_recordings logical, whether to import information about start/end of the recording, defaults to
+#' code{TRUE}
+#' @param import_samples logical, whether to import samples, defaults to \code{FALSE}.
+#' Please note that specifying\code{sample_attributes} automatically sets it to \code{TRUE}.
+#' @param sample_attributes a character vector that lists sample attributes to be imported.
+#' By default, all attributes are imported (default). For the complete list of sample attributes
+#' please refer to \code{\link{edfRecording}} or EDF API documentation.
+#' @param start_marker event string that marks the beginning of the trial. Defaults to \code{"TRIALID"}.
+#' @param end_marker event string that marks the end of the trial. Defaults to \code{"TRIAL OK"}.
+#' Please note that an \strong{empty} string \code{''} means that a trial lasts from one \code{start_marker} till the next one.
 #' @param convert_codes
-#' @param import_saccades
-#' @param import_blinks
-#' @param import_fixations
-#' @param import_variables
+#' @param import_saccades logical, whether to extract saccade events into a separate table for convinience. Defaults to \code{TRUE}.
+#' @param import_blinks logical, wheather to extract blink events into a separate table for convinience. Defaults to \code{TRUE}.
+#' @param import_fixations logical, wheather to extract fixation events into a separate table for convinience. Defaults to \code{TRUE}.
+#' @param import_variables logical, wheather to extract stored variables into a separate table for convinience. Defaults to \code{TRUE}.
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 read_edf <- function(file,
                      consistency= 'check consistency and report',
                      import_events= TRUE,
                      import_recordings= TRUE,
                      import_samples= FALSE,
                      sample_attributes= NULL,
-                     start_marker_string= 'TRIALID',
-                     end_marker_string= 'TRIAL OK',
-                     screen= list(),
+                     start_marker= 'TRIALID',
+                     end_marker= 'TRIAL OK',
                      convert_codes= TRUE,
                      import_saccades= TRUE,
                      import_blinks= TRUE,
@@ -48,15 +53,6 @@ read_edf <- function(file,
   }
   else{
     requested_consistency <- as.numeric(requested_consistency) -1
-  }
-
-  # storing screen info, if available
-  if (length(screen)>0){
-    screen$pixels_per_degree <- pixels_per_degree(screen$resolution, screen$size.cm, screen$eye.screen.distance.cm)
-    pixels_per_degree<- screen$pixels_per_degree
-  }
-  else{
-    pixels_per_degree <- c(-1, -1)
   }
 
   # figuring out which sample attributes to import, if any
@@ -83,7 +79,7 @@ read_edf <- function(file,
   }
 
   # importing data
-  edf_recording<- read_edf_file(file, requested_consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, pixels_per_degree, verbose)
+  edf_recording<- read_edf_file(file, requested_consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker, end_marker, verbose)
 
   # adding preamble !!!!!!! REMEMBER TO REPLACE WITH read_preamble, ONCE IT IS READY!
   edf_recording$preamble <- read_preamble_str(file)

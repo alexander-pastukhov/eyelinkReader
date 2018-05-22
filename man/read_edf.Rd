@@ -6,21 +6,48 @@
 \usage{
 read_edf(file, consistency = "check consistency and report",
   import_events = TRUE, import_recordings = TRUE, import_samples = FALSE,
-  sample_attributes = NULL, start_marker_string = "TRIALID",
-  end_marker_string = "TRIAL OK", screen = list(), convert_codes = TRUE,
-  import_saccades = TRUE, import_blinks = TRUE, import_fixations = TRUE,
-  import_variables = TRUE)
+  sample_attributes = NULL, start_marker = "TRIALID",
+  end_marker = "TRIAL OK", convert_codes = TRUE, import_saccades = TRUE,
+  import_blinks = TRUE, import_fixations = TRUE, import_variables = TRUE,
+  verbose = TRUE)
 }
 \arguments{
 \item{file}{full name of the EDF file}
 
-\item{consistency}{consistency check control (for the time stamps of the start
-and end events, etc). Could be \code{'no consistency check'},
+\item{consistency}{consistency check control for the time stamps of the start
+and end events, etc. Could be \code{'no consistency check'},
 \code{'check consistency and report'} (default), \code{'check consistency and fix'}.}
 
-\item{import_variables}{}
+\item{import_events}{logical, whether to import events, defaults to
+code{TRUE}}
+
+\item{import_recordings}{logical, whether to import information about start/end of the recording, defaults to
+code{TRUE}}
+
+\item{import_samples}{logical, whether to import samples, defaults to \code{FALSE}.
+Please note that specifying\code{sample_attributes} automatically sets it to \code{TRUE}.}
+
+\item{sample_attributes}{a character vector that lists sample attributes to be imported.
+By default, all attributes are imported (default). For the complete list of sample attributes
+please refer to \code{\link{edfRecording}} or EDF API documentation.}
+
+\item{start_marker}{event string that marks the beginning of the trial. Defaults to \code{"TRIALID"}.}
+
+\item{end_marker}{event string that marks the end of the trial. Defaults to \code{"TRIAL OK"}.
+Please note that an \strong{empty} string \code{''} means that a trial lasts from one \code{start_marker} till the next one.}
+
+\item{import_saccades}{logical, whether to extract saccade events into a separate table for convinience. Defaults to \code{TRUE}.}
+
+\item{import_blinks}{logical, wheather to extract blink events into a separate table for convinience. Defaults to \code{TRUE}.}
+
+\item{import_fixations}{logical, wheather to extract fixation events into a separate table for convinience. Defaults to \code{TRUE}.}
+
+\item{import_variables}{logical, wheather to extract stored variables into a separate table for convinience. Defaults to \code{TRUE}.}
 }
 \description{
 Reads EDF file and returns an \code{\link{edfRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
+}
+\examples{
+recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 }

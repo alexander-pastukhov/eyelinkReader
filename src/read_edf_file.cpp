@@ -270,11 +270,9 @@ void append_recording(TRIAL_RECORDINGS &recordings, RECORDINGS new_rec, unsigned
 // @param int iTrial, the index of the trial the event belongs to
 // @param UINT32 trial_start, the timestamp of the trial start. Is used to compute event time relative to it.
 // @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
-// @param NumericVector pixels_per_degree, pixels per degree for the screen that was used for the recording
-// positive values overwrite rx and ry fields' values from the file
 // @return modifies samples structure
 // @keywords internal
-void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTrial, UINT32 trial_start, LogicalVector sample_attr_flag, NumericVector pixels_per_degree)
+void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTrial, UINT32 trial_start, LogicalVector sample_attr_flag)
 {
   samples.trial_index.push_back(iTrial+1);
   if (sample_attr_flag[0]){
@@ -310,20 +308,10 @@ void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTri
     samples.gyR.push_back(new_sample.gy[1]);
   }
   if (sample_attr_flag[8]){
-    if (pixels_per_degree[0]>0){
-      samples.rx.push_back(pixels_per_degree[0]);
-    }
-    else{
-      samples.rx.push_back(new_sample.rx);
-    }
+    samples.rx.push_back(new_sample.rx);
   }
   if (sample_attr_flag[9]){
-    if (pixels_per_degree[1]>0){
-      samples.ry.push_back(pixels_per_degree[1]);
-    }
-    else{
-      samples.ry.push_back(new_sample.ry);
-    }
+    samples.ry.push_back(new_sample.ry);
   }
   if (sample_attr_flag[10]){
     samples.gxvelL.push_back(new_sample.gxvel[0]);
@@ -401,26 +389,25 @@ void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTri
 }
 
 
-//' Internal funciton that reads EDF file
-//'
-//' @title Internal funciton that reads EDF file
-//' @description Reads EDF file into a list that contains events, samples, and recordings.
-//' DO NOT call this function directly. Instead, use read_edf function that implements
-//' parameter checks and additional postprocessing.
-//' @param std::string filename, full name of the EDF file
-//' @param int consistency, consistency check control (for the time stamps of the start
-//' and end events, etc). 0, no consistency check. 1, check consistency and report.
-//' 2, check consistency and fix.
-//' @param bool import_events, load/skip loading events.
-//' @param bool import_recordings, load/skip loading recordings.
-//' @param bool import_samples, load/skip loading of samples.
-//' @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
-//' @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
-//' @param std::string end_marker_string, event that marks trial end
-//' @param NumericVector pixels_per_degree, pixels per degree for the screen that was used for the recording
-//' positive values overwrite rx and ry fields' values from the file
-//' @param verbose, whether to show progressbar and report number of trials
-//' @return List, contents of the EDF file. Please see read_edf for details.
+// Internal funciton that reads EDF file
+//
+// @title Internal funciton that reads EDF file
+// @description Reads EDF file into a list that contains events, samples, and recordings.
+// DO NOT call this function directly. Instead, use read_edf function that implements
+// parameter checks and additional postprocessing.
+// @param std::string filename, full name of the EDF file
+// @param int consistency, consistency check control (for the time stamps of the start
+// and end events, etc). 0, no consistency check. 1, check consistency and report.
+// 2, check consistency and fix.
+// @param bool import_events, load/skip loading events.
+// @param bool import_recordings, load/skip loading recordings.
+// @param bool import_samples, load/skip loading of samples.
+// @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
+// @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
+// @param std::string end_marker_string, event that marks trial end
+// @param verbose, whether to show progressbar and report number of trials
+// @keywords internal
+// @return List, contents of the EDF file. Please see read_edf for details.
 //[[Rcpp::export]]
 List read_edf_file(std::string filename,
               int consistency,
@@ -430,7 +417,6 @@ List read_edf_file(std::string filename,
               LogicalVector sample_attr_flag,
               std::string start_marker_string,
               std::string end_marker_string,
-              NumericVector pixels_per_degree,
               bool verbose){
 
   // opening the edf file
@@ -477,7 +463,7 @@ List read_edf_file(std::string filename,
     }
 
     bool TrialIsOver= false;
-    UINT32 data_timestamp;
+    UINT32 data_timestamp= 0;
     for(int DataType= edf_get_next_data(edfFile);
         DataType!=NO_PENDING_ITEMS && !TrialIsOver;
         DataType= edf_get_next_data(edfFile)){
@@ -488,7 +474,7 @@ List read_edf_file(std::string filename,
       case SAMPLE_TYPE:
         data_timestamp= current_data->fs.time;
         if (import_samples){
-          append_sample(all_samples, current_data->fs, iTrial, trial_start_time, sample_attr_flag, pixels_per_degree);
+          append_sample(all_samples, current_data->fs, iTrial, trial_start_time, sample_attr_flag);
         }
         break;
 
