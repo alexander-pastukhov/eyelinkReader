@@ -1,16 +1,15 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' @title Convert -32767 (missing info) to NA
-//' @description Converts all -32767 (smallest INT16  value indicating missing info) to NA.
-//' You don't need to call this function directly, as it is automatically envoked within
-//' \code{\link{read_edf}} function.
-//' @param List original_frame, data.frame to be processed
-//' @return processed data.frame
-//' @export
-//' @examples
-//' GazeData <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
-//' GazeData$samples <- convert_NAs(GazeData$samples)
+// @title Convert -32767 (missing info) to NA
+// @description Converts all -32767 (smallest INT16  value indicating missing info) to NA.
+// You don't need to call this function directly, as it is automatically envoked within
+// \code{\link{read_edf}} function.
+// @param List original_frame, data.frame to be processed
+// @return processed data.frame
+// @examples
+// GazeData <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+// GazeData$samples <- convert_NAs(GazeData$samples)
 
 //[[Rcpp::export]]
 List convert_NAs(List original_frame){
