@@ -141,3 +141,35 @@ read_edf <- function(file,
   class(edf_recording) <- 'edfRecording'
   return (edf_recording);
 }
+
+#' @export
+print.edfRecording <- function(x, ...){
+  if (nrow(x$headers)==1){
+    trialsN <- 'one trial'
+  }
+  else{
+    trialsN <- sprintf('%d trials', nrow(x$headers))
+  }
+
+  if ('events' %in% names(x)){
+    if ('samples' %in% names(x))
+    {
+      cat(sprintf('%d events and %d samples in %s.\n', nrow(x$events), nrow(x$samples), trialsN))
+    }
+    else{
+      cat(sprintf('%d events in %s.\n', nrow(x$events), trialsN))
+    }
+  }
+  else{
+    if ('samples' %in% names(x))
+    {
+      cat(sprintf('%d samples in %s.\n', nrow(x$samples), trialsN))
+    }
+    else{
+      cat(sprintf('%s. Neither events nor samples were imported.', trialsN))
+    }
+  }
+
+  cat('Preamble:\n')
+  print(x$preamble)
+}
