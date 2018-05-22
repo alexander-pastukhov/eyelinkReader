@@ -1,14 +1,18 @@
 import(Rcpp)
 
+
+export(read_edf)
+S3method(print,edfRecording)
+
 export(read_preamble)
 S3method(print,edfR_preamble)
 
 export(library_version)
-export(read_edf)
+
 
 useDynLib(edfR)
 
-importFrom(magrittr, `%>%`)
+importFrom(dplyr, `%>%`)
 importFrom(dplyr, filter)
 importFrom(dplyr, mutate)
 importFrom(dplyr, select)
