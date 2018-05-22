@@ -19,7 +19,6 @@
 #' @param start_marker event string that marks the beginning of the trial. Defaults to \code{"TRIALID"}.
 #' @param end_marker event string that marks the end of the trial. Defaults to \code{"TRIAL OK"}.
 #' Please note that an \strong{empty} string \code{''} means that a trial lasts from one \code{start_marker} till the next one.
-#' @param convert_codes
 #' @param import_saccades logical, whether to extract saccade events into a separate table for convinience. Defaults to \code{TRUE}.
 #' @param import_blinks logical, wheather to extract blink events into a separate table for convinience. Defaults to \code{TRUE}.
 #' @param import_fixations logical, wheather to extract fixation events into a separate table for convinience. Defaults to \code{TRUE}.
@@ -38,7 +37,6 @@ read_edf <- function(file,
                      sample_attributes= NULL,
                      start_marker= 'TRIALID',
                      end_marker= 'TRIAL OK',
-                     convert_codes= TRUE,
                      import_saccades= TRUE,
                      import_blinks= TRUE,
                      import_fixations= TRUE,
@@ -89,7 +87,11 @@ read_edf <- function(file,
     edf_recording$display_coords<- as.numeric(unlist(strsplit(trimws(gsub("DISPLAY_COORDS", "", edf_recording$display_coords)), " ")))
   }
 
-  # replacing -32768 with NA
+  # converting header to data.frame
+  edf_recording$headers <- data.frame(edf_recording$headers)
+  edf_recording$headers <- convert_header_codes(edf_recording$headers);
+
+    # replacing -32768 with NA and converting lists to data.frames
   if (import_samples){
     edf_recording$samples <- data.frame(convert_NAs(data.frame(edf_recording$samples)))
   }
@@ -98,26 +100,17 @@ read_edf <- function(file,
   }
   if (import_recordings){
     edf_recording$recordings <- data.frame(convert_NAs(data.frame(edf_recording$recordings)))
+    edf_recording$recordings <- convert_recording_codes(edf_recording$recordings)
   }
 
-  # converting header to data.frame
-  edf_recording$headers <- data.frame(edf_recording$headers)
-  if (convert_codes){
-    edf_recording$headers <- convert_header_codes(edf_recording$headers);
-
-    if (import_recordings){
-      edf_recording$recordings <- convert_recording_codes(edf_recording$recordings)
-    }
-
-    if (import_events){
-      edf_recording$events$eye <- factor(edf_recording$events$eye, levels= c(0, 1), labels= c('LEFT', 'RIGHT'))
-      edf_recording$events$type <- factor(edf_recording$events$type,
-                                          levels= c(1, 2, 10, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 24, 25, 28, 0x3F),
-                                          labels = c('STARTPARSE', 'ENDPARSE', 'BREAKPARSE',
-                                                     'STARTBLINK', 'ENDBLINK', 'STARTSACC', 'ENDSACC', 'STARTFIX', 'ENDFIX', 'FIXUPDATE',
-                                                     'STARTSAMPLES', 'ENDSAMPLES', 'STARTEVENTS', 'ENDEVENTS',
-                                                     'MESSAGEEVENT', 'BUTTONEVENT', 'INPUTEVENT', 'LOST_DATA_EVENT'))
-    }
+  if (import_events){
+    edf_recording$events$eye <- factor(edf_recording$events$eye, levels= c(0, 1), labels= c('LEFT', 'RIGHT'))
+    edf_recording$events$type <- factor(edf_recording$events$type,
+                                        levels= c(1, 2, 10, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 24, 25, 28, 0x3F),
+                                        labels = c('STARTPARSE', 'ENDPARSE', 'BREAKPARSE',
+                                                   'STARTBLINK', 'ENDBLINK', 'STARTSACC', 'ENDSACC', 'STARTFIX', 'ENDFIX', 'FIXUPDATE',
+                                                   'STARTSAMPLES', 'ENDSAMPLES', 'STARTEVENTS', 'ENDEVENTS',
+                                                   'MESSAGEEVENT', 'BUTTONEVENT', 'INPUTEVENT', 'LOST_DATA_EVENT'))
   }
 
 
