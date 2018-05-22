@@ -1,7 +1,12 @@
 /* EYELINK PORTABLE EXPT SUPPORT            */
 /* Copyright (c) 1996-2002 SR Research Ltd. */
 /*     8 June '97 by Dave Stampe            */
-/*     For non-commercial use only          */
+/*     For non-commercial use only
+* This file is licensed for use under the MIT software license,
+* but the following additional conditions apply:
+* All EyeLink® related files, including compiled files may be made
+* available to SR Research licensed users only and may not otherwise
+* be redistributed in any manner. */
 /*				            */
 /*  EyeLink library data extensions         */
 /*        VERSION 2.5                       */
@@ -151,20 +156,20 @@ typedef struct {
 
 
 /*!\page classIntro
- * The EyeLink EDF access API (edfapi.dll) library defines a number of data types that are 
- * used for data reading, found in eye_data.h and edf.h. The useful parts of these structures 
+ * The EyeLink EDF access API (edfapi.dll) library defines a number of data types that are
+ * used for data reading, found in eye_data.h and edf.h. The useful parts of these structures
  * are discussed in the following sections. */
 
 
 
-/*! The FSAMPLE structure holds information for a sample in the EDF file. 
- * Depending on the recording options set for the recording session, 
+/*! The FSAMPLE structure holds information for a sample in the EDF file.
+ * Depending on the recording options set for the recording session,
  * some of the fields may be empty.*/
 
 typedef struct {
 		 UINT32 time;   /*!< time stamp of sample */
-		 /*INT16  type; */	/* always SAMPLE_TYPE */ 
-		 
+		 /*INT16  type; */	/* always SAMPLE_TYPE */
+
 
 		 float  px[2];   /*!< pupil x */
 		 float  py[2];   /*!< pupil y */
@@ -177,7 +182,7 @@ typedef struct {
 		 float rx;       /*!< screen pixels per degree */
 		 float ry;       /*!< screen pixels per degree */
 
-		 
+
 		 float gxvel[2];  /*!< gaze x velocity */
 		 float gyvel[2];  /*!< gaze y velocity */
 		 float hxvel[2];  /*!< headref x velocity */
@@ -194,13 +199,13 @@ typedef struct {
 
 		 INT16  hdata[8];  /*!< head-tracker data (not pre-scaled) */
 		 UINT16 flags;     /*!<  flags to indicate contents */
-		 
-		 //UINT16 status;       /* tracker status flags    */ 
+
+		 //UINT16 status;       /* tracker status flags    */
 		 UINT16 input;     /*!< extra (input word) */
 		 UINT16 buttons;   /*!< button state & changes */
 
 		 INT16  htype;     /*!< head-tracker data type (0=none) */
-		 
+
 		 UINT16 errors;    /*!< process error flags */
 
 } FSAMPLE;
@@ -216,8 +221,8 @@ typedef struct {
 #pragma pack(1)
 #endif
 
-/*!The FEVENT structure holds information for an event in the EDF file. 
- * Depending on the recording options set for the recording session and the event type, 
+/*!The FEVENT structure holds information for an event in the EDF file.
+ * Depending on the recording options set for the recording session and the event type,
  * some of the fields may be empty.*/
 
 typedef struct  {
@@ -228,7 +233,7 @@ typedef struct  {
 
 		UINT32 sttime;   /*!< start time of the event */
 		UINT32 entime;   /*!< end time of the event*/
-		float  hstx;     /*!< headref starting points */ 
+		float  hstx;     /*!< headref starting points */
 		float  hsty;     /*!< headref starting points */
 		float  gstx;     /*!< gaze starting points */
 		float  gsty;     /*!< gaze starting points */
@@ -305,10 +310,10 @@ typedef struct  {
 #pragma pack(1)
 #endif
 
-/*! The RECORDINGS structure holds information about a recording block in an EDF file. 
- * A RECORDINGS structure is present at the start of recording and the end of recording. 
- * Conceptually a RECORDINGS structure is similar to the START and END lines inserted in an EyeLink ASC file. 
- * RECORDINGS with a state field = 0 represent the end of a recording block, and contain information regarding 
+/*! The RECORDINGS structure holds information about a recording block in an EDF file.
+ * A RECORDINGS structure is present at the start of recording and the end of recording.
+ * Conceptually a RECORDINGS structure is similar to the START and END lines inserted in an EyeLink ASC file.
+ * RECORDINGS with a state field = 0 represent the end of a recording block, and contain information regarding
  * the recording options set before recording was initiated. */
 
 
@@ -322,7 +327,7 @@ typedef struct
 	byte record_type;	/*!< 1 = SAMPLES, 2= EVENTS, 3= SAMPLES and EVENTS*/
 	byte pupil_type;	/*!< 0 = AREA, 1 = DIAMETER*/
 	byte recording_mode;/*!< 0 = PUPIL, 1 = CR */
-	byte filter_type;   /*!< 1,2,3 */	
+	byte filter_type;   /*!< 1,2,3 */
 	byte  pos_type;		/*!<0 = GAZE, 1= HREF, 2 = ptRAW*/  /*PARSEDBY_GAZE  PARSEDBY_HREF PARSEDBY_PUPIL*/
 	byte eye;			/*!< 1=LEFT, 2=RIGHT, 3=LEFT and RIGHT */
 
@@ -339,7 +344,7 @@ typedef struct
 #pragma pack(1)
 #endif
 
-/*!Any one of the above three data types can be read into a buffer of type ALLF_DATA, which is 
+/*!Any one of the above three data types can be read into a buffer of type ALLF_DATA, which is
  * a union of the event, sample, and recording buffer formats:*/
 
 typedef union {

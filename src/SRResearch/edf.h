@@ -5,6 +5,12 @@
  *
  * For non-commercial use only
  *
+ * This file is licensed for use under the MIT software license,
+ * but the following additional conditions apply:
+ * All EyeLink® related files, including compiled files may be made
+ * available to SR Research licensed users only and may not otherwise
+ * be redistributed in any manner.
+ *
  * EyeLink library data extensions
  *        VERSION 2.5
  * UPDATED for EyeLink DLL V2.1: added LOST_DATA_EVENT
@@ -50,21 +56,21 @@
  */
 
 /*!
-\mainpage EyeLink EDF Access API 
+\mainpage EyeLink EDF Access API
 
 \section intro Introduction
 
-The EyeLink EDF Access API is a set of C functions that provide access to 
-EyeLink EDF files. The access method is similar to that of the online data 
-access API, where the program performs a set of eyelink_get_next_data() and 
+The EyeLink EDF Access API is a set of C functions that provide access to
+EyeLink EDF files. The access method is similar to that of the online data
+access API, where the program performs a set of eyelink_get_next_data() and
 eyelink_get_float_data() calls to step through the data.
 
-The EDF Access API also provides functions for setting bookmarks within an 
-EDF file, and for automatically parsing an EDF file into a set of trials, 
+The EDF Access API also provides functions for setting bookmarks within an
+EDF file, and for automatically parsing an EDF file into a set of trials,
 with functions for stepping through the trial set.
 
-As an example use for the API, the edf2asc translator program has been re-written 
-to use the API for EDF data access. The source code for this edf2asc program is 
+As an example use for the API, the edf2asc translator program has been re-written
+to use the API for EDF data access. The source code for this edf2asc program is
 included with the API distribution.
 
 This is the first release of the EDF Access API and should be considered a beta release.
@@ -115,20 +121,20 @@ typedef enum
 
 
 /* @struct TRIAL
-     The TRIAL structure is used to access a block of data within an EDF file 
-	 that is considered to be a trial within the experimental session. The start time 
-	and end time of a TRIAL are defined using the edf_set_trial_identifier() function, 
+     The TRIAL structure is used to access a block of data within an EDF file
+	 that is considered to be a trial within the experimental session. The start time
+	and end time of a TRIAL are defined using the edf_set_trial_identifier() function,
 	where a start and end message text token is specified.
 
    	@param rec  recording information about the current trial
 	@param duration  duration of the current trial
-	@param starttime start time of the trial 
+	@param starttime start time of the trial
 	@param endtime  end time of the trial
 */
 
-/*!The TRIAL structure is used to access a block of data within an EDF file 
-  that is considered to be a trial within the experimental session. The start time 
-  and end time of a TRIAL are defined using the edf_set_trial_identifier() function, 
+/*!The TRIAL structure is used to access a block of data within an EDF file
+  that is considered to be a trial within the experimental session. The start time
+  and end time of a TRIAL are defined using the edf_set_trial_identifier() function,
   where a start and end message text token is specified.
 */
 typedef struct {
@@ -148,7 +154,7 @@ typedef struct _EDFFILE EDFFILE;  /*!<EDFFILE is a dummy structure that holds an
 /* @struct BOOKMARK
     BOOKMARK is a dummy structure that holds a bookmark handle.
    	@param id
-	
+
 */
 
 /*!BOOKMARK is a dummy structure that holds a bookmark handle.
@@ -180,13 +186,13 @@ typedef struct
  ***********************************************************************/
 
 /*!
-   \brief Opens the EDF file passed in by edf_file_name and preprocesses the EDF file. 
+   \brief Opens the EDF file passed in by edf_file_name and preprocesses the EDF file.
    @param fname name of the EDF file to be opened.
    @param consistency onsistency check control (for the time stamps of the start and end events, etc).
         \c 	0, no consistency check.
     	\c	1,  check consistency and report.
 	    \c 	2,  check consistency and fix.
-   @param loadevents load/skip loading events 
+   @param loadevents load/skip loading events
 		\c 0,  do not load events.
 		\c 1,  load events.
    @param loadsamples load/skip loading of samples
@@ -213,9 +219,9 @@ EDFFILE * EXPORT edf_open_file(const char *fname, int consistency,
  *		   returns an error code. if the error code is 0 then the
  *		   operation succeeded otherwise a non zero is returned.
  ***********************************************************************/
-/*!  \brief Closes an EDF file pointed to by the given EDFFILE pointer and releases all 
+/*!  \brief Closes an EDF file pointed to by the given EDFFILE pointer and releases all
   of the resources (memory and physical file) related to this EDF file.
-  @param ef a valid pointer to EDFFILE structure. This should be created by calling 
+  @param ef a valid pointer to EDFFILE structure. This should be created by calling
 			edf_open_file ().
   @return  if successful it returns 0, otherwise a non zero is returned.*/
 
@@ -264,9 +270,9 @@ int EXPORT edf_close_file(EDFFILE * ef);
  *				 NO_PENDING_ITEMS
  ***********************************************************************/
 /*!
-    \brief Returns the type of the next data element in the EDF file pointed to by *edf. Each call to edf_get_next_data() 
-	will retrieve the next data element within the data file. The contents of the data element are not accessed using 
-	this method, only the type of the element is provided. Use edf_get_float_data() instead to access the contents of 
+    \brief Returns the type of the next data element in the EDF file pointed to by *edf. Each call to edf_get_next_data()
+	will retrieve the next data element within the data file. The contents of the data element are not accessed using
+	this method, only the type of the element is provided. Use edf_get_float_data() instead to access the contents of
 	the data element.
 	@param ef a valid pointer to EDFFILE structure. This handle should be created by calling edf_open_file().
 	@return One of the following values:\n
@@ -275,7 +281,7 @@ int EXPORT edf_close_file(EDFFILE * ef);
 			\c STARTFIX 		 the upcoming data is a start fixation event.\n
 			\c STARTSAMPLES 	 the upcoming data is a start samples event.\n
 			\c STARTEVENTS 	 the upcoming data is a start events event.\n
-			\c STARTPARSE	     the upcoming data is a start parse event.\n		
+			\c STARTPARSE	     the upcoming data is a start parse event.\n
 			\c ENDBLINK		 the upcoming data is an end blink event.\n
 			\c ENDSACC		     the upcoming data is an end saccade event.\n
 			\c ENDFIX		     the upcoming data is an end fixation event.\n
@@ -302,12 +308,12 @@ int EXPORT edf_get_next_data(EDFFILE *ef);
  ***********************************************************************/
 
 /*!
-   Returns the float data with the type returned by edf_get_next_data(). 
-   This function does not move the current data access pointer to the next element; 
+   Returns the float data with the type returned by edf_get_next_data().
+   This function does not move the current data access pointer to the next element;
    use edf_get_next_data() instead to step through the data elements.
-   @param ef a valid pointer to \c EDFFILE structure. This handle should be created by 
+   @param ef a valid pointer to \c EDFFILE structure. This handle should be created by
 			 calling edf_open_file().
-   @return Returns a pointer to the \c ALLF_DATA structure with the type returned by 
+   @return Returns a pointer to the \c ALLF_DATA structure with the type returned by
 		   edf_get_next_data().*/
 
 ALLF_DATA * EXPORT edf_get_float_data(EDFFILE *ef);
@@ -344,10 +350,10 @@ unsigned int EXPORT  edf_get_element_count(EDFFILE *ef);
  *			The returned content will always be null terminated
  ***********************************************************************/
 /*!\ingroup GENERALEDFDATAAccess
-    Copies the preamble text into the given buffer. If the preamble text is 
-	longer than the length the text will be truncated. The returned content will always 
+    Copies the preamble text into the given buffer. If the preamble text is
+	longer than the length the text will be truncated. The returned content will always
 	be null terminated.
-	@param ef a valid pointer to \c EDFFILE structure. This handle should be created by 
+	@param ef a valid pointer to \c EDFFILE structure. This handle should be created by
 			  calling edf_open_file().
     @param buffer a character array to be filled by the preamble text.
 	@param length length of the buffer.
@@ -364,7 +370,7 @@ int EXPORT  edf_get_preamble_text(EDFFILE *ef,
  ***********************************************************************/
 /*!\ingroup GENERALEDFDATAAccess
     Returns the length of the preamble text.
-	@param edf  a valid pointer to c EDFFILE structure. This handle should be created by 
+	@param edf  a valid pointer to c EDFFILE structure. This handle should be created by
 				calling edf_open_file().
 	@return An integer for the length of preamble text.*/
 int EXPORT  edf_get_preamble_text_length(EDFFILE * edf);
@@ -400,15 +406,15 @@ int edf_get_eyelink_revision(EDFFILE *ef);
  *																	   *
  *=====================================================================*/
 /*!\defgroup TRIALRELATEDFunc Trial Related Functions
-   The EDF access API also provides the following trial related functions for 
-   the ease of counting the total number the trials in the recording file and 
-   navigating between different trials.  To use this functionality, it is desirable 
-   that the user first define the trial start/end identifier strings with 
-   edf_set_trial_identifier(). [The identifier string settings can be checked with 
-   the edf_get_start_trial_identifier() and edf_get_end_trial_identifier() functions].  
-   Use edf_jump_to_trial(), edf_goto_previous_trial(), edf_goto_next_trial(), 
-   edf_goto_trial_with_start_time(), or edf_goto_trial_with_end_time() functions 
-   to go to a target trial.  The recording and start/end time of the target trial can be 
+   The EDF access API also provides the following trial related functions for
+   the ease of counting the total number the trials in the recording file and
+   navigating between different trials.  To use this functionality, it is desirable
+   that the user first define the trial start/end identifier strings with
+   edf_set_trial_identifier(). [The identifier string settings can be checked with
+   the edf_get_start_trial_identifier() and edf_get_end_trial_identifier() functions].
+   Use edf_jump_to_trial(), edf_goto_previous_trial(), edf_goto_next_trial(),
+   edf_goto_trial_with_start_time(), or edf_goto_trial_with_end_time() functions
+   to go to a target trial.  The recording and start/end time of the target trial can be
    checked with edf_get_trial_header().
    @{*/
 
@@ -418,28 +424,28 @@ int edf_get_eyelink_revision(EDFFILE *ef);
  *Output: int
  *Purpose: sets the string that marks the beginning of the trial
  ***********************************************************************/
-/*!\brief Sets the message strings that mark the beginning and the end of a trial. 
-		  The message event that contains the marker string is considered start or 
+/*!\brief Sets the message strings that mark the beginning and the end of a trial.
+		  The message event that contains the marker string is considered start or
 		  end of the trial.
-  @param edf a valid pointer to \c EDFFILE structure. This should be created by 
+  @param edf a valid pointer to \c EDFFILE structure. This should be created by
 			calling edf_open_file().
   @param start_marker_string string that contains the marker for beginning of a trial.
   @param end_marker_string string that contains the marker for end of the trial.
   @return \c 0 if no error occurred.
   @remarks NOTE: The following restrictions apply for collecting the trials.\n
-				 1.The \c start_marker_string message should be before the start recording 
+				 1.The \c start_marker_string message should be before the start recording
 				 (indicated by message  ``START'').\n
-				 2.The \c end_marker_string message should be after the end recording 
+				 2.The \c end_marker_string message should be after the end recording
 				 (indicated by message  ``END'').\n
-				 3.If the \c start_marker_string is not found before start recording or 
-				 if the \c start_marker_string is null, start recording will be the starting 
+				 3.If the \c start_marker_string is not found before start recording or
+				 if the \c start_marker_string is null, start recording will be the starting
 				 position of the trial.\n
-				 4.If the \c end_marker_string is not found after the end recording, 
+				 4.If the \c end_marker_string is not found after the end recording,
 				 end recording will be the ending position of the trial.\n
-				 5.If \c start_marker_string is not specified the string ``TRIALID'', 
+				 5.If \c start_marker_string is not specified the string ``TRIALID'',
 				 if found, will be used as the \c start_marker_string.\n
-				 6.If the \c end_marker_string is not specified, the beginning of the 
-				 next trial is the end of the current trial.*/					
+				 6.If the \c end_marker_string is not specified, the beginning of the
+				 next trial is the end of the current trial.*/
 int EXPORT  edf_set_trial_identifier(EDFFILE * edf,
 									char *start_marker_string,
 									char *end_marker_string);
@@ -452,7 +458,7 @@ int EXPORT  edf_set_trial_identifier(EDFFILE * edf,
  *Purpose: gets the string that marks the beginning of the trial
  ***********************************************************************/
 /*!\brief Returns the trial identifier that marks the beginning of a trial.
-	@param ef a valid pointer to \c EDFFILE structure. This should be created by 
+	@param ef a valid pointer to \c EDFFILE structure. This should be created by
 	calling edf_open_file().
 	@return a string that marks the beginning of a trial.*/
 char* EXPORT edf_get_start_trial_identifier(EDFFILE * ef);
@@ -464,7 +470,7 @@ char* EXPORT edf_get_start_trial_identifier(EDFFILE * ef);
  *Purpose: gets the string that marks the beginning of the trial
  ***********************************************************************/
 /*!\brief Returns the trial identifier that marks the end of a trial.
- @param ef a valid pointer to \c EDFFILE structure. This should be created by calling 
+ @param ef a valid pointer to \c EDFFILE structure. This should be created by calling
 		   edf_open_file().
  @return a string that marks the end of a trial.*/
 char* EXPORT  edf_get_end_trial_identifier(EDFFILE * ef);
@@ -476,7 +482,7 @@ char* EXPORT  edf_get_end_trial_identifier(EDFFILE * ef);
  *Purpose: returns the number of trials
  ***********************************************************************/
 /*!\brief Returns the number of trials in the EDF file.
-	@param edf a valid pointer to \c EDFFILE structure. This should be created 
+	@param edf a valid pointer to \c EDFFILE structure. This should be created
 		   by calling edf_open_file().
    @return an integer for the number of trials in the EDF file.*/
 int EXPORT  edf_get_trial_count(EDFFILE *edf);
@@ -488,10 +494,10 @@ int EXPORT  edf_get_trial_count(EDFFILE *edf);
  *Output: int
  *Purpose: jumps to the beginning of a given trial.
  ***********************************************************************/
-/*! Jumps to the beginning of a given trial. 
-	@param edf a valid pointer to \c EDFFILE structure. This should be created 
+/*! Jumps to the beginning of a given trial.
+	@param edf a valid pointer to \c EDFFILE structure. This should be created
 			by calling edf_open_file().
-	@param trial trial number.  This should be a value between \c 0 and 
+	@param trial trial number.  This should be a value between \c 0 and
 			edf_get_trial_count ()- \c 1.
 	@return unless there are any errors it returns a 0.*/
 int EXPORT  edf_jump_to_trial(EDFFILE * edf, int trial);
@@ -505,12 +511,12 @@ int EXPORT  edf_jump_to_trial(EDFFILE * edf, int trial);
  *Output: int
  *Purpose: Returns the current trial information
  ***********************************************************************/
-/*!\brief Returns the trial specific information. See the TRIAL structure for 
+/*!\brief Returns the trial specific information. See the TRIAL structure for
 	more details.
-	@param edf a valid pointer to \c EDFFILE structure. This should be created 
+	@param edf a valid pointer to \c EDFFILE structure. This should be created
 				by calling edf_open_file().
-	@param trial pointer to a valid \c TRIAL structure (note \c trial must be 
-				initialized before being used as a parameter for this function).  
+	@param trial pointer to a valid \c TRIAL structure (note \c trial must be
+				initialized before being used as a parameter for this function).
 				This pointer is used to hold information of the current trial.
 
 	@return unless there are any errors it returns a 0.*/
@@ -527,7 +533,7 @@ int EXPORT edf_get_trial_header(EDFFILE * edf,TRIAL *trial);
  *Purpose: moves to the previous trial
  ***********************************************************************/
 /*!\brief Jumps to the beginning of the previous trial.
-	@param edf a valid pointer to \c EDFFILE structure. This should be created 
+	@param edf a valid pointer to \c EDFFILE structure. This should be created
 				by calling edf_open_file().
 	@return unless there are any errors it returns \c 0.*/
 int EXPORT  edf_goto_previous_trial(EDFFILE * edf);
@@ -540,7 +546,7 @@ int EXPORT  edf_goto_previous_trial(EDFFILE * edf);
  *Purpose: moves to the next trial
  ***********************************************************************/
 /*!\brief Jumps to the beginning of the next trial.
-	@param edf a valid pointer to \c EDFFILE structure. 
+	@param edf a valid pointer to \c EDFFILE structure.
 				This should be created by calling edf_open_file().
 	@return unless there are any errors it returns \c 0.*/
 int EXPORT edf_goto_next_trial(EDFFILE * edf);
@@ -553,7 +559,7 @@ int EXPORT edf_goto_next_trial(EDFFILE * edf);
  *Purpose: moves to the trial with the given start time
  ***********************************************************************/
 /*!\brief Jumps to the trial that has the same start time as the given start time.
-	@param edf a valid pointer to \c EDFFILE structure. This should be created by 
+	@param edf a valid pointer to \c EDFFILE structure. This should be created by
 				calling edf_open_file().
 	@return unless there are any errors it returns 0.*/
 int EXPORT edf_goto_trial_with_start_time(EDFFILE * edf,
@@ -566,7 +572,7 @@ int EXPORT edf_goto_trial_with_start_time(EDFFILE * edf,
  *Purpose: moves to the trial with the given end time
  ***********************************************************************/
 /*! \brief Jumps to the trial that has the same start time as the given end time.
-	@param edf a valid pointer to \c EDFFILE structure. This should be created by 
+	@param edf a valid pointer to \c EDFFILE structure. This should be created by
 				calling edf_open_file().
 	@return unless there are any errors it returns \c 0. */
 int EXPORT edf_goto_trial_with_end_time(EDFFILE * edf,
@@ -586,10 +592,10 @@ int EXPORT edf_goto_trial_with_end_time(EDFFILE * edf,
  *=====================================================================*/
 
 /*!\defgroup BOOKMARK Bookmark Related Functions
-In addition to navigation between different trials in an EDF recording file 
-with the functions provided in the previous section, the EDF access API also 
-allows the user to ``bookmark'' any position of the EDF file using the edf_set_bookmark() 
-function.  The bookmarks can be revisited with edf_goto_bookmark().  Finally, the bookmarks 
+In addition to navigation between different trials in an EDF recording file
+with the functions provided in the previous section, the EDF access API also
+allows the user to ``bookmark'' any position of the EDF file using the edf_set_bookmark()
+function.  The bookmarks can be revisited with edf_goto_bookmark().  Finally, the bookmarks
 should be freed with the edf_free_bookmark() function call.
 @{*/
 
@@ -600,10 +606,10 @@ should be freed with the edf_free_bookmark() function call.
  *Purpose: mark the current position of edffile
  ***********************************************************************/
 /*! Bookmark the current position of the edf file.
-	@param ef a valid pointer to \c EDFFILE structure. This should be created 
+	@param ef a valid pointer to \c EDFFILE structure. This should be created
 				by calling edf_open_file.
-	@param bm pointer to a valid \c BOOKMARK structure. This structure will be 
-				filled by this function.  \c bm should be initialized before 
+	@param bm pointer to a valid \c BOOKMARK structure. This structure will be
+				filled by this function.  \c bm should be initialized before
 				being used by this function.
 	@return unless there are any errors it returns 0.*/
 int EXPORT  edf_set_bookmark(EDFFILE *ef, BOOKMARK *bm);
@@ -615,10 +621,10 @@ int EXPORT  edf_set_bookmark(EDFFILE *ef, BOOKMARK *bm);
  *Purpose: remove the bookmark
  ***********************************************************************/
 /*! Removes an existing bookmark
-	@param ef a valid pointer to \c EDFFILE structure. This should be created 
+	@param ef a valid pointer to \c EDFFILE structure. This should be created
 				by calling edf_open_file.
-	@param bm pointer to a valid \c BOOKMARK structure. This structure will be 
-				filled by this function.  Before calling this function edf_set_bookmark 
+	@param bm pointer to a valid \c BOOKMARK structure. This structure will be
+				filled by this function.  Before calling this function edf_set_bookmark
 				should be called and bm should be initialized there.
 	@return unless there are any errors it returns 0.*/
 int EXPORT edf_free_bookmark(EDFFILE *ef, BOOKMARK *bm);
@@ -631,10 +637,10 @@ int EXPORT edf_free_bookmark(EDFFILE *ef, BOOKMARK *bm);
  *Purpose: jump to the bookmark
  ***********************************************************************/
 /*! Jumps to the given bookmark.
-	@param ef a valid pointer to \c EDFFILE structure. This should be created by calling 
+	@param ef a valid pointer to \c EDFFILE structure. This should be created by calling
 				edf_open_file.
-	@param bm pointer to a valid \c BOOKMARK structure. This structure will be filled 
-				by this function.  Before calling this function edf_set_bookmark should 
+	@param bm pointer to a valid \c BOOKMARK structure. This structure will be filled
+				by this function.  Before calling this function edf_set_bookmark should
 				be called and bm should be initialized there.
 	@return unless there are any errors it returns \c 0.*/
 int EXPORT edf_goto_bookmark(EDFFILE *ef, BOOKMARK *bm);
@@ -671,7 +677,7 @@ int EXPORT edf_goto_previous_bookmark(EDFFILE *ef);
  * @return	a string indicating the version of EDFAPI library used.*/
 char * EXPORT edf_get_version();
 
-/**@}*/ 
+/**@}*/
 
 
 /***********************************************************************

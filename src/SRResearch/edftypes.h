@@ -3,7 +3,13 @@
 /*  9 Dec '95 by Dave Stampe      */
 /*  PLATFORM-PORTABLE TYPES       */
 /*  MAY NEED TO BE MODIFIED       */
-/*  FOR Mac, etc.                 */
+/*  FOR Mac, etc.
+* This file is licensed for use under the MIT software license,
+* but the following additional conditions apply:
+* All EyeLink® related files, including compiled files may be made
+* available to SR Research licensed users only and may not otherwise
+* be redistributed in any manner.
+ */
 
 /*#define FARTYPE _far */  /* for some mixed-model builds */
 #define FARTYPE            /* make blank for most DOS, 32-bit, ANSI C */
