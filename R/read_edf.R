@@ -81,8 +81,8 @@ read_edf <- function(file,
   # importing data
   edf_recording<- read_edf_file(file, requested_consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker, end_marker, verbose)
 
-  # adding preamble !!!!!!! REMEMBER TO REPLACE WITH read_preamble, ONCE IT IS READY!
-  edf_recording$preamble <- read_preamble_str(file)
+  # adding preamble
+  edf_recording$preamble <- read_preamble(file)
 
   # checking display info, if present
   if (!is.null(edf_recording$display_coords)){
