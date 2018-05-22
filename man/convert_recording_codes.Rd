@@ -9,6 +9,9 @@ convert_recording_codes(trial_recordings)
 \arguments{
 \item{trial_recordings}{data.frame that contains trial recordings.}
 }
+\value{
+a modified trial_recordings table
+}
 \description{
 Converts integer constants in trial recordings information to factor with explicit labels.
 Please refer to EDF API manual for further details.

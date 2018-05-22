@@ -9,6 +9,9 @@ convert_header_codes(trial_headers)
 \arguments{
 \item{trial_headers}{data.frame that contains trial headers.}
 }
+\value{
+a modified trial_headers table
+}
 \description{
 Converts integer constants in trial headers to factor with explicit labels.
 Please refer to EDF API manual for further details.
