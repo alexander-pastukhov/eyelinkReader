@@ -1,5 +1,11 @@
 import(Rcpp)
-exportPattern("^[[:alpha:]]+")
+
+export(read_preamble)
+S3method(print,edfR_preamble)
+
+export(library_version)
+export(read_edf)
+
 useDynLib(edfR)
 
 importFrom(magrittr, `%>%`)

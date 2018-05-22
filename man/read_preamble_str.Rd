@@ -17,3 +17,4 @@ that provides a more consistent interface.
 \examples{
 read_preamble(system.file("extdata", "example.edf", package = "edfR"))
 }
+\keyword{internal}

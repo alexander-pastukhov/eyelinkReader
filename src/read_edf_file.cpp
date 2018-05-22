@@ -41,6 +41,7 @@ EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadeve
 //' Please, do not use this function directly. Instead, call \code{\link{read_preamble}} function
 //' that provides a more consistent interface.
 //' @return string with the preamble
+//' @keywords internal
 //' @examples
 //' read_preamble(system.file("extdata", "example.edf", package = "edfR"))
 //[[Rcpp::export]]

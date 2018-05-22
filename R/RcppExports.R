@@ -31,7 +31,7 @@ library_version <- function() {
 #' Please, do not use this function directly. Instead, call \code{\link{read_preamble}} function
 #' that provides a more consistent interface.
 #' @return string with the preamble
-#' @export
+#' @keywords internal
 #' @examples
 #' read_preamble(system.file("extdata", "example.edf", package = "edfR"))
 read_preamble_str <- function(filename) {
@@ -56,8 +56,9 @@ read_preamble_str <- function(filename) {
 #' @param std::string end_marker_string, event that marks trial end
 #' @param NumericVector pixels_per_degree, pixels per degree for the screen that was used for the recording
 #' positive values overwrite rx and ry fields' values from the file
+#' @param verbose, whether to show progressbar and report number of trials
 #' @return List, contents of the EDF file. Please see read_edf for details.
-read_edf_file <- function(filename, consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, pixels_per_degree) {
-    .Call('_edfR_read_edf_file', PACKAGE = 'edfR', filename, consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, pixels_per_degree)
+read_edf_file <- function(filename, consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, pixels_per_degree, verbose) {
+    .Call('_edfR_read_edf_file', PACKAGE = 'edfR', filename, consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, pixels_per_degree, verbose)
 }
 
