@@ -1,7 +1,7 @@
 \name{edfRecording$saccades}
 \alias{edfRecording$saccades}
 \title{Saccades extracted from events table}
-\description{Saccades extracted from the \code{\link[=edfRecording$events]{events}} table. Saccades extracted from the samples via the \code{\link{find.saccades}} function are stored in the \code{\link[=edfRecording$microsaccades]{microsaccades}} table. Column descriptions were copied directly  from the \emph{EDF access C API manual}. Please refer to that manual for further details. Non-standard additional fields are marked in bold.
+\description{Saccades extracted from the \code{\link[=edfRecording$events]{events}} table. Column descriptions were copied directly  from the \emph{EDF access C API manual}. Please refer to that manual for further details. Non-standard additional fields are marked in bold.
   \itemize{
     \item{\bold{trial}} {trial index}
     \item{\code{sttime}} {start time of the event}
