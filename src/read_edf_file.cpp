@@ -720,14 +720,14 @@ List read_edf_file(std::string filename,
       samples["fryvelR"]= all_samples.fryvelR;
     }
     if (sample_attr_flag[22]){
-      samples["hdata.1"]= all_samples.hdata_1;
-      samples["hdata.2"]= all_samples.hdata_2;
-      samples["hdata.3"]= all_samples.hdata_3;
-      samples["hdata.4"]= all_samples.hdata_4;
-      samples["hdata.5"]= all_samples.hdata_5;
-      samples["hdata.6"]= all_samples.hdata_6;
-      samples["hdata.7"]= all_samples.hdata_7;
-      samples["hdata.8"]= all_samples.hdata_8;
+      samples["hdata_1"]= all_samples.hdata_1;
+      samples["hdata_2"]= all_samples.hdata_2;
+      samples["hdata_3"]= all_samples.hdata_3;
+      samples["hdata_4"]= all_samples.hdata_4;
+      samples["hdata_5"]= all_samples.hdata_5;
+      samples["hdata_6"]= all_samples.hdata_6;
+      samples["hdata_7"]= all_samples.hdata_7;
+      samples["hdata_8"]= all_samples.hdata_8;
     }
     if (sample_attr_flag[23]){
       samples["flags"]= all_samples.flags;
