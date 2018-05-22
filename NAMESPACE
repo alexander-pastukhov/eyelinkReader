@@ -9,6 +9,10 @@ S3method(print,edfR_preamble)
 
 export(library_version)
 
+export(extract_saccades)
+export(extract_fixations)
+export(extract_blinks)
+export(extract_variables)
 
 useDynLib(edfR)
 
