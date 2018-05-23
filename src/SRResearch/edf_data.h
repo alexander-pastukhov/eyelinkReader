@@ -1,12 +1,12 @@
 /* EYELINK PORTABLE EXPT SUPPORT            */
 /* Copyright (c) 1996-2002 SR Research Ltd. */
 /*     8 June '97 by Dave Stampe            */
-/*     For non-commercial use only
-* This file is licensed for use under the MIT software license,
-* but the following additional conditions apply:
-* All EyeLink® related files, including compiled files may be made
-* available to SR Research licensed users only and may not otherwise
-* be redistributed in any manner. */
+/*     For non-commercial use only */
+/* This file is licensed for use under the MIT software license, */
+/* but the following additional conditions apply: */
+/* All EyeLink® related files, including compiled files may be made */
+/* available to SR Research licensed users only and may not otherwise */
+/* be redistributed in any manner. */
 /*				            */
 /*  EyeLink library data extensions         */
 /*        VERSION 2.5                       */
