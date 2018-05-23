@@ -13,7 +13,7 @@ To install, run
 library("devtools"); install_github("alexander-pastukhov/edfR", dependencies=TRUE)
 ```
 
-At the moment, this works for me on Linux but not Windows and Mac at the moment. The latter I don't have, so I would appreciate any help with Mac OS X platform.
+At the moment, this works for me on Linux but not Windows and Mac. The latter I don't have, so I would appreciate any help with Mac OS X platform.
 
 ## Manuals
 
