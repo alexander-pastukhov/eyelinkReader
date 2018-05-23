@@ -5,6 +5,7 @@ importFrom(dplyr, `%>%`)
 importFrom(dplyr, filter)
 importFrom(dplyr, mutate)
 importFrom(dplyr, select)
+importFrom(tidyr, separate)
 
 export(read_edf)
 S3method(print,edfRecording)
