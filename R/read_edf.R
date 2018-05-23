@@ -21,8 +21,9 @@
 #' Please note that an \strong{empty} string \code{''} means that a trial lasts from one \code{start_marker} till the next one.
 #' @param import_saccades logical, whether to extract saccade events into a separate table for convinience. Defaults to \code{TRUE}.
 #' @param import_blinks logical, wheather to extract blink events into a separate table for convinience. Defaults to \code{TRUE}.
-#' @param import_fixations logical, wheather to extract fixation events into a separate table for convinience. Defaults to \code{TRUE}.
-#' @param import_variables logical, wheather to extract stored variables into a separate table for convinience. Defaults to \code{TRUE}.
+#' @param import_fixations logical, whether to extract fixation events into a separate table for convinience. Defaults to \code{TRUE}.
+#' @param import_variables logical, whether to extract stored variables into a separate table for convinience. Defaults to \code{TRUE}.
+#' @param verbose logical, whether the number of trials and the progress are shown in the console. Defaults to \code{TRUE}.
 #'
 #' @return an \code{\link{edfRecording}} object that contains events, samples,
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
