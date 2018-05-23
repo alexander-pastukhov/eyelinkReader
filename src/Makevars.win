@@ -1,5 +1,9 @@
 ifeq "$(WIN)" "64"
-PKG_LIBS = -L"c:/Program Files (x86)/SR Research/EyeLink/EDF_Access_API/lib/win64/"  -ledfapi64
+	PKG_LIBS = \
+		-L"c:/Program Files (x86)/SR Research/EyeLink/EDF_Access_API/lib/win64" \
+		-ledfapi64
 else
-PKG_LIBS = -L"c:/Program Files (x86)/SR Research/EyeLink/EDF_Access_API/lib/win32"  -ledfapi
+	PKG_LIBS = \
+		-L"c:/Program Files (x86)/SR Research/EyeLink/EDF_Access_API/lib/win32" \
+		-ledfapi
 endif
