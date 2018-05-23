@@ -6,14 +6,16 @@ This is a developmental version of the package. It is feature-complete and stabl
 
 ## Installation from Github
 
-Please note that, in order to work, this package requires EDF API library. It is included in Eyelink  Developers Kit, available from [www.sr-support.com](https://www.sr-support.com). Because the package needs to be compiled during the installation, it will fail if no library was found. Currently, it assumes that on Windows the EDF library is at its default location (`c:/Program Files (x86)/SR Research/EyeLink/EDF_Access_API/lib/win64`).
+Please note that, in order to work, this package requires EDF API library. It is included in Eyelink  Developers Kit, available from [www.sr-support.com](https://www.sr-support.com). Because the package needs to be compiled during the installation, it will fail if no library was found. Currently, it assumes that on Windows x64 the EDF library is at its default location (`c:/Program Files (x86)/SR Research/EyeLink/EDF_Access_API/lib/win64`).
 
 To install, run
 ```
-library("devtools"); install_github("alexander-pastukhov/edfR", dependencies=TRUE)
+library("devtools")
+options(devtools.install.args = "--no-multiarch") # only relevant for Windows 
+install_github("alexander-pastukhov/edfR", dependencies=TRUE)
 ```
 
-At the moment, this works for me on Linux but not Windows and Mac. The latter I don't have, so I would appreciate any help with Mac OS X platform.
+At the moment, this works for me on Linux and 64-bit Windows, but not on 32-bit Windows. Also, currently I do not have an access to Mac OS X, so I would appreciate any help with that platform.
 
 ## Manuals
 
