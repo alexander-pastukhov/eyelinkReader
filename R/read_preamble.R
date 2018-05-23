@@ -28,5 +28,5 @@ read_preamble <- function(file){
 
 #' @export
 print.edfR_preamble <- function(x, ...){
-  preamble_output <- lapply(preamble, function(x){cat(x); cat("\n")})
+  preamble_output <- lapply(x, function(y){cat(y); cat("\n")})
 }
