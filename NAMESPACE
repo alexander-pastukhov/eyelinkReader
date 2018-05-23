@@ -1,5 +1,10 @@
-import(Rcpp)
+useDynLib(edfR)
 
+import(Rcpp)
+importFrom(dplyr, `%>%`)
+importFrom(dplyr, filter)
+importFrom(dplyr, mutate)
+importFrom(dplyr, select)
 
 export(read_edf)
 S3method(print,edfRecording)
@@ -14,9 +19,5 @@ export(extract_fixations)
 export(extract_blinks)
 export(extract_variables)
 
-useDynLib(edfR)
 
-importFrom(dplyr, `%>%`)
-importFrom(dplyr, filter)
-importFrom(dplyr, mutate)
-importFrom(dplyr, select)
+
