@@ -58,7 +58,8 @@ and recordings, as well as specific events such as saccades, fixations, blinks, 
 recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 
 # Import events and samples (only time and  screen gaze coordinates)
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), sample_attributes = c('time', 'gx', 'gy'))
+recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+                      sample_attributes = c('time', 'gx', 'gy'))
 
 # Import events and samples (all attributes)
 recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_samples= TRUE)

@@ -10,13 +10,15 @@
 #'
 #' @examples
 #' # saccades are extracted during the initial read_edf call
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_saccades = TRUE)
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#'                       import_saccades = TRUE)
 #'
 #' # saccades are extracted during the initial read_edf call by default
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 #'
 #' # saccades are extracted later
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_saccades = FALSE)
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#'                       import_saccades = FALSE)
 #' recording$saccades <- extract_saccades(recording$events)
 #' @importFrom dplyr %>%
 #' @importFrom dplyr filter mutate select
@@ -40,13 +42,15 @@ extract_saccades <- function(events){
 #'
 #' @examples
 #' # blinks are extracted during the initial read_edf call
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_blinks = TRUE)
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#'                       import_blinks = TRUE)
 #'
 #' # blinks are extracted during the initial read_edf call by default
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 #'
 #' # blinks are extracted later
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_blinks = FALSE)
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#'                       import_blinks = FALSE)
 #' recording$blinks <- extract_blinks(recording$events)
 #' @importFrom dplyr %>%
 #' @importFrom dplyr filter mutate select
@@ -70,13 +74,15 @@ extract_blinks <- function(events){
 #'
 #' @examples
 #' # fixations are extracted during the initial read_edf call
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_fixations = TRUE)
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#'                       import_fixations = TRUE)
 #'
 #' # fixations are extracted during the initial read_edf call by default
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 #'
 #' # fixations are extracted later
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_fixations = FALSE)
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#'                       import_fixations = FALSE)
 #' recording$fixations <- extract_fixations(recording$events)
 #' @importFrom dplyr %>%
 #' @importFrom dplyr filter mutate select
@@ -100,13 +106,15 @@ extract_fixations <- function(events){
 #'
 #' @examples
 #' # variables are extracted during the initial read_edf call
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_variables = TRUE)
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#'                       import_variables = TRUE)
 #'
 #' # variables are extracted during the initial read_edf call by default
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 #'
 #' # variables are extracted later
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_variables = FALSE)
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#'                       import_variables = FALSE)
 #' recording$variables <- extract_variables(recording$events)
 #' @importFrom dplyr %>%
 #' @importFrom dplyr filter mutate select

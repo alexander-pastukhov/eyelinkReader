@@ -18,13 +18,15 @@ as it is envoked during the \code{\link{read_edf}} with default settings (\emph{
 }
 \examples{
 # variables are extracted during the initial read_edf call
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_variables = TRUE)
+recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+                      import_variables = TRUE)
 
 # variables are extracted during the initial read_edf call by default
 recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 
 # variables are extracted later
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_variables = FALSE)
+recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+                      import_variables = FALSE)
 recording$variables <- extract_variables(recording$events)
 }
 \seealso{
