@@ -1,4 +1,4 @@
-Package: edfR
+Package: edfReader
 Date: 2018-05-10
 Title: Imports Gaze Data from Eyelink Eye Tracker
 Version: 0.0.1.9000
