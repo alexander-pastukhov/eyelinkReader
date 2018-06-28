@@ -132,3 +132,34 @@ extract_variables <- function(events){
 
   return(variables)
 }
+
+
+
+#' Extract triggers, a custom message type
+#'
+#' @description Extracts trigger events, messages that adhere to a "TRIGGER label" format.
+#' Their purpose is to identify the time instance of specific interest.
+#' Please note that due to a non-standard nature of this function \strong{is not} envoked
+#' during the \code{\link{read_edf}} call and you need to call it separately.
+#' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
+#'
+#' @return A data.frame with information on \code{\link[=edfRecording$triggers]{triggers}}
+#' @seealso read_edf, edfRecording
+#' @export
+#'
+#' @examples
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+#' recording$triggers <- extract_triggers(recording$events)
+#' @importFrom dplyr %>%
+#' @importFrom dplyr filter mutate select
+extract_triggers <- function(events){
+  # Extracts key events: my own custom set of messages, not part of the EDF API!
+  # Looks for events coded as 'KEY_EVENT <message>'
+  # Returns trial, key event id (<message>), and timing information
+
+  triggers <- events %>%
+    dplyr::filter(grepl('^TRIGGER', message)) %>%
+    dplyr::mutate(label= trimws(gsub('TRIGGER', '', message))) %>%
+    dplyr::select(trial, sttime, sttime_rel, label)
+  return(triggers)
+}
