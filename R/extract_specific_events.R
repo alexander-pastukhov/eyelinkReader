@@ -157,11 +157,10 @@ extract_triggers <- function(events){
   # Looks for events coded as 'KEY_EVENT <message>'
   # Returns trial, key event id (<message>), and timing information
 
-  triggers <- events %>%
-    dplyr::filter(grepl('^TRIGGER', message)) %>%
-    dplyr::mutate(label= trimws(gsub('TRIGGER', '', message))) %>%
-    dplyr::select(trial, sttime, sttime_rel, label)
-  return(triggers)
+  events %>%
+  dplyr::filter(grepl('^TRIGGER', message)) %>%
+  dplyr::mutate(label= trimws(gsub('TRIGGER', '', message))) %>%
+  dplyr::select(trial, sttime, sttime_rel, label)
 }
 
 
