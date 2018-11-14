@@ -163,3 +163,25 @@ extract_triggers <- function(events){
     dplyr::select(trial, sttime, sttime_rel, label)
   return(triggers)
 }
+
+
+#' Extracts rectangular areas of interest
+#'
+#' @description Extracts rectangular areas of interest (AOI), as defined by "!V IAREA RECTANGLE" command.
+#' Specifically, we expect it to be in format \code{!V IAREA RECTANGLE <index> <left> <top> <right> <bottom> <label>}, where
+#' \code{<label>} is a string label and all other variables are integer.
+#'
+#' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
+#'
+#' @return A data.frame with the list of \code{\link[=edfRecording$AOIs]{AOIs}}
+#' @export
+#'
+#' @examples
+extract_AOIs <- function(events){
+  events %>%
+  filter(str_detect(message, '^!V IAREA RECTANGLE')) %>%
+  separate(col= message,
+           into= c("Exclamation", "IAREA", "RECTANGLE", "index", "left", "top", "right", "bottom", "label"),
+           sep= ' ', remove = FALSE) %>%
+  select(trial, sttime, sttime_rel, index, label, left, top, right, bottom)
+}
