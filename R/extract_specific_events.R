@@ -99,6 +99,8 @@ extract_fixations <- function(events){
 #' @description Extracts variables from the events table. Normally, you don't need to call this function yourself,
 #' as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_variables = TRUE}).
 #' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
+#' @param wideFormat Logical, if \code{TRUE} spreads variables into columns turning table into a wide format
+#' with a single row per trial. Timing information is dropped. Defaults to \code{TRUE}.
 #'
 #' @return A data.frame with information on \code{\link[=edfRecording$variables]{variables}}
 #' @seealso read_edf, edfRecording
@@ -118,7 +120,7 @@ extract_fixations <- function(events){
 #' recording$variables <- extract_variables(recording$events)
 #' @importFrom dplyr %>%
 #' @importFrom dplyr filter mutate select
-extract_variables <- function(events){
+extract_variables <- function(events, wideFormat= TRUE){
   variables <- events %>%
     dplyr::filter(grepl('TRIAL_VAR', message)) %>%
     tidyr::separate(message, c('header', 'assignment'), sep='TRIAL_VAR', remove=FALSE) %>%
@@ -130,7 +132,13 @@ extract_variables <- function(events){
       value= trimws(value)) %>%
     dplyr::select(trial, sttime, sttime_rel, variable, value)
 
-  return(variables)
+  if (wideFormat){
+    variables <- variables %>%
+      select(trial, variable, value) %>%
+      tidyr::spread(key= variable, value= value)
+  }
+
+  variables
 }
 
 
@@ -142,6 +150,10 @@ extract_variables <- function(events){
 #' Please note that due to a non-standard nature of this function \strong{is not} envoked
 #' during the \code{\link{read_edf}} call and you need to call it separately.
 #' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
+#' @param wideFormat Whether to convert the table to the wide format, so that each trigger
+#' is a separate column.  Works well only if same trigger sequence is used in every trial. Possible values
+#' \code{"absolute"} (values represent aboslute time), \code{"relative"} (relative to the trial start),
+#' or \code{NULL} (narrow format).Defaults to \code{NULL}.
 #'
 #' @return A data.frame with information on \code{\link[=edfRecording$triggers]{triggers}}
 #' @seealso read_edf, edfRecording
@@ -152,15 +164,28 @@ extract_variables <- function(events){
 #' recording$triggers <- extract_triggers(recording$events)
 #' @importFrom dplyr %>%
 #' @importFrom dplyr filter mutate select
-extract_triggers <- function(events){
+extract_triggers <- function(events, wideFormat=NULL){
   # Extracts key events: my own custom set of messages, not part of the EDF API!
   # Looks for events coded as 'KEY_EVENT <message>'
   # Returns trial, key event id (<message>), and timing information
 
-  events %>%
-  dplyr::filter(grepl('^TRIGGER', message)) %>%
-  dplyr::mutate(label= trimws(gsub('TRIGGER', '', message))) %>%
-  dplyr::select(trial, sttime, sttime_rel, label)
+  triggers <- events %>%
+    dplyr::filter(grepl('^TRIGGER', message)) %>%
+    dplyr::mutate(label= trimws(stringr::str_replace(message, 'TRIGGER', ''))) %>%
+    dplyr::select(trial, sttime, sttime_rel, label)
+
+  if (wideFormat == "absolute"){
+    triggers <- triggers %>%
+      select(trial, sttime, label) %>%
+      tidyr::spread(key= label, value= sttime)
+  }
+  else if (wideFormat == "relative"){
+    triggers <- triggers %>%
+      select(trial, sttime_rel, label) %>%
+      tidyr::spread(key= label, value= sttime_rel)
+  }
+
+  triggers
 }
 
 
@@ -176,11 +201,18 @@ extract_triggers <- function(events){
 #' @export
 #'
 #' @examples
+#' gaze <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+#' AOIs <- extract_AOIs(gaze$events)
 extract_AOIs <- function(events){
   events %>%
-  filter(str_detect(message, '^!V IAREA RECTANGLE')) %>%
-  separate(col= message,
-           into= c("Exclamation", "IAREA", "RECTANGLE", "index", "left", "top", "right", "bottom", "label"),
-           sep= ' ', remove = FALSE) %>%
-  select(trial, sttime, sttime_rel, index, label, left, top, right, bottom)
+  dplyr::filter(stringr::str_detect(message, '^!V IAREA RECTANGLE')) %>%
+  tidyr::separate(col= message,
+        into= c("Exclamation", "IAREA", "RECTANGLE", "index", "left", "top", "right", "bottom", "label"),
+        sep= ' ', remove = FALSE) %>%
+  dplyr::select(trial, sttime, sttime_rel, index, label, left, top, right, bottom) %>%
+  dplyr::mutate(left= as.numeric(left),
+        right= as.numeric(right),
+        top= as.numeric(top),
+        bottom= as.numeric(bottom),
+        index= as.integer(index))
 }
