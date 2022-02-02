@@ -2,13 +2,23 @@
 % Please edit documentation in R/read_edf.R
 \name{read_edf}
 \alias{read_edf}
-\title{Read EDF file}
+\title{Read EDF file with gaze data recorded by SR Research Eyelink Eyetracker}
 \usage{
-read_edf(file, consistency = "check consistency and report",
-  import_events = TRUE, import_recordings = TRUE, import_samples = FALSE,
-  sample_attributes = NULL, start_marker = "TRIALID",
-  end_marker = "TRIAL OK", import_saccades = TRUE, import_blinks = TRUE,
-  import_fixations = TRUE, import_variables = TRUE, verbose = TRUE)
+read_edf(
+  file,
+  consistency = "check consistency and report",
+  import_events = TRUE,
+  import_recordings = TRUE,
+  import_samples = FALSE,
+  sample_attributes = NULL,
+  start_marker = "TRIALID",
+  end_marker = "TRIAL OK",
+  import_saccades = TRUE,
+  import_blinks = TRUE,
+  import_fixations = TRUE,
+  import_variables = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{file}{full name of the EDF file}
@@ -50,7 +60,8 @@ an \code{\link{edfRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }
 \description{
-Reads EDF file and returns an \code{\link{edfRecording}} object that contains events, samples,
+Reads EDF file with gaze data recorded by SR Research Eyelink Eyetracker
+and returns an \code{\link{edfRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }
 \examples{
@@ -62,6 +73,7 @@ recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
                       sample_attributes = c('time', 'gx', 'gy'))
 
 # Import events and samples (all attributes)
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_samples= TRUE)
+recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+                      import_samples= TRUE)
 
 }
