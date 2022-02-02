@@ -1,6 +1,6 @@
 #' Print info about \code{\link{edfRecording}}
 #'
-#' @param x \code{\link{edfRecording} object
+#' @param x \code{\link{edfRecording}} object
 #' @param ...
 #'
 #' @return
