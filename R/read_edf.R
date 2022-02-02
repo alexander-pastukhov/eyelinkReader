@@ -28,6 +28,8 @@
 #'
 #' @return an \code{\link{edfRecording}} object that contains events, samples,
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
+#' @export
+#' @importFrom fs file_exists
 #' @examples
 #' # Import only events and recordings information
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
@@ -39,31 +41,48 @@
 #' # Import events and samples (all attributes)
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
 #'                       import_samples= TRUE)
-#'
-#' @export
 read_edf <- function(file,
-                     consistency= 'check consistency and report',
-                     import_events= TRUE,
-                     import_recordings= TRUE,
-                     import_samples= FALSE,
-                     sample_attributes= NULL,
-                     start_marker= 'TRIALID',
-                     end_marker= 'TRIAL OK',
-                     import_saccades= TRUE,
-                     import_blinks= TRUE,
-                     import_fixations= TRUE,
-                     import_variables= TRUE,
-                     verbose= TRUE){
+                     consistency = 'check consistency and report',
+                     import_events = TRUE,
+                     import_recordings = TRUE,
+                     import_samples = FALSE,
+                     sample_attributes = NULL,
+                     start_marker = 'TRIALID',
+                     end_marker = 'TRIAL OK',
+                     import_saccades = TRUE,
+                     import_blinks = TRUE,
+                     import_fixations = TRUE,
+                     import_variables = TRUE,
+                     verbose = TRUE){
+  # sanity checks before we pass parameters to C-code
+  if (!fs::file_exists(file)) stop("File not found.")
+  check_logical_flag(import_events)
+  check_logical_flag(import_recordings)
+  check_logical_flag(import_saccades)
+  check_logical_flag(import_blinks)
+  check_logical_flag(import_fixations)
+  check_logical_flag(import_variables)
+  check_logical_flag(verbose)
+
+
 
   # converting consistency to integer constant that C-code understands
-  requested_consistency <-  check_consistency_flag(consistency)
+  requested_consistency <- check_consistency_flag(consistency)
 
   # figuring out which sample attributes to import, if any
   sample_attr_flag <- logical_index_for_sample_attributes(import_samples, sample_attributes)
   import_samples <- sum(sample_attr_flag) > 0
 
   # importing data
-  edf_recording<- read_edf_file(file, requested_consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker, end_marker, verbose)
+  edf_recording<- read_edf_file(file,
+                                requested_consistency,
+                                import_events,
+                                import_recordings,
+                                import_samples,
+                                sample_attr_flag,
+                                start_marker,
+                                end_marker,
+                                verbose)
 
   # adding preamble
   edf_recording$preamble <- read_preamble(file)
