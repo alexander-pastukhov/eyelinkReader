@@ -3,12 +3,11 @@
 \docType{package}
 \name{edfR}
 \alias{edfR}
-\alias{edfR-package}
-\title{edfR}
+\title{eyelinkReader}
 \description{
-Imports eye data recorded by an Eyelink eye tracker from an EDF file.
+Imports gazre data recorded by a SR Research Eyelink eye tracker from an EDF file.
 Includes options to import events and/or recorded samples and extract
-individual events such as saccades, fixatoins, blinks, and recorded variables.
+individual events such as saccades, fixations, blinks, and recorded variables.
 }
 \details{
 Please note that although this package is licensed for use under the MIT software license,

@@ -75,5 +75,4 @@ recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
 # Import events and samples (all attributes)
 recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
                       import_samples= TRUE)
-
 }

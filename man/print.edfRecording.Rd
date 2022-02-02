@@ -7,6 +7,8 @@
 \method{print}{edfRecording}(x, ...)
 }
 \arguments{
+\item{x}{\code{\link{edfRecording}} object}
+
 \item{...}{}
 }
 \value{
