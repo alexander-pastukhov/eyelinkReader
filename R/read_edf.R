@@ -75,15 +75,15 @@ read_edf <- function(file,
   import_samples <- sum(sample_attr_flag) > 0
 
   # importing data
-  edf_recording<- read_edf_file(file,
-                                requested_consistency,
-                                import_events,
-                                import_recordings,
-                                import_samples,
-                                sample_attr_flag,
-                                start_marker,
-                                end_marker,
-                                verbose)
+  edf_recording <- read_edf_file(file,
+                                 requested_consistency,
+                                 import_events,
+                                 import_recordings,
+                                 import_samples,
+                                 sample_attr_flag,
+                                 start_marker,
+                                 end_marker,
+                                 verbose)
 
   # adding preamble
   edf_recording$preamble <- read_preamble(file)
@@ -97,7 +97,7 @@ read_edf <- function(file,
   edf_recording$headers <- data.frame(edf_recording$headers)
   edf_recording$headers <- convert_header_codes(edf_recording$headers);
 
-    # replacing -32768 with NA and converting lists to data.frames
+  # replacing -32768 with NA and converting lists to data.frames
   if (import_samples){
     edf_recording$samples <- data.frame(convert_NAs(data.frame(edf_recording$samples)))
   }
@@ -140,34 +140,4 @@ read_edf <- function(file,
   return (edf_recording);
 }
 
-#' @export
-print.edfRecording <- function(x, ...){
-  if (nrow(x$headers)==1){
-    trialsN <- 'one trial'
-  }
-  else{
-    trialsN <- sprintf('%d trials', nrow(x$headers))
-  }
 
-  if ('events' %in% names(x)){
-    if ('samples' %in% names(x))
-    {
-      cat(sprintf('%d events and %d samples in %s.\n', nrow(x$events), nrow(x$samples), trialsN))
-    }
-    else{
-      cat(sprintf('%d events in %s.\n', nrow(x$events), trialsN))
-    }
-  }
-  else{
-    if ('samples' %in% names(x))
-    {
-      cat(sprintf('%d samples in %s.\n', nrow(x$samples), trialsN))
-    }
-    else{
-      cat(sprintf('%s. Neither events nor samples were imported.', trialsN))
-    }
-  }
-
-  cat('Preamble:\n')
-  print(x$preamble)
-}
