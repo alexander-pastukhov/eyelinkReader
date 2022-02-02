@@ -1,6 +1,7 @@
-#' Read EDF file
+#' Read EDF file with gaze data recorded by SR Research Eyelink Eyetracker
 #'
-#' Reads EDF file and returns an \code{\link{edfRecording}} object that contains events, samples,
+#' Reads EDF file with gaze data recorded by SR Research Eyelink Eyetracker
+#' and returns an \code{\link{edfRecording}} object that contains events, samples,
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 #'
 #' @param file full name of the EDF file
@@ -36,7 +37,8 @@
 #'                       sample_attributes = c('time', 'gx', 'gy'))
 #'
 #' # Import events and samples (all attributes)
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_samples= TRUE)
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#'                       import_samples= TRUE)
 #'
 #' @export
 read_edf <- function(file,
@@ -54,37 +56,11 @@ read_edf <- function(file,
                      verbose= TRUE){
 
   # converting consistency to integer constant that C-code understands
-  requested_consistency <-  factor(consistency, levels= c('no consistency check', 'check consistency and report', 'check consistency and fix'))
-  if (is.na(requested_consistency)){
-    warning(sprintf('Bad consistency check value "%s", defaulting to "check consistency and report".', consistency))
-    requested_consistency <- 1
-  }
-  else{
-    requested_consistency <- as.numeric(requested_consistency) -1
-  }
+  requested_consistency <-  check_consistency_flag(consistency)
 
   # figuring out which sample attributes to import, if any
-  sample_attr_labels <- c('time', 'px', 'py', 'hx', 'hy', 'pa', 'gx', 'gy', 'rx', 'ry', 'gxvel', 'gyvel', 'hxvel', 'hyvel', 'rxvel', 'ryvel', 'fgxvel', 'fgyvel', 'fhxvel', 'fhyvel', 'frxvel', 'fryvel', 'hdata', 'flags', 'input', 'buttons', 'htype', 'errors')
-  if ((import_samples) || (!is.null(sample_attributes))){
-
-    if (is.null(sample_attributes) ){
-      sample_attr_flag <- rep(TRUE, times = length(sample_attr_labels))
-    }
-    else{
-      sample_attr_flag <- rep(FALSE, times = length(sample_attr_labels))
-      sample_attr_flag[match(sample_attributes, sample_attr_labels)] <- TRUE
-      if (sum(sample_attr_flag)==0){
-        warning('import_samples flag is TRUE, but no valid sample attributes were provided. No samples will be imported.');
-        import_samples= FALSE;
-      }
-      else{
-        import_samples= TRUE;
-      }
-    }
-  }
-  else{
-    sample_attr_flag <- rep(FALSE, times = length(sample_attr_labels))
-  }
+  sample_attr_flag <- logical_index_for_sample_attributes(import_samples, sample_attributes)
+  import_samples <- sum(sample_attr_flag) > 0
 
   # importing data
   edf_recording<- read_edf_file(file, requested_consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker, end_marker, verbose)
