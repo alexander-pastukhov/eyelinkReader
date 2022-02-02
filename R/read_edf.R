@@ -54,6 +54,7 @@ read_edf <- function(file,
                      import_fixations = TRUE,
                      import_variables = TRUE,
                      verbose = TRUE){
+
   # sanity checks before we pass parameters to C-code
   if (!fs::file_exists(file)) stop("File not found.")
   check_logical_flag(import_events)
@@ -63,8 +64,8 @@ read_edf <- function(file,
   check_logical_flag(import_fixations)
   check_logical_flag(import_variables)
   check_logical_flag(verbose)
-
-
+  check_string_parameter(start_marker)
+  check_string_parameter(end_marker)
 
   # converting consistency to integer constant that C-code understands
   requested_consistency <- check_consistency_flag(consistency)
