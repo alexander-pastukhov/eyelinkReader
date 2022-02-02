@@ -14,6 +14,8 @@ logical_index_for_sample_attributes <- function(import_samples, sample_attribute
                           'gxvel', 'gyvel', 'hxvel', 'hyvel', 'rxvel', 'ryvel',
                           'fgxvel', 'fgyvel', 'fhxvel', 'fhyvel', 'frxvel', 'fryvel',
                           'hdata', 'flags', 'input', 'buttons', 'htype', 'errors')
+  # checking for validity
+  check_logical_flag(import_samples)
 
   # definitely no import, neither a logical flag nor attribute names
   if ((!import_samples) && is.null(sample_attributes)) {
