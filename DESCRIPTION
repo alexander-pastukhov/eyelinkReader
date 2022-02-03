@@ -1,10 +1,11 @@
 Package: eyelinkReader
 Title: Import and Preprocess Gaze Data for Eyelink Eyetracker
 Version: 0.0.1.9000
-Authors@R: c(
-  person("Alexander (Sasha)", "Pastukhov",
+Authors@R:
+  person(given = "Alexander",
+         family = "Pastukhov",
          role = c("aut", "cre"),
-         email ="pastukhov.alexander@gmail.com"),
+         email ="pastukhov.alexander@gmail.com",
          comment = c(ORCID = "0000-0002-8738-8591"))
 License: GPL (>= 3)
 URL: https://github.com/alexander-pastukhov/eyelinkReader
