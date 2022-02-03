@@ -24,8 +24,8 @@
 #' @importFrom dplyr filter mutate select
 extract_saccades <- function(events){
   saccades <- events %>%
-    dplyr::filter(type=='ENDSACC') %>%
-    dplyr::mutate(duration= entime-sttime) %>%
+    dplyr::filter(type == 'ENDSACC') %>%
+    dplyr::mutate(duration = .data$entime - .data$sttime) %>%
     dplyr::select(-time, -type, -read, -status, -flags, -input, -buttons, -parsedby, -message)
   return(saccades)
 }
