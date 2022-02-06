@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{\code{\link{edfRecording}} object}
 
-\item{...}{}
+\item{...}{Addition parameters (unused)}
 }
 \value{
 

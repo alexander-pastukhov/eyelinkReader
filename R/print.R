@@ -1,7 +1,7 @@
 #' Print info about \code{\link{edfRecording}}
 #'
 #' @param x \code{\link{edfRecording}} object
-#' @param ...
+#' @param ... Addition parameters (unused)
 #'
 #' @return
 #' @export

@@ -18,5 +18,5 @@ logical vector
 Checks validity of sample attribute vector and returns logical indexes.
 }
 \examples{
-logical_index_for_sample_attributes('time', 'gx', 'gy')
+logical_index_for_sample_attributes(TRUE, c('time', 'gx', 'gy'))
 }

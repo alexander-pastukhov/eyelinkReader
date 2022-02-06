@@ -7,6 +7,8 @@
 #' @return A data.frame with information on \code{\link[=edfRecording$saccades]{saccades}}
 #' @seealso read_edf, edfRecording
 #' @export
+#' @importFrom dplyr %>% filter mutate select
+#' @importFrom rlang .data
 #'
 #' @examples
 #' # saccades are extracted during the initial read_edf call
@@ -20,14 +22,13 @@
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
 #'                       import_saccades = FALSE)
 #' recording$saccades <- extract_saccades(recording$events)
-#' @importFrom dplyr %>%
-#' @importFrom dplyr filter mutate select
+#' @importFrom dplyr %>% filter mutate select
+#' @importFrom rlang .data
 extract_saccades <- function(events){
-  saccades <- events %>%
-    dplyr::filter(type == 'ENDSACC') %>%
+  events %>%
+    dplyr::filter(.data$type == 'ENDSACC') %>%
     dplyr::mutate(duration = .data$entime - .data$sttime) %>%
-    dplyr::select(-time, -type, -read, -status, -flags, -input, -buttons, -parsedby, -message)
-  return(saccades)
+    dplyr::select(-c("time", "type", "read", "status", "flags", "input", "buttons", "parsedby", "message"))
 }
 
 #' Extract blinks
@@ -39,6 +40,8 @@ extract_saccades <- function(events){
 #' @return A data.frame with information on \code{\link[=edfRecording$blinks]{blinks}}
 #' @seealso read_edf, edfRecording
 #' @export
+#' @importFrom rlang .data
+#' @importFrom dplyr %>% filter mutate select
 #'
 #' @examples
 #' # blinks are extracted during the initial read_edf call
@@ -52,14 +55,11 @@ extract_saccades <- function(events){
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
 #'                       import_blinks = FALSE)
 #' recording$blinks <- extract_blinks(recording$events)
-#' @importFrom dplyr %>%
-#' @importFrom dplyr filter mutate select
 extract_blinks <- function(events){
-  blinks <- events %>%
-    dplyr::filter(type=='ENDBLINK') %>%
-    dplyr::mutate(duration= entime-sttime) %>%
-    dplyr::select(trial, sttime, entime, sttime_rel, entime_rel, duration, eye)
-  return(blinks)
+  events %>%
+    dplyr::filter(.data$type == 'ENDBLINK') %>%
+    dplyr::mutate(duration = .data$entime - .data$sttime) %>%
+    dplyr::select(c("trial", "sttime", "entime", "sttime_rel", "entime_rel", "duration", "eye"))
 }
 
 #' Extract fixations
@@ -70,6 +70,8 @@ extract_blinks <- function(events){
 #'
 #' @return A data.frame with information on \code{\link[=edfRecording$fixations]{fixations}}
 #' @seealso read_edf, edfRecording
+#' @importFrom rlang .data
+#' @importFrom dplyr %>% filter mutate select
 #' @export
 #'
 #' @examples
@@ -84,14 +86,11 @@ extract_blinks <- function(events){
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
 #'                       import_fixations = FALSE)
 #' recording$fixations <- extract_fixations(recording$events)
-#' @importFrom dplyr %>%
-#' @importFrom dplyr filter mutate select
 extract_fixations <- function(events){
-  fixations <- events %>%
-    dplyr::filter(type=='ENDFIX') %>%
-    dplyr::mutate(duration= entime-sttime) %>%
-    dplyr::select(-time, -type, -read, -status, -flags, -input, -buttons, -parsedby, -message)
-  return(fixations)
+  events %>%
+    dplyr::filter(.data$type == 'ENDFIX') %>%
+    dplyr::mutate(duration = .data$entime - .data$sttime) %>%
+    dplyr::select(-c("time", "type", "read", "status", "flags", "input", "buttons", "parsedby", "message"))
 }
 
 #' Extract variables
@@ -103,6 +102,7 @@ extract_fixations <- function(events){
 #' @return A data.frame with information on \code{\link[=edfRecording$variables]{variables}}
 #' @seealso read_edf, edfRecording
 #' @export
+#' @importFrom dplyr %>% filter mutate select
 #'
 #' @examples
 #' # variables are extracted during the initial read_edf call
@@ -116,23 +116,17 @@ extract_fixations <- function(events){
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
 #'                       import_variables = FALSE)
 #' recording$variables <- extract_variables(recording$events)
-#' @importFrom dplyr %>%
-#' @importFrom dplyr filter mutate select
 extract_variables <- function(events){
-  variables <- events %>%
+  events %>%
     dplyr::filter(grepl('TRIAL_VAR', message)) %>%
-    tidyr::separate(message, c('header', 'assignment'), sep='TRIAL_VAR', remove=FALSE) %>%
-    dplyr::mutate(assignment= gsub('=', ' ', assignment)) %>%
-    dplyr::mutate(assignment2= sub(' ', "=", trimws(assignment))) %>%
+    tidyr::separate(.data$message, c('header', 'assignment'), sep='TRIAL_VAR', remove=FALSE) %>%
+    dplyr::mutate(assignment = gsub('=', ' ', .data$assignment)) %>%
+    dplyr::mutate(assignment2 = sub(' ', "=", trimws(.data$assignment))) %>%
     tidyr::separate(assignment2, c('variable', 'value'), sep='=', remove=FALSE) %>%
-    dplyr::mutate(
-      variable= trimws(variable),
-      value= trimws(value)) %>%
-    dplyr::select(trial, sttime, sttime_rel, variable, value)
-
-  return(variables)
+    dplyr::mutate(variable = trimws(.data$variable),
+                  value = trimws(.data$value)) %>%
+    dplyr::select(c("trial", "sttime", "sttime_rel", "variable", "value"))
 }
-
 
 
 #' Extract triggers, a custom message type
@@ -146,20 +140,19 @@ extract_variables <- function(events){
 #' @return A data.frame with information on \code{\link[=edfRecording$triggers]{triggers}}
 #' @seealso read_edf, edfRecording
 #' @export
+#' @importFrom dplyr %>% filter mutate select
+#' @importFrom rlang .data
 #'
 #' @examples
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #' recording$triggers <- extract_triggers(recording$events)
-#' @importFrom dplyr %>%
-#' @importFrom dplyr filter mutate select
 extract_triggers <- function(events){
   # Extracts key events: my own custom set of messages, not part of the EDF API!
   # Looks for events coded as 'KEY_EVENT <message>'
   # Returns trial, key event id (<message>), and timing information
 
-  triggers <- events %>%
+  events %>%
     dplyr::filter(grepl('^TRIGGER', message)) %>%
-    dplyr::mutate(label= trimws(gsub('TRIGGER', '', message))) %>%
-    dplyr::select(trial, sttime, sttime_rel, label)
-  return(triggers)
+    dplyr::mutate(label = trimws(gsub('TRIGGER', '', .data$message))) %>%
+    dplyr::select(c("trial", "sttime", "sttime_rel", "label"))
 }

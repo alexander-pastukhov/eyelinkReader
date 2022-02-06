@@ -10,5 +10,5 @@ library_version()
 Returns version of the EDF API library used to interface an EDF file.
 }
 \examples{
-edfR::library_version()
+eyelinkReader::library_version()
 }

@@ -11,8 +11,8 @@
 #' be redistributed in any manner.
 #'
 #' @docType package
-#' @name eyelinkReader-package
 #' @import Rcpp
+#' @import RcppProgress
 #' @importFrom Rcpp evalCpp
 #' @useDynLib eyelinkReader
 #' @name eyelinkReader

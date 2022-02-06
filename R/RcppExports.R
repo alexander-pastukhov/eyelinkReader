@@ -9,7 +9,7 @@ convert_NAs <- function(original_frame) {
 #' @description Returns version of the EDF API library used to interface an EDF file.
 #' @export
 #' @examples
-#' edfR::library_version()
+#' eyelinkReader::library_version()
 library_version <- function() {
     .Call('_eyelinkReader_library_version', PACKAGE = 'eyelinkReader')
 }

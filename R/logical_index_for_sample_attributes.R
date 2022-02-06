@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' logical_index_for_sample_attributes('time', 'gx', 'gy')
+#' logical_index_for_sample_attributes(TRUE, c('time', 'gx', 'gy'))
 logical_index_for_sample_attributes <- function(import_samples, sample_attributes){
   sample_attr_labels <- c('time', 'px', 'py', 'hx', 'hy', 'pa',
                           'gx', 'gy', 'rx', 'ry',
