@@ -3,6 +3,7 @@
   print(parent.env(environment())) # Don't really do this.
   variable <- 42
   assign("variable", variable, envir = parent.env(environment()))
+  # use eyelinkReader:::variable triple column
 
   # pkg_ns_env <- parent.env(environment())
   # temp_dir <- tempdir()
