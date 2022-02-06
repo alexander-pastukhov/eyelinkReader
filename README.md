@@ -12,7 +12,7 @@ To install, run
 ```
 library("devtools")
 options(devtools.install.args = "--no-multiarch") # only relevant for Windows 
-install_github("alexander-pastukhov/edfReader", dependencies=TRUE)
+install_github("alexander-pastukhov/eyelinkReader", dependencies=TRUE)
 ```
 
 At the moment, this works for me on Linux and 64-bit Windows, but not on 32-bit Windows. Also, currently I do not have an access to Mac OS X, so I would appreciate any help with that platform.
