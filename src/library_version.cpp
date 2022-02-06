@@ -7,7 +7,7 @@ using namespace Rcpp;
 //' @description Returns version of the EDF API library used to interface an EDF file.
 //' @export
 //' @examples
-//' edfR::library_version()
+//' eyelinkReader::library_version()
 //[[Rcpp::export]]
 CharacterVector library_version(){
   Rcpp::StringVector version_info(1);
