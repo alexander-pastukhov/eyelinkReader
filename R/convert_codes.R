@@ -6,6 +6,7 @@
 #'
 #' @return a modified trial_headers table
 #' @keywords internal
+#' @export
 convert_header_codes <- function(trial_headers){
   trial_headers$rec_state <- factor(trial_headers$rec_state, levels = c(0, 1), labels= c('END', 'START'))
   trial_headers$rec_record_type <- factor(trial_headers$rec_record_type, levels = c(1, 2, 3), labels= c('SAMPLES', 'EVENTS', 'SAMPLES and EVENTS'))
@@ -25,6 +26,7 @@ convert_header_codes <- function(trial_headers){
 #'
 #' @return a modified trial_recordings table
 #' @keywords internal
+#' @export
 convert_recording_codes <- function(trial_recordings){
   trial_recordingsstate <- factor(trial_recordings$state, levels = c(0, 1), labels= c('END', 'START'))
   trial_recordings$record_type <- factor(trial_recordings$record_type, levels = c(1, 2, 3), labels= c('SAMPLES', 'EVENTS', 'SAMPLES and EVENTS'))
