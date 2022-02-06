@@ -18,14 +18,14 @@ as it is envoked during the \code{\link{read_edf}} with default settings (\emph{
 }
 \examples{
 # blinks are extracted during the initial read_edf call
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
                       import_blinks = TRUE)
 
 # blinks are extracted during the initial read_edf call by default
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 
 # blinks are extracted later
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
                       import_blinks = FALSE)
 recording$blinks <- extract_blinks(recording$events)
 }

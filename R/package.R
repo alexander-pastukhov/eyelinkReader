@@ -1,6 +1,6 @@
 #' eyelinkReader
 #'
-#' Imports gazre data recorded by a SR Research Eyelink eye tracker from an EDF file.
+#' @description Imports gazre data recorded by a SR Research Eyelink eye tracker from an EDF file.
 #' Includes options to import events and/or recorded samples and extract
 #' individual events such as saccades, fixations, blinks, and recorded variables.
 #'
@@ -11,9 +11,9 @@
 #' be redistributed in any manner.
 #'
 #' @docType package
-#' @author Alexander (Sasha) Pastukhov
+#' @name eyelinkReader-package
 #' @import Rcpp
 #' @importFrom Rcpp evalCpp
-#' @useDynLib edfR
-#' @name edfR
+#' @useDynLib eyelinkReader
+#' @name eyelinkReader
 NULL

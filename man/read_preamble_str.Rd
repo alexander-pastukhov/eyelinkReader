@@ -15,6 +15,6 @@ Please, do not use this function directly. Instead, call \code{\link{read_preamb
 that provides a more consistent interface.
 }
 \examples{
-read_preamble(system.file("extdata", "example.edf", package = "edfR"))
+read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
 }
 \keyword{internal}

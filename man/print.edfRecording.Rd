@@ -18,6 +18,6 @@
 Print info about \code{\link{edfRecording}}
 }
 \examples{
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 print(recording)
 }

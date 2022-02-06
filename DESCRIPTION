@@ -23,6 +23,8 @@ LazyData: true
 LinkingTo: Rcpp, RcppProgress
 Imports:
   dplyr,
+  fs,
+  knitr,
   Rcpp,
   stringr,
   tidyr

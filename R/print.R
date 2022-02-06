@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #' print(recording)
 print.edfRecording <- function(x, ...){
   if (nrow(x$headers)==1){

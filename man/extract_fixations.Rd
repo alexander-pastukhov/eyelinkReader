@@ -18,14 +18,14 @@ as it is envoked during the \code{\link{read_edf}} with default settings (\emph{
 }
 \examples{
 # fixations are extracted during the initial read_edf call
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
                       import_fixations = TRUE)
 
 # fixations are extracted during the initial read_edf call by default
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 
 # fixations are extracted later
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
                       import_fixations = FALSE)
 recording$fixations <- extract_fixations(recording$events)
 }

@@ -18,14 +18,14 @@ as it is envoked during the \code{\link{read_edf}} with default settings (\emph{
 }
 \examples{
 # saccades are extracted during the initial read_edf call
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
                       import_saccades = TRUE)
 
 # saccades are extracted during the initial read_edf call by default
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 
 # saccades are extracted later
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
                       import_saccades = FALSE)
 recording$saccades <- extract_saccades(recording$events)
 }

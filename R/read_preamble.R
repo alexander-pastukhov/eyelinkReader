@@ -8,7 +8,7 @@
 #' @importFrom stringr str_split str_remove_all
 #'
 #' @examples
-#' read_preamble(system.file("extdata", "example.edf", package = "edfR"))
+#' read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
 read_preamble <- function(file){
   # getting the preamble as a single string and splitting it by new-line
   preamble <- read_preamble_str(file) %>%

@@ -16,5 +16,5 @@ an object of class \code{\link{edfR_preamble}}
 Read the preamble of the EDF file and parses it into an reading-friendly format
 }
 \examples{
-read_preamble(system.file("extdata", "example.edf", package = "edfR"))
+read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
 }

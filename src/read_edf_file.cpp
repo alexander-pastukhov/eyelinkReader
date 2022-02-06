@@ -43,7 +43,7 @@ EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadeve
 //' @return string with the preamble
 //' @keywords internal
 //' @examples
-//' read_preamble(system.file("extdata", "example.edf", package = "edfR"))
+//' read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
 //[[Rcpp::export]]
 std::string read_preamble_str(std::string filename){
   EDFFILE* edfFile= safely_open_edf_file(filename, 2, 0, 0);

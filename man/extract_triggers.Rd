@@ -19,7 +19,7 @@ Please note that due to a non-standard nature of this function \strong{is not} e
 during the \code{\link{read_edf}} call and you need to call it separately.
 }
 \examples{
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 recording$triggers <- extract_triggers(recording$events)
 }
 \seealso{

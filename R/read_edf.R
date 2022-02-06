@@ -32,14 +32,14 @@
 #' @importFrom fs file_exists
 #' @examples
 #' # Import only events and recordings information
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #'
 #' # Import events and samples (only time and  screen gaze coordinates)
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
 #'                       sample_attributes = c('time', 'gx', 'gy'))
 #'
 #' # Import events and samples (all attributes)
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
 #'                       import_samples= TRUE)
 read_edf <- function(file,
                      consistency = 'check consistency and report',
