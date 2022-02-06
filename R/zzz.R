@@ -1,6 +1,9 @@
 .onLoad <- function(libname, pkgname) {
+  print(environment()) # For demonstration purposes only;
+  print(parent.env(environment())) # Don't really do this.
   variable <- 42
   assign("variable", variable, envir = parent.env(environment()))
+
   # pkg_ns_env <- parent.env(environment())
   # temp_dir <- tempdir()
   # file.copy(system.file("cpp", "convert_NAs.cpp", package = "eyelinkReader"), temp_dir)
