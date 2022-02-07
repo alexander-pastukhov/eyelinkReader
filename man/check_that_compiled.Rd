@@ -20,5 +20,5 @@ Checks whether EDF API library was present and
 interface was successfully be compiled
 }
 \examples{
-check_that_compiled()
+check_that_compiled(fail_loudly = FALSE)
 }

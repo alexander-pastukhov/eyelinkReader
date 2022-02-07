@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' check_that_compiled()
+#' check_that_compiled(fail_loudly = FALSE)
 check_that_compiled <- function(fail_loudly = TRUE){
   is_compiled <- exists('read_edf_file',
                         where=paste0('package:', getPackageName(env())),
