@@ -4,10 +4,13 @@
 \alias{read_preamble}
 \title{Reads edf-file preamble}
 \usage{
-read_preamble(file)
+read_preamble(file, fail_loudly = TRUE)
 }
 \arguments{
 \item{file}{name of the EDF file}
+
+\item{fail_loudly}{logical, whether lack of compiled library means
+error (\code{TRUE}, default) or just warning (\code{FALSE}).}
 }
 \value{
 an object of class \code{\link{edfR_preamble}}
@@ -16,5 +19,6 @@ an object of class \code{\link{edfR_preamble}}
 Read the preamble of the EDF file and parses it into an reading-friendly format
 }
 \examples{
-read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"),
+              fail_loudly = FALSE) # for testing only, do not use this in production
 }
