@@ -14,6 +14,6 @@
 #' @author Alexander (Sasha) Pastukhov
 #' @import Rcpp
 #' @importFrom Rcpp evalCpp
-#' @useDynLib edfR
-#' @name edfR
+#' @useDynLib eyelinkR
+#' @name eyelinkR
 NULL

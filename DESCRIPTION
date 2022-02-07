@@ -14,4 +14,4 @@ NeedsCompilation: yes
 LazyData: true
 LinkingTo: Rcpp, RcppProgress
 Imports: dplyr, Rcpp, stringr, tidyr 
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.2

@@ -4,10 +4,13 @@
 \alias{extract_variables}
 \title{Extract variables}
 \usage{
-extract_variables(events)
+extract_variables(events, wideFormat = TRUE)
 }
 \arguments{
 \item{events}{An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.}
+
+\item{wideFormat}{Logical, if \code{TRUE} spreads variables into columns turning table into a wide format
+with a single row per trial. Timing information is dropped. Defaults to \code{TRUE}.}
 }
 \value{
 A data.frame with information on \code{\link[=edfRecording$variables]{variables}}

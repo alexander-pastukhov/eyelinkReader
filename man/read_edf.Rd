@@ -4,11 +4,21 @@
 \alias{read_edf}
 \title{Read EDF file}
 \usage{
-read_edf(file, consistency = "check consistency and report",
-  import_events = TRUE, import_recordings = TRUE, import_samples = FALSE,
-  sample_attributes = NULL, start_marker = "TRIALID",
-  end_marker = "TRIAL OK", import_saccades = TRUE, import_blinks = TRUE,
-  import_fixations = TRUE, import_variables = TRUE, verbose = TRUE)
+read_edf(
+  file,
+  consistency = "check consistency and report",
+  import_events = TRUE,
+  import_recordings = TRUE,
+  import_samples = FALSE,
+  sample_attributes = NULL,
+  start_marker = "TRIALID",
+  end_marker = "TRIAL OK",
+  import_saccades = TRUE,
+  import_blinks = TRUE,
+  import_fixations = TRUE,
+  import_variables = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{file}{full name of the EDF file}

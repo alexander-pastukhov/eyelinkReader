@@ -5,9 +5,14 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // convert_NAs
 List convert_NAs(List original_frame);
-RcppExport SEXP _edfR_convert_NAs(SEXP original_frameSEXP) {
+RcppExport SEXP _eyelinkReader_convert_NAs(SEXP original_frameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +23,7 @@ END_RCPP
 }
 // library_version
 CharacterVector library_version();
-RcppExport SEXP _edfR_library_version() {
+RcppExport SEXP _eyelinkReader_library_version() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -28,7 +33,7 @@ END_RCPP
 }
 // read_preamble_str
 std::string read_preamble_str(std::string filename);
-RcppExport SEXP _edfR_read_preamble_str(SEXP filenameSEXP) {
+RcppExport SEXP _eyelinkReader_read_preamble_str(SEXP filenameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -39,7 +44,7 @@ END_RCPP
 }
 // read_edf_file
 List read_edf_file(std::string filename, int consistency, bool import_events, bool import_recordings, bool import_samples, LogicalVector sample_attr_flag, std::string start_marker_string, std::string end_marker_string, bool verbose);
-RcppExport SEXP _edfR_read_edf_file(SEXP filenameSEXP, SEXP consistencySEXP, SEXP import_eventsSEXP, SEXP import_recordingsSEXP, SEXP import_samplesSEXP, SEXP sample_attr_flagSEXP, SEXP start_marker_stringSEXP, SEXP end_marker_stringSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _eyelinkReader_read_edf_file(SEXP filenameSEXP, SEXP consistencySEXP, SEXP import_eventsSEXP, SEXP import_recordingsSEXP, SEXP import_samplesSEXP, SEXP sample_attr_flagSEXP, SEXP start_marker_stringSEXP, SEXP end_marker_stringSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -58,14 +63,14 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_edfR_convert_NAs", (DL_FUNC) &_edfR_convert_NAs, 1},
-    {"_edfR_library_version", (DL_FUNC) &_edfR_library_version, 0},
-    {"_edfR_read_preamble_str", (DL_FUNC) &_edfR_read_preamble_str, 1},
-    {"_edfR_read_edf_file", (DL_FUNC) &_edfR_read_edf_file, 9},
+    {"_eyelinkReader_convert_NAs", (DL_FUNC) &_eyelinkReader_convert_NAs, 1},
+    {"_eyelinkReader_library_version", (DL_FUNC) &_eyelinkReader_library_version, 0},
+    {"_eyelinkReader_read_preamble_str", (DL_FUNC) &_eyelinkReader_read_preamble_str, 1},
+    {"_eyelinkReader_read_edf_file", (DL_FUNC) &_eyelinkReader_read_edf_file, 9},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_edfR(DllInfo *dll) {
+RcppExport void R_init_eyelinkReader(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
