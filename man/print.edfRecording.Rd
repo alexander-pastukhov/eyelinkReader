@@ -11,9 +11,6 @@
 
 \item{...}{Addition parameters (unused)}
 }
-\value{
-
-}
 \description{
 Print info about \code{\link{edfRecording}}
 }
