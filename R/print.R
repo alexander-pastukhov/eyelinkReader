@@ -2,8 +2,6 @@
 #'
 #' @param x \code{\link{edfRecording}} object
 #' @param ... Addition parameters (unused)
-#'
-#' @return
 #' @export
 #'
 #' @examples
