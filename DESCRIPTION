@@ -11,7 +11,7 @@ License: GPL (>= 3)
 URL: https://github.com/alexander-pastukhov/eyelinkReader
 BugReports: https://github.com/alexander-pastukhov/eyelinkReader/issues
 Depends:
-  R (>= 4.1.2),
+  R (>= 4.1.0),
   RcppProgress,
   rlang
 Description: Import gaze data, both events and samples from  edf
@@ -28,6 +28,7 @@ Imports:
   knitr,
   Rcpp,
   stringr,
-  tidyr
+  tidyr,
+  methods
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
