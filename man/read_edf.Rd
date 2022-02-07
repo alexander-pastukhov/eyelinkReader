@@ -17,7 +17,8 @@ read_edf(
   import_blinks = TRUE,
   import_fixations = TRUE,
   import_variables = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  fail_loudly = TRUE
 )
 }
 \arguments{
@@ -54,6 +55,9 @@ Please note that an \strong{empty} string \code{''} means that a trial lasts fro
 \item{import_variables}{logical, whether to extract stored variables into a separate table for convinience. Defaults to \code{TRUE}.}
 
 \item{verbose}{logical, whether the number of trials and the progress are shown in the console. Defaults to \code{TRUE}.}
+
+\item{fail_loudly}{logical, whether lack of compiled library means
+error (\code{TRUE}, default) or just warning (\code{FALSE}).}
 }
 \value{
 an \code{\link{edfRecording}} object that contains events, samples,
@@ -66,13 +70,16 @@ and recordings, as well as specific events such as saccades, fixations, blinks, 
 }
 \examples{
 # Import only events and recordings information
-recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                      fail_loudly = FALSE)
 
 # Import events and samples (only time and  screen gaze coordinates)
 recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                      sample_attributes = c('time', 'gx', 'gy'))
+                      sample_attributes = c('time', 'gx', 'gy'),
+                      fail_loudly = FALSE)
 
 # Import events and samples (all attributes)
 recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                      import_samples= TRUE)
+                      import_samples= TRUE,
+                      fail_loudly = FALSE)
 }

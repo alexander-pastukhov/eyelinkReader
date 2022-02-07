@@ -25,6 +25,8 @@
 #' @param import_fixations logical, whether to extract fixation events into a separate table for convinience. Defaults to \code{TRUE}.
 #' @param import_variables logical, whether to extract stored variables into a separate table for convinience. Defaults to \code{TRUE}.
 #' @param verbose logical, whether the number of trials and the progress are shown in the console. Defaults to \code{TRUE}.
+#' @param fail_loudly logical, whether lack of compiled library means
+#' error (\code{TRUE}, default) or just warning (\code{FALSE}).
 #'
 #' @return an \code{\link{edfRecording}} object that contains events, samples,
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
@@ -32,15 +34,18 @@
 #' @importFrom fs file_exists
 #' @examples
 #' # Import only events and recordings information
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                       fail_loudly = FALSE)
 #'
 #' # Import events and samples (only time and  screen gaze coordinates)
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       sample_attributes = c('time', 'gx', 'gy'))
+#'                       sample_attributes = c('time', 'gx', 'gy'),
+#'                       fail_loudly = FALSE)
 #'
 #' # Import events and samples (all attributes)
 #' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       import_samples= TRUE)
+#'                       import_samples= TRUE,
+#'                       fail_loudly = FALSE)
 read_edf <- function(file,
                      consistency = 'check consistency and report',
                      import_events = TRUE,
@@ -53,7 +58,11 @@ read_edf <- function(file,
                      import_blinks = TRUE,
                      import_fixations = TRUE,
                      import_variables = TRUE,
-                     verbose = TRUE){
+                     verbose = TRUE,
+                     fail_loudly = TRUE){
+  # failing with NULL, if no error was forced
+  if (!check_that_compiled(fail_loudly)) return(NULL)
+
 
   # sanity checks before we pass parameters to C-code
   if (!fs::file_exists(file)) stop("File not found.")
