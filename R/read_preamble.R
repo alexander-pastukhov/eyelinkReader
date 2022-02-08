@@ -10,8 +10,9 @@
 #' @importFrom stringr str_split str_remove_all
 #'
 #' @examples
-#' read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'               fail_loudly = FALSE) # for testing only, do not use this in production
+#' if (eyelinkReader::is_compiled()) {
+#'     read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' }
 read_preamble <- function(file, fail_loudly = TRUE){
   # failing with NULL, if no error was forced
   if (!check_that_compiled(fail_loudly)) return(NULL)

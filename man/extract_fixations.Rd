@@ -17,17 +17,19 @@ Extracts fixations from the events table. Normally, you don't need to call this 
 as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_fixations = TRUE}).
 }
 \examples{
-# fixations are extracted during the initial read_edf call
-recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                      import_fixations = TRUE)
+if (eyelinkReader::is_compiled()) {
+    # fixations are extracted during the initial read_edf call
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                          import_fixations = TRUE)
 
-# fixations are extracted during the initial read_edf call by default
-recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+    # fixations are extracted during the initial read_edf call by default
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 
-# fixations are extracted later
-recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                      import_fixations = FALSE)
-recording$fixations <- extract_fixations(recording$events)
+    # fixations are extracted later
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                          import_fixations = FALSE)
+    recording$fixations <- extract_fixations(recording$events)
+}
 }
 \seealso{
 read_edf, edfRecording

@@ -17,17 +17,19 @@ Extracts variables from the events table. Normally, you don't need to call this 
 as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_variables = TRUE}).
 }
 \examples{
-# variables are extracted during the initial read_edf call
-recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                      import_variables = TRUE)
+if (eyelinkReader::is_compiled()) {
+    # variables are extracted during the initial read_edf call
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                          import_variables = TRUE)
 
-# variables are extracted during the initial read_edf call by default
-recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+    # variables are extracted during the initial read_edf call by default
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 
-# variables are extracted later
-recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                      import_variables = FALSE)
-recording$variables <- extract_variables(recording$events)
+    # variables are extracted later
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                          import_variables = FALSE)
+   recording$variables <- extract_variables(recording$events)
+}
 }
 \seealso{
 read_edf, edfRecording

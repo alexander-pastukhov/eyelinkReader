@@ -2,28 +2,30 @@
 #'
 #' @description Extracts saccades from the events table. Normally, you don't need to call this function yourself,
 #' as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
+#'
 #' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
 #'
 #' @return A data.frame with information on \code{\link[=edfRecording$saccades]{saccades}}
 #' @seealso read_edf, edfRecording
+#'
 #' @export
 #' @importFrom dplyr %>% filter mutate select
 #' @importFrom rlang .data
 #'
 #' @examples
-#' # saccades are extracted during the initial read_edf call
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       import_saccades = TRUE)
+#' if (eyelinkReader::is_compiled()) {
+#'     # saccades are extracted during the initial read_edf call
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                           import_saccades = TRUE)
 #'
-#' # saccades are extracted during the initial read_edf call by default
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#'     # saccades are extracted during the initial read_edf call by default
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #'
-#' # saccades are extracted later
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       import_saccades = FALSE)
-#' recording$saccades <- extract_saccades(recording$events)
-#' @importFrom dplyr %>% filter mutate select
-#' @importFrom rlang .data
+#'     # saccades are extracted later
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                           import_saccades = FALSE)
+#'     recording$saccades <- extract_saccades(recording$events)
+#' }
 extract_saccades <- function(events){
   events %>%
     dplyr::filter(.data$type == 'ENDSACC') %>%
@@ -44,17 +46,19 @@ extract_saccades <- function(events){
 #' @importFrom dplyr %>% filter mutate select
 #'
 #' @examples
-#' # blinks are extracted during the initial read_edf call
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       import_blinks = TRUE)
+#' if (eyelinkReader::is_compiled()) {
+#'     # blinks are extracted during the initial read_edf call
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                           import_blinks = TRUE)
 #'
-#' # blinks are extracted during the initial read_edf call by default
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#'     # blinks are extracted during the initial read_edf call by default
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #'
-#' # blinks are extracted later
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       import_blinks = FALSE)
-#' recording$blinks <- extract_blinks(recording$events)
+#'     # blinks are extracted later
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                           import_blinks = FALSE)
+#'     recording$blinks <- extract_blinks(recording$events)
+#' }
 extract_blinks <- function(events){
   events %>%
     dplyr::filter(.data$type == 'ENDBLINK') %>%
@@ -75,17 +79,19 @@ extract_blinks <- function(events){
 #' @export
 #'
 #' @examples
-#' # fixations are extracted during the initial read_edf call
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       import_fixations = TRUE)
+#' if (eyelinkReader::is_compiled()) {
+#'     # fixations are extracted during the initial read_edf call
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                           import_fixations = TRUE)
 #'
-#' # fixations are extracted during the initial read_edf call by default
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#'     # fixations are extracted during the initial read_edf call by default
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #'
-#' # fixations are extracted later
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       import_fixations = FALSE)
-#' recording$fixations <- extract_fixations(recording$events)
+#'     # fixations are extracted later
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                           import_fixations = FALSE)
+#'     recording$fixations <- extract_fixations(recording$events)
+#' }
 extract_fixations <- function(events){
   events %>%
     dplyr::filter(.data$type == 'ENDFIX') %>%
@@ -105,24 +111,26 @@ extract_fixations <- function(events){
 #' @importFrom dplyr %>% filter mutate select
 #'
 #' @examples
-#' # variables are extracted during the initial read_edf call
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       import_variables = TRUE)
+#' if (eyelinkReader::is_compiled()) {
+#'     # variables are extracted during the initial read_edf call
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                           import_variables = TRUE)
 #'
-#' # variables are extracted during the initial read_edf call by default
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#'     # variables are extracted during the initial read_edf call by default
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #'
-#' # variables are extracted later
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       import_variables = FALSE)
-#' recording$variables <- extract_variables(recording$events)
+#'     # variables are extracted later
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                           import_variables = FALSE)
+#'    recording$variables <- extract_variables(recording$events)
+#' }
 extract_variables <- function(events){
   events %>%
     dplyr::filter(grepl('TRIAL_VAR', message)) %>%
     tidyr::separate(.data$message, c('header', 'assignment'), sep='TRIAL_VAR', remove=FALSE) %>%
     dplyr::mutate(assignment = gsub('=', ' ', .data$assignment)) %>%
     dplyr::mutate(assignment2 = sub(' ', "=", trimws(.data$assignment))) %>%
-    tidyr::separate(assignment2, c('variable', 'value'), sep='=', remove=FALSE) %>%
+    tidyr::separate(.data$assignment2, c('variable', 'value'), sep='=', remove=FALSE) %>%
     dplyr::mutate(variable = trimws(.data$variable),
                   value = trimws(.data$value)) %>%
     dplyr::select(c("trial", "sttime", "sttime_rel", "variable", "value"))
@@ -144,8 +152,10 @@ extract_variables <- function(events){
 #' @importFrom rlang .data
 #'
 #' @examples
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
-#' recording$triggers <- extract_triggers(recording$events)
+#' if (eyelinkReader::is_compiled()) {
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#'     recording$triggers <- extract_triggers(recording$events)
+#' }
 extract_triggers <- function(events){
   # Extracts key events: my own custom set of messages, not part of the EDF API!
   # Looks for events coded as 'KEY_EVENT <message>'

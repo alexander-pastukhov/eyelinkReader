@@ -12,9 +12,6 @@ check_that_compiled(fail_loudly = TRUE)
 error (\code{TRUE}), just warning (\code{FALSE}), or silent (\code{NA},
 for test use only).}
 }
-\value{
-logical
-}
 \description{
 Checks whether EDF API library was present and
 interface was successfully be compiled
