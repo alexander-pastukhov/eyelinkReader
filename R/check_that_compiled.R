@@ -25,13 +25,12 @@ check_that_compiled <- function(fail_loudly = TRUE){
 #' Determine whether library is compiled and can be used
 #'
 #' @return logical
-#' @importFrom methods getPackageName
+#' @importFrom utils getFromNamespace
 #' @importFrom rlang env
 #' @export
 #' @examples
 #' is_compiled()
 is_compiled <- function(){
-  exists('read_edf_file',
-         where=paste0('package:', getPackageName(env())),
-         mode='function')
+  library_version_function <- try(utils::getFromNamespace('library_version', getPackageName(env())), silent = TRUE)
+  class(library_version_function) != "try-error"
 }
