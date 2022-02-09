@@ -5,7 +5,7 @@
 #' @param fail_loudly logical, whether lack of compiled library means
 #' error (\code{TRUE}, default) or just warning (\code{FALSE}).
 #'
-#' @return an object of class \code{\link{eyelinkPreamble}}
+#' @return a character vector but with added class \code{eyelinkPreamble} to simplify printing.
 #' @export
 #' @importFrom stringr str_split str_remove_all
 #'
@@ -28,12 +28,12 @@ read_preamble <- function(file, fail_loudly = TRUE){
   preamble <- preamble[sapply(preamble, stringr::str_length)>0]
 
   # assigning class name
-  class(preamble) <- 'edfR_preamble'
+  class(preamble) <- 'eyelinkPreamble'
   preamble
 }
 
 
 #' @export
-print.edfR_preamble <- function(x, ...){
+print.eyelinkPreamble <- function(x, ...){
   preamble_output <- lapply(x, function(y){cat(y); cat("\n")})
 }
