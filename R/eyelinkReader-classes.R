@@ -9,7 +9,7 @@
 #' @details
 #' See \code{methods(class = "eyelinkRecording")} for an overview of available methods.
 #'
-#' @slot preamble A preamble of the recording, see also \code{\link{read_preamble}} and \code{\link{eyelinkPreamble}}.
+#' @slot preamble A preamble of the recording, see also \code{\link{read_preamble}}.
 #' @slot events Events table which is a collection of all \code{FEVENT} imported from the EDF file. See description below.
 #' @slot samples Samples table  which is a collection of all \code{FSAMPLE} imported from the EDF file. See description below.
 #' @slot headers Headers of the individual trials, see description below.
