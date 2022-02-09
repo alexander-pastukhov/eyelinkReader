@@ -52,7 +52,7 @@
     }
 
     if (all(!is.null(c(include_path, library_path)))) {
-      packageStartupMessage("Compiling EDF API library interface, this will take moment...")
+      packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
       Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
       Sys.setenv("PKG_LIBS"=sprintf('-L"%s" -l%s', library_path, library_file))
       Rcpp::sourceCpp(filename, env = parent.env(environment()))
