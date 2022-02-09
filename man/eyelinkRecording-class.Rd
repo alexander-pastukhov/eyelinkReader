@@ -14,7 +14,7 @@ See \code{methods(class = "eyelinkRecording")} for an overview of available meth
 \section{Slots}{
 
 \describe{
-\item{\code{preamble}}{A preamble of the recording, see also \code{\link{read_preamble}} and \code{\link{eyelinkPreamble}}.}
+\item{\code{preamble}}{A preamble of the recording, see also \code{\link{read_preamble}}.}
 
 \item{\code{events}}{Events table which is a collection of all \code{FEVENT} imported from the EDF file. See description below.}
 

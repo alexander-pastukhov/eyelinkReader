@@ -60,7 +60,7 @@ Please note that an \strong{empty} string \code{''} means that a trial lasts fro
 error (\code{TRUE}, default) or just warning (\code{FALSE}).}
 }
 \value{
-an \code{\link{edfRecording}} object that contains events, samples,
+an \code{\link{eyelinkRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }
 \description{

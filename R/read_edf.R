@@ -28,7 +28,7 @@
 #' @param fail_loudly logical, whether lack of compiled library means
 #' error (\code{TRUE}, default) or just warning (\code{FALSE}).
 #'
-#' @return an \code{\link{edfRecording}} object that contains events, samples,
+#' @return an \code{\link{eyelinkRecording}} object that contains events, samples,
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 #' @export
 #' @importFrom fs file_exists
@@ -144,7 +144,7 @@ read_edf <- function(file,
     }
   }
 
-  class(edf_recording) <- 'edfRecording'
+  class(edf_recording) <- 'eyelinkRecording'
   return (edf_recording);
 }
 
