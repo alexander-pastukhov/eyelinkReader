@@ -172,8 +172,9 @@
 #' * \code{variable} Variable name, the \code{<name>} part of the event message.
 #' * \code{value} Variable value, the \code{<value>} part of the event message.
 #'
-#' @section Triggers: Events messages that adhere to a \code{TRIGGER <label>} format.
-#' This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets,
+#' @section Triggers:
+#' Events messages that adhere to a \code{TRIGGER <label>} format.
+#' This is a \strong{non-standard message} that the package author uses to mark events like onsets or offsets,
 #' similar to how it is done in M/EEG.
 #' * \code{trial} Trial index.
 #' * \code{sttime} Start time.

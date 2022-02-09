@@ -216,15 +216,10 @@ White spaces are trimmed for both \code{<name>} and \code{<value>}.
 }
 
 \section{Triggers}{
- Events messages that adhere to a \code{TRIGGER <label>} format.
-This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets,
+
+Events messages that adhere to a \code{TRIGGER <label>} format.
+This is a \strong{non-standard message} that the package author uses to mark events like onsets or offsets,
 similar to how it is done in M/EEG.
-\itemize{
-\item \code{trial} Trial index.
-\item \code{sttime} Start time.
-\item \code{sttime_rel} Start time, relative to the start time of the trial.
-\item \code{label} <label> part of the message, can contain white spaces.
-}
 }
 
 \seealso{

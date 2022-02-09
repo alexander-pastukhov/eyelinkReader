@@ -2,7 +2,7 @@
 % Please edit documentation in R/zzz.R
 \name{.onLoad}
 \alias{.onLoad}
-\title{Checks for}
+\title{Compiles the library linking it to EDF API}
 \usage{
 .onLoad(libname, pkgname)
 }
@@ -10,21 +10,8 @@
 \item{libname}{character}
 
 \item{pkgname}{character}
-
-\item{files}{vector with filenames}
-
-\item{folders}{vector with folders}
-}
-\value{
-
-
-character (folder) or NULL (no folder contains all files)
 }
 \description{
-Checks for
-}
-\examples{
-Finds a folder that contains ALL files
-
+Compiles the library linking it to EDF API
 }
 \keyword{internal}

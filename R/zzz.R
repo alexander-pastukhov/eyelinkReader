@@ -1,23 +1,12 @@
-#' Checks for
+#' Compiles the library linking it to EDF API
 #'
 #' @param libname character
 #' @param pkgname character
-#'
-#' @return
 #' @export
 #' @keywords internal
-#'
-#' @examples
 .onLoad <- function(libname, pkgname) {
   required_headers <- c('edf.h', 'edf_data.h', 'edftypes.h')
 
-
-  #' Finds a folder that contains ALL files
-  #'
-  #' @param files vector with filenames
-  #' @param folders vector with folders
-  #'
-  #' @return character (folder) or NULL (no folder contains all files)
   locate_files <- function(files, folders) {
     for(a_folder in folders) if (all(file.exists(paste0(a_folder, "/", files)))) return(a_folder)
 
