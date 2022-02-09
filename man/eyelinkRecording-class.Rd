@@ -19,6 +19,20 @@ See \code{methods(class = "eyelinkRecording")} for an overview of available meth
 \item{\code{events}}{Events table which is a collection of all \code{FEVENT} imported from the EDF file. See description below.}
 
 \item{\code{samples}}{Samples table  which is a collection of all \code{FSAMPLE} imported from the EDF file. See description below.}
+
+\item{\code{headers}}{Headers of the individual trials, see description below.}
+
+\item{\code{recordings}}{Individual recording start/end information, see description below.}
+
+\item{\code{display_coords}}{Recorded screen coordinates.}
+
+\item{\code{saccades}}{Saccades extracted from \code{events}, see description below.}
+
+\item{\code{fixations}}{Fixations extracted from \code{events}, see description below.}
+
+\item{\code{blinks}}{Blinks extracted from \code{events}, see description below.}
+
+\item{\code{variables}}{Recorded variables extracted from \code{events}, see description below.}
 }}
 
 \section{Events}{
@@ -27,7 +41,7 @@ Events table which is a collection of all \code{FEVENT} imported from the EDF fi
 Column descriptions were copied directly  from the \emph{EDF access C API manual}.
 Please refer to that manual for further details. Additional non-standard fields are marked in bold.
 \itemize{
-\item \code{trial} Trial index, starts at 1.
+\item \strong{\code{trial}} Trial index, starts at 1.
 \item \code{time} Time of event.
 \item \code{type} Event type.
 \item \code{read} Flags which items were included.
@@ -61,9 +75,147 @@ Please refer to that manual for further details. Additional non-standard fields 
 }
 
 \section{Samples}{
-NA
+
+Samples table which is a collection of all \code{FSAMPLE} imported from the EDF file.
+Please note that \code{\link{read_edf}} parameters determines which fields are imported.
+Column descriptions were copied directly  from the \emph{EDF access C API manual}.
+Please refer to that manual for further details. Suffixes \code{L} and \code{R} denote left and right eye.
+Non-standard additional fields are marked in bold.
+\itemize{
+\item \strong{\code{trial}} Trial index, starts at 1.
+\item \code{time} Time of sample.
+\item \strong{\code{time_rel}} Time relative to the start of the trial.
+\item \code{pxL}, \code{pxR}, \code{pyL}, \code{pyR} Pupil coordinates.
+\item \code{hxL}, \code{hxR}, \code{hyL}, \code{hyR} Headref coordinates.
+\item \code{paL}, \code{paR} Pupil size or area.
+\item \code{gxL}, \code{gxR}, \code{gyL}, \code{gyR} Screen gaze coordinates.
+\item \code{rx}, \code{ry} Screen pixels per degree.
+\item \code{gxvelL}, \code{gxvelR}, \code{gyvelL}, \code{gyvelR} Gaze velocity.
+\item \code{hxvelL}, \code{hxvelR}, \code{hyvelL}, \code{hyvelR} Headref velocity.
+\item \code{rxvelL}, \code{rxvelR}, \code{ryvelL}, \code{ryvelR} Raw velocity.
+\item \code{fgxvelL}, \code{fgxvelR}, \code{fgyvelL}, \code{fgyvelR} Fast gaze velocity.
+\item \code{fhxvelL}, \code{fhxvelR}, \code{fhyvelL}, \code{fhyvelR} Fast headref velocity.
+\item \code{frxvelL}, \code{frxvelR}, \code{fryvelL}, \code{fryvelR} Fast raw velocity.
+\item \code{hdata_1} -\code{hdata_8} Head-tracker data (not pre-scaled). Each column correspond to a single element of the \code{INT16 FSAMPLE::hdata[8]}.
+\item \code{flags} Flags to indicate contents.
+\item \code{input} Extra (input word).
+\item \code{buttons} Button state & changes.
+\item \code{htype} Head-tracker data type (0=none).
+\item \code{errors} Process error flags.
+}
+}
+
+\section{Headers}{
+
+Trial headers table which is a collection of all \code{TRIAL} structures imported from the EDF file.
+Column descriptions were copied directly  from the \emph{EDF access C API manual}.
+Please refer to that manual for further details.
+All fields of the \code{RECORDINGS} structure are prefixed with \code{rec_}.
+Non-standard additional fields are marked in bold.
+\itemize{
+\item \strong{\code{trial}} Trial index.
+\item \code{duration} Duration of the trial.
+\item \code{starttime} Start time of the trial.
+\item \code{endtime} End time of the trial.
+\item \code{rec_time} Start time or end time.
+\item \code{rec_sample rate} Sample rate in Hz: 250, 500, 1000 or 2000.
+\item \code{rec_eflags} Extra information about events.
+\item \code{rec_sflags} Extra information about samples.
+\item \code{rec_state} \code{'START'} (2) or \code{'END'} (1).
+\item \code{rec_record_type} \code{'SAMPLES'} (1), \code{'EVENTS'} (2), or \code{'SAMPLES and EVENTS'} (3).
+\item \code{rec_pupil_type} \code{'AREA'} (0) or \code{'DIAMETER'} (1).
+\item \code{rec_recording_mode} \code{'PUPIL'} (0) or \code{'CR'} (1).
+\item \code{rec_filter_type} 1, 2, or 3.
+\item \code{rec_pos_type} Should be \code{'GAZE'} (0), \code{'HREF'} (1) or \code{'RAW'}, but currently this column is kept as numeric, since observed values do not match the declared constants.
+\item \code{rec_eye} \code{'LEFT'} (1), \code{'RIGHT'} (2) or \code{'LEFT and RIGHT'} (3).
+}
+}
+
+\section{Recordings}{
+
+Recordings table which is a collection of all \code{RECORDING} structures imported from the EDF file.
+Column descriptions were copied directly  from the \emph{EDF access C API manual}.
+Please refer to that manual for further details. Non-standard additional fields are marked in bold.
+\itemize{
+\item \strong{\code{trial}} Trial index.
+\item \code{time} Start time or end time.
+\item \code{sample rate} Sample rate in Hz: 250, 500, 1000 or 2000.
+\item \code{eflags} Extra information about events.
+\item \code{sflags} Extra information about samples.
+\item \code{state} \code{'START'} (2) or \code{'END'} (1).
+\item \code{record_type} \code{'SAMPLES'} (1), \code{'EVENTS'} (2), or \code{'SAMPLES and EVENTS'} (3).
+\item \code{pupil_type} \code{'AREA'} (0) or \code{'DIAMETER'} (1).
+\item \code{recording_mode} \code{'PUPIL'} (0) or \code{'CR'} (1).
+\item \code{filter_type} 1, 2, or 3.
+\item \code{pos_type} Should be \code{'GAZE'} (0), \code{'HREF'} (1) or \code{'RAW'}, but currently this column is kept as numeric, since observed values do not match the declared constants.
+\item \code{eye} \code{'LEFT'} (1), \code{'RIGHT'} (2) or \code{'LEFT and RIGHT'} (3).
+}
+}
+
+\section{Saccades and Fixations}{
+
+Saccades and fixations extracted from the \code{events}, tables have the same structure.
+Column descriptions were copied directly  from the \emph{EDF access C API manual}.
+Please refer to that manual for further details. Non-standard additional fields are marked in bold.
+\itemize{
+\item \strong{\code{trial}} Trial index.
+\item \code{time} Time of event.
+\item \code{sttime} Start time.
+\item \code{entime} End time.
+\item \strong{\code{sttime_rel}} Start time, relative to the start time of the trial.
+\item \strong{\code{entime_rel}} End time, relative to the start time of the trial.
+\item \strong{\code{duration}} Duration.
+\item \code{hstx}, \code{hsty} Head reference starting points.
+\item \code{gstx}, \code{gsty} Gaze starting points.
+\item \code{sta} Pupil size at start.
+\item \code{henx}, \code{heny} Headref ending points.
+\item \code{genx}, \code{geny} Gaze ending points.
+\item \code{ena} Pupil size at end.
+\item \code{havx}, \code{havy} Headref averages.
+\item \code{gavx}, \code{gavy} Gaze averages.
+\item \code{ava} Average pupil size.
+\item \code{avel} Accumulated average velocity.
+\item \code{pvel} Accumulated peak velocity.
+\item \code{svel} Start velocity.
+\item \code{evel} End velocity.
+\item \code{supd_x}, \code{supd_y} Start units-per-degree.
+\item \code{eupd_x}, \code{eupd_y} End units-per-degree.
+\item \code{eye} Either \code{'LEFT'} (1) or \code{'RIGHT'} (2).
+}
+}
+
+\section{Blinks}{
+
+Blinks extracted from the \code{events} table. Column descriptions were copied directly from the \emph{EDF access C API manual}.
+Please refer to that manual for further details. Non-standard additional fields are marked in bold.
+\itemize{
+\item \strong{\code{trial}} Trial index.
+\item \code{time} Time of event.
+\item \code{sttime} Start time.
+\item \code{entime} End time.
+\item \strong{\code{sttime_rel}} Start time, relative to the start time of the trial.
+\item \strong{\code{entime_rel}} End time, relative to the start time of the trial.
+\item \strong{\code{duration}} Duration.
+\item \code{eye} Either \code{'LEFT'} (1) or \code{'RIGHT'} (2).
+}
+}
+
+\section{Variables}{
+
+User recorded variables extracted from message events with a \code{'TRIAL_VAR'} prefix.
+Original format can be either \code{'TRIAL_VAR <name> <value>'} or \code{'TRIAL_VAR <name>=<value>'}.
+The \code{<name>} cannot contain spaces or \code{'='} sign.
+White spaces are trimmed for both \code{<name>} and \code{<value>}.
+\itemize{
+\item \code{trial} Trial index.
+\item \code{time} Time of event.
+\item \code{sttime} Start time.
+\item \code{sttime_rel} Start time, relative to the start time of the trial.
+\item \code{variable} Variable name, the \code{<name>} part of the event message.
+\item \code{value} Variable value, the \code{<value>} part of the event message.
+}
 }
 
 \seealso{
-\code{\link{fit_cumhist}}
+\code{\link{read_edf}}
 }
