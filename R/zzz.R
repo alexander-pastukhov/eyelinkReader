@@ -1,12 +1,69 @@
+#' Checks for
+#'
+#' @param libname character
+#' @param pkgname character
+#'
+#' @return
+#' @export
+#' @keywords internal
+#'
+#' @examples
 .onLoad <- function(libname, pkgname) {
-  message("Compiling EDF API library interface, this will take moment...")
+  required_headers <- c('edf.h', 'edf_data.h', 'edftypes.h')
+
+
+  #' Finds a folder that contains ALL files
+  #'
+  #' @param files vector with filenames
+  #' @param folders vector with folders
+  #'
+  #' @return character (folder) or NULL (no folder contains all files)
+  locate_files <- function(files, folders) {
+    for(a_folder in folders) if (all(file.exists(paste0(a_folder, "/", files)))) return(a_folder)
+
+    NULL
+  }
+
+  # copying the C++ source file file to a temporary folder for compilation
   temp_dir <- tempdir()
   file.copy(system.file("cpp", "edf_interface.cpp", package = pkgname), temp_dir)
   filename <- paste0(temp_dir, "/edf_interface.cpp")
 
-  # setting compilation flahs
-  Sys.setenv("PKG_CXXFLAGS"='-I"c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink"')
-  Sys.setenv("PKG_LIBS"='-L"c:/Program Files (x86)/SR Research/EyeLink/libs/x64" -ledfapi64')
 
-  Rcpp::sourceCpp(filename, env = parent.env(environment()))
+  # figuring out which OS are we dealing with
+  if (Sys.info()["sysname"] == "Windows") {
+    include_path <- locate_files(required_headers,
+                                 c(Sys.getenv("EDFAPI_INC"),
+                                   "c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink"))
+
+    if (.Machine$sizeof.pointer == 8) {
+      # 64-bit
+      library_file <- "edfapi64"
+      library_path <- locate_files(paste0(library_file, ".dll"),
+                                   c(Sys.getenv("EDFAPI_LIB64"),
+                                     paste0(Sys.getenv("EDFAPI_LIB"), "/x64"),
+                                     "c:/Program Files (x86)/SR Research/EyeLink/libs/x64"))
+    } else {
+      # 32-bit
+      library_file <- "edfapi"
+      library_path <- locate_files(paste0(library_file, ".dll"),
+                                   c(Sys.getenv("EDFAPI_LIB"),
+                                     "c:/Program Files (x86)/SR Research/EyeLink/libs"))
+    }
+
+    if (all(!is.null(c(include_path, library_path)))) {
+      packageStartupMessage("Compiling EDF API library interface, this will take moment...")
+      Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
+      Sys.setenv("PKG_LIBS"=sprintf('-L"%s" -l%s', library_path, library_file))
+      Rcpp::sourceCpp(filename, env = parent.env(environment()))
+    } else {
+      packageStartupMessage("Could not locate EDF API, please read installation instructions.")
+    }
+  } else if (Sys.info()["sysname"] == "Linux") {
+    packageStartupMessage("Linux compilation is not yet implemented but will be added soon.")
+  } else if (Sys.info()["sysname"] == "Darwin") {
+    packageStartupMessage("Mac OSX compilation is not yet implemented but will be added soon.")
+  } else {
+    packageStartupMessage("Unfortunately, there is no EDF API implementation for your plaform.")
+  }
 }
