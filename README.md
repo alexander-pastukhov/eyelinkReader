@@ -6,6 +6,8 @@ This is a developmental version of the package. It is feature-complete and stabl
 
 ## Installation
 
+The library installation involves three easy^[famous last words] steps.
+
 ### Install SR Research EyeLink Developers Kit
 This package relies on _edfapi_ library that is as part of the _EyeLink Developers Kit_. Therefore, `read_edf()` function **will not work without it** but you will still be able to use utility functions. The _EyeLink Developers Kit_ can be downloaded from [sr-support.com](https://www.sr-support.com/) website. Note that you need to register and wait for your account to be activated. Next, follow instructions to install _EyeLink Developers Kit_ for your platform. The forum thread should be under _SR Support Forum › Downloads › EyeLink Developers Kit / API › Download: EyeLink Developers Kit / API Downloads (Windows, macOS, Linux)_.
 
@@ -14,17 +16,25 @@ This package relies on _edfapi_ library that is as part of the _EyeLink Develope
 #### Windows
 For Windows you need to configure a few R environment variables: 
 
-* `EDFAPI_LIB` : path to _edfapi.dll_ for 32-bit systems. For _EyeLink Developers Kit v2.1.1_ a default installation path is `c:\Program Files (x86)\SR Research` and so the libraries are at `c:\Program Files (x86)\SR Research\EyeLink\libs`.
-* `EDFAPI_LIB64` (optional): path to _edfapi64.dll_ for 64-bit systems. By default, the 64-bit library is in _x64_ subfolder:  _c:\Program Files (x86)\SR Research\EyeLink\libs\x64\_. This variable is optional, as the package will try to guess this by itself. However, you should specify this variable explicitely if 64-libraries are in a non-standard folder (or SR Research changed it).
-* `EDFAPI_INC` : path to C header files necessary for compilation. Specifically, the package requires _edf.h_, _edf_data.h_, and _edftypes.h_. By default they are located in _c:\Program Files (x86)\SR Research\EyeLink\Includes\eyelink\_.
+* `EDFAPI_LIB` : path to **edfapi.dll** for 32-bit systems. For _EyeLink Developers Kit v2.1.1_ a default installation path is `c:\Program Files (x86)\SR Research` and so the libraries are at `c:/Program Files (x86)/SR Research/EyeLink/libs`.
+* `EDFAPI_LIB64` (optional): path to **edfapi64.dll** for 64-bit systems. By default, the 64-bit library is in _x64_ subfolder:  `c:/Program Files (x86)/SR Research/EyeLink/libs/x64`. This variable is optional, as the package will try to guess this by itself by appending `/x64` to `EDFAPI_LIB` path. However, you should specify this variable explicitly if 64-libraries are in a non-standard folder (or SR Research changed it, or you just want to be sure).
+* `EDFAPI_INC` : path to C header files necessary for compilation. Specifically, the package requires _edf.h_, _edf_data.h_, and _edftypes.h_. By default they are located in `c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink`.
 
-These varaibles must be defined either in user or project [.Renviron](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html) file. The simples way to edit it is via [usethis](https://usethis.r-lib.org/) library and [edit_r_environ()](https://usethis.r-lib.org/reference/edit.html) function. Type `usethis::edit_r_environ()` for user and `usethis::edit_r_environ('project')` for projects environments (note that the latter shadows the former, read [documentation]((https://usethis.r-lib.org/) for details).
+These varaibles must be defined either in user or project [.Renviron](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html) file. The simplest way to edit it is via [usethis](https://usethis.r-lib.org/) library and [edit_r_environ()](https://usethis.r-lib.org/reference/edit.html) function. Type `usethis::edit_r_environ()` for user and `usethis::edit_r_environ('project')` for projects environments (note that the latter shadows the former, read [documentation](https://usethis.r-lib.org/) for details). Note that you do not need to worry about forward vs. backward slashes as R will normalize strings for you. Your `.Renviron` file include lines similar to the ones below
+```
+EDFAPI_LIB="c:/Program Files (x86)/SR Research/EyeLink/libs"
+EDFAPI_LIB64="c:/Program Files (x86)/SR Research/EyeLink/libs/x64"
+EDFAPI_INC="c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink"
+```
+Restart session and check the variables by typing `Sys.getenv()` (to see all variables) or `Sys.getenv("EDFAPI_LIB")` to check a specific one.
 
+#### Linux
+TODO
 
+#### Mac OS
+TODO
 
-
-
-## Installation from Github
+### Install the library
 
 Please note that, in order to work, this package requires EDF API library. It is included in Eyelink  Developers Kit, available from [www.sr-support.com](https://www.sr-support.com). Because the package needs to be compiled during the installation, it will fail if no library was found. Currently, it assumes that on Windows x64 the EDF library is at its default location (`c:/Program Files (x86)/SR Research/EyeLink/EDF_Access_API/lib/win64`).
 
