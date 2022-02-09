@@ -83,15 +83,15 @@ read_edf <- function(file,
   import_samples <- sum(sample_attr_flag) > 0
 
   # importing data
-  edf_recording <- eyelinkReader:::read_edf_file(file,
-                                                 requested_consistency,
-                                                 import_events,
-                                                 import_recordings,
-                                                 import_samples,
-                                                 sample_attr_flag,
-                                                 start_marker,
-                                                 end_marker,
-                                                 verbose)
+  edf_recording <- read_edf_file(file,
+                                 requested_consistency,
+                                 import_events,
+                                 import_recordings,
+                                 import_samples,
+                                 sample_attr_flag,
+                                 start_marker,
+                                 end_marker,
+                                 verbose)
 
   # adding preamble
   edf_recording$preamble <- read_preamble(file)
