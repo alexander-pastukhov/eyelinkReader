@@ -19,6 +19,7 @@
 #' @slot fixations Fixations extracted from \code{events}, see description below.
 #' @slot blinks Blinks extracted from \code{events}, see description below.
 #' @slot variables Recorded variables extracted from \code{events}, see description below.
+#' @slot triggers Events messages that adhere to a \code{TRIGGER <label>} format. This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets, similar to how it is done in M/EEG.
 #'
 #' @section Events:
 #' Events table which is a collection of all \code{FEVENT} imported from the EDF file.
@@ -127,7 +128,6 @@
 #' Column descriptions were copied directly  from the \emph{EDF access C API manual}.
 #' Please refer to that manual for further details. Non-standard additional fields are marked in bold.
 #' * \strong{\code{trial}} Trial index.
-#' * \code{time} Time of event.
 #' * \code{sttime} Start time.
 #' * \code{entime} End time.
 #' * \strong{\code{sttime_rel}} Start time, relative to the start time of the trial.
@@ -154,7 +154,6 @@
 #' Blinks extracted from the \code{events} table. Column descriptions were copied directly from the \emph{EDF access C API manual}.
 #' Please refer to that manual for further details. Non-standard additional fields are marked in bold.
 #' * \strong{\code{trial}} Trial index.
-#' * \code{time} Time of event.
 #' * \code{sttime} Start time.
 #' * \code{entime} End time.
 #' * \strong{\code{sttime_rel}} Start time, relative to the start time of the trial.
@@ -168,11 +167,18 @@
 #' The \code{<name>} cannot contain spaces or \code{'='} sign.
 #' White spaces are trimmed for both \code{<name>} and \code{<value>}.
 #' * \code{trial} Trial index.
-#' * \code{time} Time of event.
 #' * \code{sttime} Start time.
 #' * \code{sttime_rel} Start time, relative to the start time of the trial.
 #' * \code{variable} Variable name, the \code{<name>} part of the event message.
 #' * \code{value} Variable value, the \code{<value>} part of the event message.
+#'
+#' @section Triggers: Events messages that adhere to a \code{TRIGGER <label>} format.
+#' This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets,
+#' similar to how it is done in M/EEG.
+#' * \code{trial} Trial index.
+#' * \code{sttime} Start time.
+#' * \code{sttime_rel} Start time, relative to the start time of the trial.
+#' * \code{label} <label> part of the message, can contain white spaces.
 #'
 #' @seealso
 #'   \code{\link{read_edf}}

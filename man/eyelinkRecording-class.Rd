@@ -33,6 +33,8 @@ See \code{methods(class = "eyelinkRecording")} for an overview of available meth
 \item{\code{blinks}}{Blinks extracted from \code{events}, see description below.}
 
 \item{\code{variables}}{Recorded variables extracted from \code{events}, see description below.}
+
+\item{\code{triggers}}{Events messages that adhere to a \code{TRIGGER <label>} format. This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets, similar to how it is done in M/EEG.}
 }}
 
 \section{Events}{
@@ -159,7 +161,6 @@ Column descriptions were copied directly  from the \emph{EDF access C API manual
 Please refer to that manual for further details. Non-standard additional fields are marked in bold.
 \itemize{
 \item \strong{\code{trial}} Trial index.
-\item \code{time} Time of event.
 \item \code{sttime} Start time.
 \item \code{entime} End time.
 \item \strong{\code{sttime_rel}} Start time, relative to the start time of the trial.
@@ -190,7 +191,6 @@ Blinks extracted from the \code{events} table. Column descriptions were copied d
 Please refer to that manual for further details. Non-standard additional fields are marked in bold.
 \itemize{
 \item \strong{\code{trial}} Trial index.
-\item \code{time} Time of event.
 \item \code{sttime} Start time.
 \item \code{entime} End time.
 \item \strong{\code{sttime_rel}} Start time, relative to the start time of the trial.
@@ -208,11 +208,22 @@ The \code{<name>} cannot contain spaces or \code{'='} sign.
 White spaces are trimmed for both \code{<name>} and \code{<value>}.
 \itemize{
 \item \code{trial} Trial index.
-\item \code{time} Time of event.
 \item \code{sttime} Start time.
 \item \code{sttime_rel} Start time, relative to the start time of the trial.
 \item \code{variable} Variable name, the \code{<name>} part of the event message.
 \item \code{value} Variable value, the \code{<value>} part of the event message.
+}
+}
+
+\section{Triggers}{
+ Events messages that adhere to a \code{TRIGGER <label>} format.
+This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets,
+similar to how it is done in M/EEG.
+\itemize{
+\item \code{trial} Trial index.
+\item \code{sttime} Start time.
+\item \code{sttime_rel} Start time, relative to the start time of the trial.
+\item \code{label} <label> part of the message, can contain white spaces.
 }
 }
 
