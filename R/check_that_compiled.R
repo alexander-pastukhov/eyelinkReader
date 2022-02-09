@@ -26,6 +26,7 @@ check_that_compiled <- function(fail_loudly = TRUE){
 #'
 #' @return logical
 #' @importFrom utils getFromNamespace
+#' @importFrom methods getPackageName
 #' @importFrom rlang env
 #' @export
 #' @examples

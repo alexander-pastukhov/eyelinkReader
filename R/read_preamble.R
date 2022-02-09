@@ -5,7 +5,7 @@
 #' @param fail_loudly logical, whether lack of compiled library means
 #' error (\code{TRUE}, default) or just warning (\code{FALSE}).
 #'
-#' @return an object of class \code{\link{edfR_preamble}}
+#' @return an object of class \code{\link{eyelinkPreamble}}
 #' @export
 #' @importFrom stringr str_split str_remove_all
 #'
@@ -18,7 +18,7 @@ read_preamble <- function(file, fail_loudly = TRUE){
   if (!check_that_compiled(fail_loudly)) return(NULL)
 
   # getting the preamble as a single string and splitting it by new-line
-  preamble <- eyelinkReader:::read_preamble_str(file) %>%
+  preamble <- read_preamble_str(file) %>%
     stringr::str_split('\\n', simplify = FALSE)
 
   # removing leading '** ', cause why would we need them?

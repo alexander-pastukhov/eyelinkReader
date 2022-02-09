@@ -13,7 +13,7 @@ read_preamble(file, fail_loudly = TRUE)
 error (\code{TRUE}, default) or just warning (\code{FALSE}).}
 }
 \value{
-an object of class \code{\link{edfR_preamble}}
+an object of class \code{\link{eyelinkPreamble}}
 }
 \description{
 Read the preamble of the EDF file and parses it into an reading-friendly format
