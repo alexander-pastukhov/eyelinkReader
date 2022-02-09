@@ -1,6 +1,6 @@
-#' Print info about \code{\link{edfRecording}}
+#' Print info about \code{\link{eyelinkRecording}}
 #'
-#' @param x \code{\link{edfRecording}} object
+#' @param x \code{\link{eyelinkRecording}} object
 #' @param ... Addition parameters (unused)
 #' @export
 #'
@@ -9,7 +9,7 @@
 #'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #'     print(recording)
 #' }
-print.edfRecording <- function(x, ...){
+print.eyelinkRecording <- function(x, ...){
   if (nrow(x$headers)==1){
     trialsN <- 'one trial'
   }
