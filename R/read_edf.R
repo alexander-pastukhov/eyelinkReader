@@ -1,6 +1,6 @@
-#' Read EDF file with gaze data recorded by SR Research Eyelink Eye-tracker
+#' Read EDF file with gaze data recorded by SR Research Eyelink eye tracker
 #'
-#' Reads EDF file with gaze data recorded by SR Research Eyelink Eye-tracker
+#' Reads EDF file with gaze data recorded by SR Research Eyelink eye tracker
 #' and returns an \code{\link{eyelinkRecording}} object that contains events, samples,
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 #'
@@ -16,7 +16,7 @@
 #' Please note that specifying\code{sample_attributes} automatically sets it to \code{TRUE}.
 #' @param sample_attributes a character vector that lists sample attributes to be imported.
 #' By default, all attributes are imported (default). For the complete list of sample attributes
-#' please refer to \code{\link{edfRecording}} or EDF API documentation.
+#' please refer to \code{\link{eyelinkRecording}} or EDF API documentation.
 #' @param start_marker event string that marks the beginning of the trial. Defaults to \code{"TRIALID"}.
 #' @param end_marker event string that marks the end of the trial. Defaults to \code{"TRIAL OK"}.
 #' Please note that an \strong{empty} string \code{''} means that a trial lasts from one \code{start_marker} till the next one.
@@ -98,7 +98,7 @@ read_edf <- function(file,
 
   # checking display info, if present
   if (!is.null(edf_recording$display_coords)){
-    edf_recording$display_coords<- as.numeric(unlist(strsplit(trimws(gsub("DISPLAY_COORDS", "", edf_recording$display_coords)), " ")))
+    edf_recording$display_coords <- as.numeric(unlist(strsplit(trimws(gsub("DISPLAY_COORDS", "", edf_recording$display_coords)), " ")))
   }
 
   # converting header to data.frame
