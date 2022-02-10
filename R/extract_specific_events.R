@@ -1,12 +1,12 @@
 #' Extract saccades
 #'
 #' @description Extracts saccades from the events table. Normally, you don't need to call this function yourself,
-#' as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
+#' as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
 #'
-#' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
+#' @param events An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.
 #'
-#' @return A data.frame with information on \code{\link[=edfRecording$saccades]{saccades}}
-#' @seealso read_edf, edfRecording
+#' @return A data.frame with information on \code{\link[=eyelinkRecording]{saccades}}
+#' @seealso read_edf, eyelinkRecording
 #'
 #' @export
 #' @importFrom dplyr %>% filter mutate select
@@ -36,11 +36,11 @@ extract_saccades <- function(events){
 #' Extract blinks
 #'
 #' @description Extracts blinks from the events table. Normally, you don't need to call this function yourself,
-#' as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_blinks = TRUE}).
-#' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
+#' as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_blinks = TRUE}).
+#' @param events An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.
 #'
-#' @return A data.frame with information on \code{\link[=edfRecording$blinks]{blinks}}
-#' @seealso read_edf, edfRecording
+#' @return A data.frame with information on \code{\link[=eyelinkRecording]{blinks}}
+#' @seealso read_edf, eyelinkRecording
 #' @export
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% filter mutate select
@@ -69,11 +69,11 @@ extract_blinks <- function(events){
 #' Extract fixations
 #'
 #' @description Extracts fixations from the events table. Normally, you don't need to call this function yourself,
-#' as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_fixations = TRUE}).
-#' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
+#' as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_fixations = TRUE}).
+#' @param events An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.
 #'
-#' @return A data.frame with information on \code{\link[=edfRecording$fixations]{fixations}}
-#' @seealso read_edf, edfRecording
+#' @return A data.frame with information on \code{\link[=eyelinkRecording]{fixations}}
+#' @seealso read_edf, eyelinkRecording
 #' @importFrom rlang .data
 #' @importFrom dplyr %>% filter mutate select
 #' @export
@@ -102,11 +102,11 @@ extract_fixations <- function(events){
 #' Extract variables
 #'
 #' @description Extracts variables from the events table. Normally, you don't need to call this function yourself,
-#' as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_variables = TRUE}).
-#' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
+#' as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_variables = TRUE}).
+#' @param events An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.
 #'
-#' @return A data.frame with information on \code{\link[=edfRecording$variables]{variables}}
-#' @seealso read_edf, edfRecording
+#' @return A data.frame with information on \code{\link[=eyelinkRecording]{variables}}
+#' @seealso read_edf, eyelinkRecording
 #' @export
 #' @importFrom dplyr %>% filter mutate select
 #'
@@ -141,12 +141,12 @@ extract_variables <- function(events){
 #'
 #' @description Extracts trigger events, messages that adhere to a "TRIGGER label" format.
 #' Their purpose is to identify the time instance of specific interest.
-#' Please note that due to a non-standard nature of this function \strong{is not} envoked
+#' Please note that due to a non-standard nature of this function \strong{is not} called
 #' during the \code{\link{read_edf}} call and you need to call it separately.
-#' @param events An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.
+#' @param events An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.
 #'
-#' @return A data.frame with information on \code{\link[=edfRecording$triggers]{triggers}}
-#' @seealso read_edf, edfRecording
+#' @return A data.frame with information on \code{\link[=eyelinkRecording]{triggers}}
+#' @seealso read_edf, eyelinkRecording
 #' @export
 #' @importFrom dplyr %>% filter mutate select
 #' @importFrom rlang .data

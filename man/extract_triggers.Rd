@@ -7,15 +7,15 @@
 extract_triggers(events)
 }
 \arguments{
-\item{events}{An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.}
+\item{events}{An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.}
 }
 \value{
-A data.frame with information on \code{\link[=edfRecording$triggers]{triggers}}
+A data.frame with information on \code{\link[=eyelinkRecording]{triggers}}
 }
 \description{
 Extracts trigger events, messages that adhere to a "TRIGGER label" format.
 Their purpose is to identify the time instance of specific interest.
-Please note that due to a non-standard nature of this function \strong{is not} envoked
+Please note that due to a non-standard nature of this function \strong{is not} called
 during the \code{\link{read_edf}} call and you need to call it separately.
 }
 \examples{
@@ -25,5 +25,5 @@ if (eyelinkReader::is_compiled()) {
 }
 }
 \seealso{
-read_edf, edfRecording
+read_edf, eyelinkRecording
 }

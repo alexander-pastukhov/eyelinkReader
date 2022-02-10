@@ -1,6 +1,6 @@
-#' Read EDF file with gaze data recorded by SR Research Eyelink Eyetracker
+#' Read EDF file with gaze data recorded by SR Research Eyelink Eye-tracker
 #'
-#' Reads EDF file with gaze data recorded by SR Research Eyelink Eyetracker
+#' Reads EDF file with gaze data recorded by SR Research Eyelink Eye-tracker
 #' and returns an \code{\link{eyelinkRecording}} object that contains events, samples,
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 #'
@@ -20,10 +20,10 @@
 #' @param start_marker event string that marks the beginning of the trial. Defaults to \code{"TRIALID"}.
 #' @param end_marker event string that marks the end of the trial. Defaults to \code{"TRIAL OK"}.
 #' Please note that an \strong{empty} string \code{''} means that a trial lasts from one \code{start_marker} till the next one.
-#' @param import_saccades logical, whether to extract saccade events into a separate table for convinience. Defaults to \code{TRUE}.
-#' @param import_blinks logical, wheather to extract blink events into a separate table for convinience. Defaults to \code{TRUE}.
-#' @param import_fixations logical, whether to extract fixation events into a separate table for convinience. Defaults to \code{TRUE}.
-#' @param import_variables logical, whether to extract stored variables into a separate table for convinience. Defaults to \code{TRUE}.
+#' @param import_saccades logical, whether to extract saccade events into a separate table for convenience. Defaults to \code{TRUE}.
+#' @param import_blinks logical, whether to extract blink events into a separate table for convenience. Defaults to \code{TRUE}.
+#' @param import_fixations logical, whether to extract fixation events into a separate table for convenience. Defaults to \code{TRUE}.
+#' @param import_variables logical, whether to extract stored variables into a separate table for convenience. Defaults to \code{TRUE}.
 #' @param verbose logical, whether the number of trials and the progress are shown in the console. Defaults to \code{TRUE}.
 #' @param fail_loudly logical, whether lack of compiled library means
 #' error (\code{TRUE}, default) or just warning (\code{FALSE}).

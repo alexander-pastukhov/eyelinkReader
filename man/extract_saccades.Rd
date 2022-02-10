@@ -7,14 +7,14 @@
 extract_saccades(events)
 }
 \arguments{
-\item{events}{An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.}
+\item{events}{An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.}
 }
 \value{
-A data.frame with information on \code{\link[=edfRecording$saccades]{saccades}}
+A data.frame with information on \code{\link[=eyelinkRecording]{saccades}}
 }
 \description{
 Extracts saccades from the events table. Normally, you don't need to call this function yourself,
-as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
+as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
 }
 \examples{
 if (eyelinkReader::is_compiled()) {
@@ -32,5 +32,5 @@ if (eyelinkReader::is_compiled()) {
 }
 }
 \seealso{
-read_edf, edfRecording
+read_edf, eyelinkRecording
 }
