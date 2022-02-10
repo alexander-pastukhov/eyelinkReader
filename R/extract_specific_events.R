@@ -166,3 +166,31 @@ extract_triggers <- function(events){
     dplyr::mutate(label = trimws(gsub('TRIGGER', '', .data$message))) %>%
     dplyr::select(c("trial", "sttime", "sttime_rel", "label"))
 }
+
+
+#' Extracts rectangular areas of interest
+#'
+#' @description Extracts rectangular areas of interest (AOI), as defined by "!V IAREA RECTANGLE" command.
+#' Specifically, we expect it to be in format \code{!V IAREA RECTANGLE <index> <left> <top> <right> <bottom> <label>},
+#' where \code{<label>} is a string label and all other variables are integer.
+#'
+#' @param events An \code{events} table of the \code{\link{eyelinkfRecording}} object.
+#'
+#' @return A data.frame with the list of \code{\link{eyelinkfRecording}}
+#' @export
+#'
+#' @examples
+extract_AOIs <- function(events){
+  events %>%
+    filter(str_detect(.data$message, '^!V IAREA RECTANGLE')) %>%
+    separate(col = .data$message,
+             into = c("Exclamation", "IAREA", "RECTANGLE", "index", "left", "top", "right", "bottom", "label"),
+             sep = ' ',
+             remove = FALSE) %>%
+    select(c("trial", "sttime", "sttime_rel", "index", "label", "left", "top", "right", "bottom")) %>%
+    mutate(left= as.numeric(.data$left),
+           right= as.numeric(.data$right),
+           top= as.numeric(.data$top),
+           bottom= as.numeric(.data$bottom),
+           index= as.integer(.data$index))
+}
