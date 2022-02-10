@@ -24,7 +24,7 @@ See \code{methods(class = "eyelinkRecording")} for an overview of available meth
 
 \item{\code{recordings}}{Individual recording start/end information, see description below.}
 
-\item{\code{display_coords}}{Recorded screen coordinates.}
+\item{\code{display_coords}}{Recorded screen coordinates (if recorded).}
 
 \item{\code{saccades}}{Saccades extracted from \code{events}, see description below.}
 

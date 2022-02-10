@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_edf.R
 \name{read_edf}
 \alias{read_edf}
-\title{Read EDF file with gaze data recorded by SR Research Eyelink Eye-tracker}
+\title{Read EDF file with gaze data recorded by SR Research Eyelink eye tracker}
 \usage{
 read_edf(
   file,
@@ -39,7 +39,7 @@ Please note that specifying\code{sample_attributes} automatically sets it to \co
 
 \item{sample_attributes}{a character vector that lists sample attributes to be imported.
 By default, all attributes are imported (default). For the complete list of sample attributes
-please refer to \code{\link{edfRecording}} or EDF API documentation.}
+please refer to \code{\link{eyelinkRecording}} or EDF API documentation.}
 
 \item{start_marker}{event string that marks the beginning of the trial. Defaults to \code{"TRIALID"}.}
 
@@ -64,7 +64,7 @@ an \code{\link{eyelinkRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }
 \description{
-Reads EDF file with gaze data recorded by SR Research Eyelink Eye-tracker
+Reads EDF file with gaze data recorded by SR Research Eyelink eye tracker
 and returns an \code{\link{eyelinkRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }
