@@ -49,7 +49,22 @@
       packageStartupMessage("Could not locate EDF API, please read installation instructions.")
     }
   } else if (Sys.info()["sysname"] == "Linux") {
-    packageStartupMessage("Linux compilation is not yet implemented but will be added soon.")
+    include_path <- locate_files(required_headers,
+                                 c(Sys.getenv("EDFAPI_INC"),
+                                 "/usr/include/EyeLink"))
+    if (!is.null(include_path)) {
+      Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
+      Sys.setenv("PKG_LIBS"='-ledfapi')
+      packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
+      compilation_outcome <- try(Rcpp::sourceCpp(filename,
+                                                 env = parent.env(environment()),
+                                                 echo = FALSE,
+                                                 verbose = FALSE))
+    }
+
+    if (is.null(include_path) || class(x) == "try-error") {
+      packageStartupMessage("Could not locate EDF API, please read installation instructions.")
+    }
   } else if (Sys.info()["sysname"] == "Darwin") {
     packageStartupMessage("Mac OSX compilation is not yet implemented but will be added soon.")
   } else {
