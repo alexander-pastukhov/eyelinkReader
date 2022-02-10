@@ -14,7 +14,7 @@
 #' @slot samples Samples table  which is a collection of all \code{FSAMPLE} imported from the EDF file. See description below.
 #' @slot headers Headers of the individual trials, see description below.
 #' @slot recordings Individual recording start/end information, see description below.
-#' @slot display_coords Recorded screen coordinates.
+#' @slot display_coords Recorded screen coordinates (if recorded).
 #' @slot saccades Saccades extracted from \code{events}, see description below.
 #' @slot fixations Fixations extracted from \code{events}, see description below.
 #' @slot blinks Blinks extracted from \code{events}, see description below.
