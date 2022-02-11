@@ -62,7 +62,7 @@
                                                  verbose = FALSE))
     }
 
-    if (is.null(include_path) || class(x) == "try-error") {
+    if (is.null(include_path) || class(compilation_outcome) == "try-error") {
       packageStartupMessage("Could not locate EDF API, please read installation instructions.")
     }
   } else if (Sys.info()["sysname"] == "Darwin") {
