@@ -12,7 +12,7 @@ This package relies on _edfapi_ library that is as part of the _EyeLink Develope
 ### Configure R environment variables
 
 #### Windows
-For Windows you need to configure a few R environment variables: 
+For Windows you might need to configure a few R environment variables. The package will try to build the interface library assuming default installation location: `c:/Program Files (x86)/SR Research/EyeLink`. However, that might change in the future or you might prefer to install it in a different folder. In these cases, you need to define:
 
 * `EDFAPI_LIB` : path to **edfapi.dll** for 32-bit systems. For _EyeLink Developers Kit v2.1.1_ a default installation path is `c:\Program Files (x86)\SR Research` and so the libraries are at `c:/Program Files (x86)/SR Research/EyeLink/libs`.
 * `EDFAPI_LIB64` (optional): path to **edfapi64.dll** for 64-bit systems. By default, the 64-bit library is in _x64_ subfolder:  `c:/Program Files (x86)/SR Research/EyeLink/libs/x64`. This variable is optional, as the package will try to guess this by itself by appending `/x64` to `EDFAPI_LIB` path. However, you should specify this variable explicitly if 64-libraries are in a non-standard folder (or SR Research changed it, or you just want to be sure).
@@ -27,29 +27,25 @@ EDFAPI_INC="c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink"
 Restart session and check the variables by typing `Sys.getenv()` (to see all variables) or `Sys.getenv("EDFAPI_LIB")` to check a specific one.
 
 #### Linux
-TODO
+For linux you might need to configure `EDFAPI_INC` environment variable. The package will try to build the interface library assuming default location of header files `/usr/include/EyeLink`, but it may change in the future. The variable must be defined either in user or project [.Renviron](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html) file. The simplest way to edit it from R is via [usethis](https://usethis.r-lib.org/) library and [edit_r_environ()](https://usethis.r-lib.org/reference/edit.html) function. Type `usethis::edit_r_environ()` for user and `usethis::edit_r_environ('project')` for projects environments (note that the latter shadows the former, read [documentation](https://usethis.r-lib.org/) for details). Your `.Renviron` file should include a line like this
+```
+EDFAPI_INC="/usr/include/EyeLink"
+```
+Restart session and check the variables by typing `Sys.getenv("EDFAPI_INC")`.
 
 #### Mac OS
 TODO
 
 ### Install the library
 
-Please note that, in order to work, this package requires EDF API library. It is included in Eyelink  Developers Kit, available from [www.sr-support.com](https://www.sr-support.com). Because the package needs to be compiled during the installation, it will fail if no library was found. Currently, it assumes that on Windows x64 the EDF library is at its default location (`c:/Program Files (x86)/SR Research/EyeLink/EDF_Access_API/lib/win64`).
-
-To install, run
+To install from github
 ```
 library("devtools")
-options(devtools.install.args = "--no-multiarch") # only relevant for Windows 
-install_github("alexander-pastukhov/edfReader", dependencies=TRUE)
+install_github("alexander-pastukhov/eyelinkReader", dependencies=TRUE)
 ```
 
-At the moment, this works for me on Linux and 64-bit Windows, but not on 32-bit Windows. Also, currently I do not have an access to Mac OS X, so I would appreciate any help with that platform.
 
-## Manuals
+## Further information on EDF file content
 
-I have attempted to document the package as thoroughly as I could. However, for any question about specific attributes I would refer to the EDF API manual, which is supplied by SR Research alongside the library.
+I have attempted to document the package as thoroughly as I could. However, for any question about specific attributes please refer to the EDF API manual and Eyelink documentation, which is supplied by SR Research alongside the library.
 
-## License
-
-The code is licensed under the [MIT License](http://www.opensource.org/licenses/mit-license.php). However, the following additional conditions apply to header files in `src/SRResearch` subfolder. 
-> All EyeLink® related files, including compiled files may be made available to SR Research licensed users only and may not otherwise be redistributed in any manner.
