@@ -4,34 +4,33 @@
 \alias{extract_variables}
 \title{Extract variables}
 \usage{
-extract_variables(events, wideFormat = TRUE)
+extract_variables(events)
 }
 \arguments{
-\item{events}{An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.}
-
-\item{wideFormat}{Logical, if \code{TRUE} spreads variables into columns turning table into a wide format
-with a single row per trial. Timing information is dropped. Defaults to \code{TRUE}.}
+\item{events}{An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.}
 }
 \value{
-A data.frame with information on \code{\link[=edfRecording$variables]{variables}}
+A data.frame with information on \code{\link[=eyelinkRecording]{variables}}
 }
 \description{
 Extracts variables from the events table. Normally, you don't need to call this function yourself,
-as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_variables = TRUE}).
+as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_variables = TRUE}).
 }
 \examples{
-# variables are extracted during the initial read_edf call
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
-                      import_variables = TRUE)
+if (eyelinkReader::is_compiled()) {
+    # variables are extracted during the initial read_edf call
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                          import_variables = TRUE)
 
-# variables are extracted during the initial read_edf call by default
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+    # variables are extracted during the initial read_edf call by default
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 
-# variables are extracted later
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
-                      import_variables = FALSE)
-recording$variables <- extract_variables(recording$events)
+    # variables are extracted later
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                          import_variables = FALSE)
+   recording$variables <- extract_variables(recording$events)
+}
 }
 \seealso{
-read_edf, edfRecording
+read_edf, eyelinkRecording
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_edf.R
 \name{read_edf}
 \alias{read_edf}
-\title{Read EDF file}
+\title{Read EDF file with gaze data recorded by SR Research Eyelink eye tracker}
 \usage{
 read_edf(
   file,
@@ -17,7 +17,8 @@ read_edf(
   import_blinks = TRUE,
   import_fixations = TRUE,
   import_variables = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  fail_loudly = TRUE
 )
 }
 \arguments{
@@ -38,40 +39,46 @@ Please note that specifying\code{sample_attributes} automatically sets it to \co
 
 \item{sample_attributes}{a character vector that lists sample attributes to be imported.
 By default, all attributes are imported (default). For the complete list of sample attributes
-please refer to \code{\link{edfRecording}} or EDF API documentation.}
+please refer to \code{\link{eyelinkRecording}} or EDF API documentation.}
 
 \item{start_marker}{event string that marks the beginning of the trial. Defaults to \code{"TRIALID"}.}
 
 \item{end_marker}{event string that marks the end of the trial. Defaults to \code{"TRIAL OK"}.
 Please note that an \strong{empty} string \code{''} means that a trial lasts from one \code{start_marker} till the next one.}
 
-\item{import_saccades}{logical, whether to extract saccade events into a separate table for convinience. Defaults to \code{TRUE}.}
+\item{import_saccades}{logical, whether to extract saccade events into a separate table for convenience. Defaults to \code{TRUE}.}
 
-\item{import_blinks}{logical, wheather to extract blink events into a separate table for convinience. Defaults to \code{TRUE}.}
+\item{import_blinks}{logical, whether to extract blink events into a separate table for convenience. Defaults to \code{TRUE}.}
 
-\item{import_fixations}{logical, whether to extract fixation events into a separate table for convinience. Defaults to \code{TRUE}.}
+\item{import_fixations}{logical, whether to extract fixation events into a separate table for convenience. Defaults to \code{TRUE}.}
 
-\item{import_variables}{logical, whether to extract stored variables into a separate table for convinience. Defaults to \code{TRUE}.}
+\item{import_variables}{logical, whether to extract stored variables into a separate table for convenience. Defaults to \code{TRUE}.}
 
 \item{verbose}{logical, whether the number of trials and the progress are shown in the console. Defaults to \code{TRUE}.}
+
+\item{fail_loudly}{logical, whether lack of compiled library means
+error (\code{TRUE}, default) or just warning (\code{FALSE}).}
 }
 \value{
-an \code{\link{edfRecording}} object that contains events, samples,
+an \code{\link{eyelinkRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }
 \description{
-Reads EDF file and returns an \code{\link{edfRecording}} object that contains events, samples,
+Reads EDF file with gaze data recorded by SR Research Eyelink eye tracker
+and returns an \code{\link{eyelinkRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }
 \examples{
-# Import only events and recordings information
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+if (eyelinkReader::is_compiled()) {
+    # Import only events and recordings information
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 
-# Import events and samples (only time and  screen gaze coordinates)
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
+    # Import events and samples (only time and  screen gaze coordinates)
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
                       sample_attributes = c('time', 'gx', 'gy'))
 
-# Import events and samples (all attributes)
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"), import_samples= TRUE)
-
+    # Import events and samples (all attributes)
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                          import_samples= TRUE)
+}
 }

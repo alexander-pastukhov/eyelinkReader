@@ -7,9 +7,146 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppProgress)]]
 #include <progress.hpp>
 
-#include "SRResearch/edf.h"
+namespace edfapi {
+#include "edf.h"
+}
 
-#include "edf_structures.h"
+
+// ------------------ data structures, as defined in EDF C API user manual ------------------
+typedef struct TRIAL_EVENTS {
+  std::vector <unsigned int> trial_index;
+  std::vector <edfapi::UINT32> time;
+  std::vector <edfapi::INT16> type;
+  std::vector <edfapi::UINT16> read;
+  std::vector <edfapi::UINT32> sttime;
+  std::vector <edfapi::UINT32> sttime_rel;
+  std::vector <edfapi::UINT32> entime;
+  std::vector <edfapi::UINT32> entime_rel;
+  std::vector <float> hstx;
+  std::vector <float> hsty;
+  std::vector <float> gstx;
+  std::vector <float> gsty;
+  std::vector <float> sta;
+  std::vector <float> henx;
+  std::vector <float> heny;
+  std::vector <float> genx;
+  std::vector <float> geny;
+  std::vector <float> ena;
+  std::vector <float> havx;
+  std::vector <float> havy;
+  std::vector <float> gavx;
+  std::vector <float> gavy;
+  std::vector <float> ava;
+  std::vector <float> avel;
+  std::vector <float> pvel;
+  std::vector <float> svel;
+  std::vector <float> evel;
+  std::vector <float> supd_x;
+  std::vector <float> eupd_x;
+  std::vector <float> supd_y;
+  std::vector <float> eupd_y;
+  std::vector <edfapi::INT16> eye;
+  std::vector <edfapi::UINT16> status;
+  std::vector <edfapi::UINT16> flags;
+  std::vector <edfapi::UINT16> input;
+  std::vector <edfapi::UINT16> buttons;
+  std::vector <edfapi::UINT16> parsedby;
+  std::vector <std::string> message;
+} TRIAL_EVENTS;
+
+
+// please note that byte type were replaced with UINT16 for compatibility reasons
+typedef struct TRIAL_RECORDINGS{
+  std::vector <unsigned int> trial_index;
+  std::vector <edfapi::UINT32> time;
+  std::vector <edfapi::UINT32> time_rel;
+  std::vector <float> sample_rate;
+  std::vector <edfapi::UINT16> eflags;
+  std::vector <edfapi::UINT16> sflags;
+  std::vector <edfapi::UINT16> state;
+  std::vector <edfapi::UINT16> record_type;
+  std::vector <edfapi::UINT16> pupil_type;
+  std::vector <edfapi::UINT16> recording_mode;
+  std::vector <edfapi::UINT16> filter_type;
+  std::vector <edfapi::UINT16> pos_type;
+  std::vector <edfapi::UINT16> eye;
+} TRIAL_RECORDINGS;
+
+typedef struct TRAIL_SAMPLES{
+  std::vector <unsigned int> trial_index;
+  std::vector <edfapi::UINT32> time;
+  std::vector <edfapi::UINT32> time_rel;
+  std::vector <float> pxL;
+  std::vector <float> pxR;
+  std::vector <float> pyL;
+  std::vector <float> pyR;
+  std::vector <float> hxL;
+  std::vector <float> hxR;
+  std::vector <float> hyL;
+  std::vector <float> hyR;
+  std::vector <float> paL;
+  std::vector <float> paR;
+  std::vector <float> gxL;
+  std::vector <float> gxR;
+  std::vector <float> gyL;
+  std::vector <float> gyR;
+  std::vector <float> rx;
+  std::vector <float> ry;
+  std::vector <float> gxvelL;
+  std::vector <float> gxvelR;
+  std::vector <float> gyvelL;
+  std::vector <float> gyvelR;
+  std::vector <float> hxvelL;
+  std::vector <float> hxvelR;
+  std::vector <float> hyvelL;
+  std::vector <float> hyvelR;
+  std::vector <float> rxvelL;
+  std::vector <float> rxvelR;
+  std::vector <float> ryvelL;
+  std::vector <float> ryvelR;
+  std::vector <float> fgxvelL;
+  std::vector <float> fgxvelR;
+  std::vector <float> fgyvelL;
+  std::vector <float> fgyvelR;
+  std::vector <float> fhxvelL;
+  std::vector <float> fhxvelR;
+  std::vector <float> fhyvelL;
+  std::vector <float> fhyvelR;
+  std::vector <float> frxvelL;
+  std::vector <float> frxvelR;
+  std::vector <float> fryvelL;
+  std::vector <float> fryvelR;
+
+  std::vector <edfapi::INT16> hdata_1;
+  std::vector <edfapi::INT16> hdata_2;
+  std::vector <edfapi::INT16> hdata_3;
+  std::vector <edfapi::INT16> hdata_4;
+  std::vector <edfapi::INT16> hdata_5;
+  std::vector <edfapi::INT16> hdata_6;
+  std::vector <edfapi::INT16> hdata_7;
+  std::vector <edfapi::INT16> hdata_8;
+
+  std::vector <edfapi::UINT16> flags;
+  std::vector <edfapi::UINT16> input;
+  std::vector <edfapi::UINT16> buttons;
+  std::vector <edfapi::INT16> htype;
+  std::vector <edfapi::UINT16> errors;
+} TRIAL_SAMPLES;
+
+
+// ------------------ EDF API interface ------------------
+
+//' @title Version of the EDF API library
+//' @description Returns version of the EDF API library used to interface an EDF file.
+//' @export
+//' @examples
+//' eyelinkReader::library_version()
+//[[Rcpp::export]]
+CharacterVector library_version(){
+  Rcpp::StringVector version_info(1);
+  version_info[0]= edfapi::edf_get_version();
+  return version_info;
+}
 
 // @title Opens EDF file, throws exception on error
 // @description Opens EDF file for reading, throws exception and prints error message if fails.
@@ -21,10 +158,10 @@ using namespace Rcpp;
 // @param int loadsamples, load/skip loading of samples 0, do not load samples. 1, load samples.
 // @return pointer to the EDF file
 // @keywords internal
-EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadevents, int loadsamples){
+edfapi::EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadevents, int loadsamples){
   // opening the edf file
   int ReturnValue;
-  EDFFILE* edfFile= edf_open_file(filename.c_str(), consistency, loadevents, loadsamples, &ReturnValue);
+  edfapi::EDFFILE* edfFile = edfapi::edf_open_file(filename.c_str(), consistency, loadevents, loadsamples, &ReturnValue);
 
   // throwing an exception, if things go pear shaped
   if (ReturnValue != 0){
@@ -43,16 +180,16 @@ EDFFILE* safely_open_edf_file(std::string filename, int consistency, int loadeve
 //' @return string with the preamble
 //' @keywords internal
 //' @examples
-//' read_preamble(system.file("extdata", "example.edf", package = "edfR"))
+//' read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
 //[[Rcpp::export]]
 std::string read_preamble_str(std::string filename){
-  EDFFILE* edfFile= safely_open_edf_file(filename, 2, 0, 0);
+  edfapi::EDFFILE* edfFile = safely_open_edf_file(filename, 2, 0, 0);
 
   // getting preable
   int ReturnValue;
   char preamble_buffer[2048];
-  ReturnValue= edf_get_preamble_text(edfFile, preamble_buffer, 2048);
-  if (ReturnValue!=0)
+  ReturnValue = edfapi::edf_get_preamble_text(edfFile, preamble_buffer, 2048);
+  if (ReturnValue != 0)
   {
     std::stringstream error_message_stream;
     error_message_stream << "Error reading preable for file '" << filename << "', error code: " << ReturnValue;
@@ -61,7 +198,7 @@ std::string read_preamble_str(std::string filename){
   std::string preamble(preamble_buffer);
 
   // closing file
-  edf_close_file(edfFile);
+  edfapi::edf_close_file(edfFile);
 
   return preamble;
 }
@@ -74,7 +211,7 @@ std::string read_preamble_str(std::string filename){
 // @param std::string end_marker_string, event that marks trial end
 // @seealso safely_open_edf_file
 // @keywords internal
-void set_trial_navigation_up(EDFFILE* edfFile, std::string start_marker_string, std::string end_marker_string){
+void set_trial_navigation_up(edfapi::EDFFILE* edfFile, std::string start_marker_string, std::string end_marker_string){
   // converting strings to char buffers
   char * start_marker_char = new char[start_marker_string.size() + 1];
   std::copy(start_marker_string.begin(), start_marker_string.end(), start_marker_char);
@@ -94,15 +231,14 @@ void set_trial_navigation_up(EDFFILE* edfFile, std::string start_marker_string, 
   delete[] end_marker_char;
 }
 
-
 // @title Jumps to the i-th trial
 // @description Jumps to the i-th trial, throws an exception and prints an error message, if fails.
 // @param EDFFILE* edfFile, pointer to the EDF file
 // @param int iTrial, index of the desired trial
 // @seealso safely_open_edf_file, set_trial_navigation_up
 // @keywords internal
-void jump_to_trial(EDFFILE* edfFile, int iTrial){
-  if (edf_jump_to_trial(edfFile, iTrial) != 0){
+void jump_to_trial(edfapi::EDFFILE* edfFile, int iTrial){
+  if (edfapi::edf_jump_to_trial(edfFile, iTrial) != 0){
     std::stringstream error_message_stream;
     error_message_stream << "Error jumping to trial " << iTrial+1;
     ::Rf_error(error_message_stream.str().c_str());
@@ -143,10 +279,10 @@ NumericMatrix prepare_trial_headers(int total_trials){
 // Functions assumes that the correct trial within the EDF file was already navigated to.
 // @return modifes trial_headers i-th row in place
 // @keywords internal
-void read_trial_header(EDFFILE* edfFile, NumericMatrix &trial_headers, int iTrial){
+void read_trial_header(edfapi::EDFFILE* edfFile, NumericMatrix &trial_headers, int iTrial){
 
   // obtaining the trial header
-  TRIAL current_header;
+  edfapi::TRIAL current_header;
   if (edf_get_trial_header(edfFile, &current_header) != 0){
     std::stringstream error_message_stream;
     error_message_stream << "Error obtaining the header for the trial " << iTrial+1;
@@ -180,7 +316,7 @@ void read_trial_header(EDFFILE* edfFile, NumericMatrix &trial_headers, int iTria
 // Is used to compute event time relative to it.
 // @return modifies events structure
 // @keywords internal
-void append_event(TRIAL_EVENTS &events, FEVENT new_event, unsigned int iTrial, UINT32 trial_start){
+void append_event(TRIAL_EVENTS &events, edfapi::FEVENT new_event, unsigned int iTrial, edfapi::UINT32 trial_start){
   events.trial_index.push_back(iTrial+1);
   events.time.push_back(new_event.time);
   events.type.push_back(new_event.type);
@@ -226,7 +362,7 @@ void append_event(TRIAL_EVENTS &events, FEVENT new_event, unsigned int iTrial, U
   events.parsedby.push_back(new_event.parsedby);
 
   // special case: LSTRING message
-  LSTRING* message_ptr= ((LSTRING*)new_event.message);
+  edfapi::LSTRING* message_ptr= ((edfapi::LSTRING*)new_event.message);
   if (message_ptr==0 || message_ptr==NULL){
     events.message.push_back("");
   }
@@ -247,7 +383,7 @@ void append_event(TRIAL_EVENTS &events, FEVENT new_event, unsigned int iTrial, U
 // Is used to compute event time relative to it.
 // @return modifies recordings structure
 // @keywords internal
-void append_recording(TRIAL_RECORDINGS &recordings, RECORDINGS new_rec, unsigned int iTrial, UINT32 trial_start){
+void append_recording(TRIAL_RECORDINGS &recordings, edfapi::RECORDINGS new_rec, unsigned int iTrial, edfapi::UINT32 trial_start){
   recordings.trial_index.push_back(iTrial+1);
   recordings.time.push_back(new_rec.time);
   recordings.time_rel.push_back(new_rec.time-trial_start);
@@ -263,6 +399,7 @@ void append_recording(TRIAL_RECORDINGS &recordings, RECORDINGS new_rec, unsigned
   recordings.eye.push_back(new_rec.eye);
 }
 
+
 // @title Appends sample to the samples structure
 // @description Appends a new sample to the samples structure and copies all the data
 // @param TRIAL_SAMPLES &samples, reference to the trial samples structure
@@ -272,7 +409,7 @@ void append_recording(TRIAL_RECORDINGS &recordings, RECORDINGS new_rec, unsigned
 // @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
 // @return modifies samples structure
 // @keywords internal
-void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTrial, UINT32 trial_start, LogicalVector sample_attr_flag)
+void append_sample(TRIAL_SAMPLES &samples, edfapi::FSAMPLE new_sample, unsigned int iTrial, edfapi::UINT32 trial_start, LogicalVector sample_attr_flag)
 {
   samples.trial_index.push_back(iTrial+1);
   if (sample_attr_flag[0]){
@@ -389,7 +526,7 @@ void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTri
 }
 
 
-// Internal funciton that reads EDF file
+// Internal function that reads EDF file
 //
 // @title Internal funciton that reads EDF file
 // @description Reads EDF file into a list that contains events, samples, and recordings.
@@ -410,17 +547,17 @@ void append_sample(TRIAL_SAMPLES &samples, FSAMPLE new_sample, unsigned int iTri
 // @return List, contents of the EDF file. Please see read_edf for details.
 //[[Rcpp::export]]
 List read_edf_file(std::string filename,
-              int consistency,
-              bool import_events,
-              bool import_recordings,
-              bool import_samples,
-              LogicalVector sample_attr_flag,
-              std::string start_marker_string,
-              std::string end_marker_string,
-              bool verbose){
+                   int consistency,
+                   bool import_events,
+                   bool import_recordings,
+                   bool import_samples,
+                   LogicalVector sample_attr_flag,
+                   std::string start_marker_string,
+                   std::string end_marker_string,
+                   bool verbose){
 
   // opening the edf file
-  EDFFILE* edfFile= safely_open_edf_file(filename, consistency, import_events, import_samples);
+  edfapi::EDFFILE* edfFile= safely_open_edf_file(filename, consistency, import_events, import_samples);
 
   // set the trial navigation up
   set_trial_navigation_up(edfFile, start_marker_string, end_marker_string);
@@ -454,25 +591,25 @@ List read_edf_file(std::string filename,
     read_trial_header(edfFile, trial_headers, iTrial);
 
     // read trial
-    ALLF_DATA* current_data;
-    UINT32 trial_start_time= trial_headers(iTrial, 2);
-    UINT32 trial_end_time= trial_headers(iTrial, 3);
+    edfapi::ALLF_DATA* current_data;
+    edfapi::UINT32 trial_start_time = trial_headers(iTrial, 2);
+    edfapi::UINT32 trial_end_time = trial_headers(iTrial, 3);
     if (trial_end_time <= trial_start_time){
       ::warning("Skipping trial %d due to zero or negative duration.", iTrial+1);
       continue;
     }
 
     bool TrialIsOver= false;
-    UINT32 data_timestamp= 0;
-    for(int DataType= edf_get_next_data(edfFile);
-        DataType!=NO_PENDING_ITEMS && !TrialIsOver;
-        DataType= edf_get_next_data(edfFile)){
+    edfapi::UINT32 data_timestamp= 0;
+    for(int DataType = edf_get_next_data(edfFile);
+        (DataType != NO_PENDING_ITEMS) && !TrialIsOver;
+        DataType= edfapi::edf_get_next_data(edfFile)){
 
       // obtaining next data piece
-      current_data= edf_get_float_data(edfFile);
+      current_data = edfapi::edf_get_float_data(edfFile);
       switch(DataType){
       case SAMPLE_TYPE:
-        data_timestamp= current_data->fs.time;
+        data_timestamp = current_data->fs.time;
         if (import_samples){
           append_sample(all_samples, current_data->fs, iTrial, trial_start_time, sample_attr_flag);
         }
@@ -481,7 +618,7 @@ List read_edf_file(std::string filename,
       case STARTPARSE:
       case ENDPARSE:
       case BREAKPARSE:
-      case STARTBLINK :
+      case STARTBLINK:
       case ENDBLINK:
       case STARTSACC:
       case ENDSACC:
@@ -496,10 +633,10 @@ List read_edf_file(std::string filename,
       case BUTTONEVENT:
       case INPUTEVENT:
       case LOST_DATA_EVENT:
-        data_timestamp= current_data->fe.sttime;
-        if (data_timestamp>trial_end_time)
+        data_timestamp = current_data->fe.sttime;
+        if (data_timestamp > trial_end_time)
         {
-          TrialIsOver= true;
+          TrialIsOver = true;
           break;
         }
         if (import_events){
@@ -508,7 +645,7 @@ List read_edf_file(std::string filename,
         break;
 
       case RECORDING_INFO:
-        data_timestamp= current_data->fe.time;
+        data_timestamp = current_data->fe.time;
         if (import_recordings){
           append_recording(all_recordings, current_data->rec, iTrial, trial_start_time);
         }
@@ -518,29 +655,31 @@ List read_edf_file(std::string filename,
       }
 
       // end of trial check
-      if (data_timestamp>trial_end_time)
+      if (data_timestamp > trial_end_time)
         break;
     }
   }
 
   // closing file
-  edf_close_file(edfFile);
+  edfapi::edf_close_file(edfFile);
+
 
   // attempting to identify display info, should be BEFORE the first trial
-  edfFile= safely_open_edf_file(filename, consistency, 1, 0);
+  edfFile = safely_open_edf_file(filename, consistency, 1, 0);
   bool found_info= false;
   std::string display_coords;
 
-  for(bool keep_looking= true; keep_looking; ){
-    LSTRING* message_ptr;
-    int DataType= edf_get_next_data(edfFile);
-    ALLF_DATA* current_data= edf_get_float_data(edfFile);
+  for(bool keep_looking = true; keep_looking; ){
+    edfapi::LSTRING* message_ptr;
+    int DataType= edfapi::edf_get_next_data(edfFile);
+    edfapi::ALLF_DATA* current_data= edf_get_float_data(edfFile);
     switch(DataType){
     case MESSAGEEVENT:
-      message_ptr= ((LSTRING*)current_data->fe.message);
-      if (message_ptr==0 || message_ptr==NULL){
+      message_ptr = ((edfapi::LSTRING*)current_data->fe.message);
+      if (message_ptr==0 || message_ptr==NULL) {
+
       }
-      else{
+      else {
         char* message_char= new char[message_ptr->len];
         strncpy(message_char, &(message_ptr->c), message_ptr->len);
         std::string message_str(message_char);
@@ -558,7 +697,7 @@ List read_edf_file(std::string filename,
       break;
     }
   }
-  edf_close_file(edfFile);
+  edfapi::edf_close_file(edfFile);
 
   // returning data
   List edf_recording;
@@ -750,3 +889,4 @@ List read_edf_file(std::string filename,
   edf_recording.attr("class")= "edf";
   return (edf_recording);
 }
+

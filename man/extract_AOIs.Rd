@@ -7,17 +7,13 @@
 extract_AOIs(events)
 }
 \arguments{
-\item{events}{An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.}
+\item{events}{An \code{events} table of the \code{\link{eyelinkfRecording}} object.}
 }
 \value{
-A data.frame with the list of \code{\link[=edfRecording$AOIs]{AOIs}}
+A data.frame with the list of \code{\link{eyelinkfRecording}}
 }
 \description{
 Extracts rectangular areas of interest (AOI), as defined by "!V IAREA RECTANGLE" command.
-Specifically, we expect it to be in format \code{!V IAREA RECTANGLE <index> <left> <top> <right> <bottom> <label>}, where
-\code{<label>} is a string label and all other variables are integer.
-}
-\examples{
-gaze <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
-AOIs <- extract_AOIs(gaze$events)
+Specifically, we expect it to be in format \code{!V IAREA RECTANGLE <index> <left> <top> <right> <bottom> <label>},
+where \code{<label>} is a string label and all other variables are integer.
 }

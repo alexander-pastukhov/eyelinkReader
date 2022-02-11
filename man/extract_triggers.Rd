@@ -4,29 +4,26 @@
 \alias{extract_triggers}
 \title{Extract triggers, a custom message type}
 \usage{
-extract_triggers(events, wideFormat = NULL)
+extract_triggers(events)
 }
 \arguments{
-\item{events}{An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.}
-
-\item{wideFormat}{Whether to convert the table to the wide format, so that each trigger
-is a separate column.  Works well only if same trigger sequence is used in every trial. Possible values
-\code{"absolute"} (values represent aboslute time), \code{"relative"} (relative to the trial start),
-or \code{NULL} (narrow format).Defaults to \code{NULL}.}
+\item{events}{An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.}
 }
 \value{
-A data.frame with information on \code{\link[=edfRecording$triggers]{triggers}}
+A data.frame with information on \code{\link[=eyelinkRecording]{triggers}}
 }
 \description{
 Extracts trigger events, messages that adhere to a "TRIGGER label" format.
 Their purpose is to identify the time instance of specific interest.
-Please note that due to a non-standard nature of this function \strong{is not} envoked
+Please note that due to a non-standard nature of this function \strong{is not} called
 during the \code{\link{read_edf}} call and you need to call it separately.
 }
 \examples{
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
-recording$triggers <- extract_triggers(recording$events)
+if (eyelinkReader::is_compiled()) {
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+    recording$triggers <- extract_triggers(recording$events)
+}
 }
 \seealso{
-read_edf, edfRecording
+read_edf, eyelinkRecording
 }

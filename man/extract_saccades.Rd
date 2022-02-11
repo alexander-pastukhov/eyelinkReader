@@ -7,28 +7,30 @@
 extract_saccades(events)
 }
 \arguments{
-\item{events}{An \code{\link[=edfRecording$events]{events}} table of the \code{\link{edfRecording}} object.}
+\item{events}{An \code{\link[=eyelinkRecording]{events}} table of the \code{\link{eyelinkRecording}} object.}
 }
 \value{
-A data.frame with information on \code{\link[=edfRecording$saccades]{saccades}}
+A data.frame with information on \code{\link[=eyelinkRecording]{saccades}}
 }
 \description{
 Extracts saccades from the events table. Normally, you don't need to call this function yourself,
-as it is envoked during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
+as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
 }
 \examples{
-# saccades are extracted during the initial read_edf call
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
-                      import_saccades = TRUE)
+if (eyelinkReader::is_compiled()) {
+    # saccades are extracted during the initial read_edf call
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                          import_saccades = TRUE)
 
-# saccades are extracted during the initial read_edf call by default
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+    # saccades are extracted during the initial read_edf call by default
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 
-# saccades are extracted later
-recording <- read_edf(system.file("extdata", "example.edf", package = "edfR"),
-                      import_saccades = FALSE)
-recording$saccades <- extract_saccades(recording$events)
+    # saccades are extracted later
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+                          import_saccades = FALSE)
+    recording$saccades <- extract_saccades(recording$events)
+}
 }
 \seealso{
-read_edf, edfRecording
+read_edf, eyelinkRecording
 }
