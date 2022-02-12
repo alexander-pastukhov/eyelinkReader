@@ -18,7 +18,7 @@ read_preamble <- function(file, fail_loudly = TRUE){
   if (!check_that_compiled(fail_loudly)) return(NULL)
 
   # getting the preamble as a single string and splitting it by new-line
-  preamble <- read_preamble_str(file) %>%
+  preamble <- eyelinkReader:::read_preamble_str(file) %>%
     stringr::str_split('\\n', simplify = FALSE)
 
   # removing leading '** ', cause why would we need them?

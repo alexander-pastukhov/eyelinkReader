@@ -83,7 +83,7 @@ read_edf <- function(file,
   import_samples <- sum(sample_attr_flag) > 0
 
   # importing data
-  edf_recording <- read_edf_file(file,
+  edf_recording <- eyelinkReader:::read_edf_file(file,
                                  requested_consistency,
                                  import_events,
                                  import_recordings,
