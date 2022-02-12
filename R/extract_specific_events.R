@@ -174,9 +174,9 @@ extract_triggers <- function(events){
 #' Specifically, we expect it to be in format \code{!V IAREA RECTANGLE <index> <left> <top> <right> <bottom> <label>},
 #' where \code{<label>} is a string label and all other variables are integer.
 #'
-#' @param events An \code{events} table of the \code{\link{eyelinkfRecording}} object.
+#' @param events An \code{events} table of the \code{\link{eyelinkRecording}} object.
 #'
-#' @return A data.frame with the list of \code{\link{eyelinkfRecording}}
+#' @return A data.frame with the list of \code{\link{eyelinkRecording}}
 #' @export
 #' @importFrom dplyr %>% filter select mutate
 #' @importFrom tidyr separate

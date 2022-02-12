@@ -7,10 +7,10 @@
 extract_AOIs(events)
 }
 \arguments{
-\item{events}{An \code{events} table of the \code{\link{eyelinkfRecording}} object.}
+\item{events}{An \code{events} table of the \code{\link{eyelinkRecording}} object.}
 }
 \value{
-A data.frame with the list of \code{\link{eyelinkfRecording}}
+A data.frame with the list of \code{\link{eyelinkRecording}}
 }
 \description{
 Extracts rectangular areas of interest (AOI), as defined by "!V IAREA RECTANGLE" command.
