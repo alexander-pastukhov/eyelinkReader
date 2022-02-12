@@ -18,6 +18,6 @@ Specifically, we expect it to be in format \code{!V IAREA RECTANGLE <index> <lef
 where \code{<label>} is a string label and all other variables are integer.
 }
 \examples{
-gaze <- data('example')
-gaze$AOIs <- extract_AOIs(gaze$events)
+data('example')
+example$AOIs <- extract_AOIs(example$events)
 }
