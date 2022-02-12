@@ -17,3 +17,7 @@ Extracts rectangular areas of interest (AOI), as defined by "!V IAREA RECTANGLE"
 Specifically, we expect it to be in format \code{!V IAREA RECTANGLE <index> <left> <top> <right> <bottom> <label>},
 where \code{<label>} is a string label and all other variables are integer.
 }
+\examples{
+gaze <- data('example')
+gaze$AOIs <- extract_AOIs(gaze$events)
+}

@@ -20,6 +20,7 @@
 #' @slot blinks Blinks extracted from \code{events}, see description below.
 #' @slot variables Recorded variables extracted from \code{events}, see description below.
 #' @slot triggers Events messages that adhere to a \code{TRIGGER <label>} format. This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets, similar to how it is done in M/EEG.
+#' @slot AOIs Areas of interest events.
 #'
 #' @section Events:
 #' Events table which is a collection of all \code{FEVENT} imported from the EDF file.
@@ -172,7 +173,7 @@
 #' * \code{variable} Variable name, the \code{<name>} part of the event message.
 #' * \code{value} Variable value, the \code{<value>} part of the event message.
 #'
-#' @section Triggers:
+#' @section Trigger events:
 #' Events messages that adhere to a \code{TRIGGER <label>} format.
 #' This is a \strong{non-standard message} that the package author uses to mark events like onsets or offsets,
 #' similar to how it is done in M/EEG.
@@ -180,6 +181,19 @@
 #' * \code{sttime} Start time.
 #' * \code{sttime_rel} Start time, relative to the start time of the trial.
 #' * \code{label} <label> part of the message, can contain white spaces.
+#'
+#' @section AOIs:
+#' Rectangular areas of interest (AOI), as defined by "!V IAREA RECTANGLE" command.
+#' Specifically, they are expected to be in format
+#' \code{!V IAREA RECTANGLE <index> <left> <top> <right> <bottom> <label>}.
+#' where \code{<label>} is a string label and all other variables are integer.
+#'
+#' * \code{trial} Trial index.
+#' * \code{sttime} Start time.
+#' * \code{sttime_rel} Start time, relative to the start time of the trial.
+#' * \code{index} AOI index.
+#' * \code{left}, \code{top}, \code{right}, \code{bottom} AOI coordinates.
+#' * \code{label} AOI label.
 #'
 #' @seealso
 #'   \code{\link{read_edf}}

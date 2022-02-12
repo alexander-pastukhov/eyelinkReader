@@ -180,6 +180,8 @@ extract_triggers <- function(events){
 #' @export
 #'
 #' @examples
+#' gaze <- data('example')
+#' gaze$AOIs <- extract_AOIs(gaze$events)
 extract_AOIs <- function(events){
   events %>%
     filter(str_detect(.data$message, '^!V IAREA RECTANGLE')) %>%
