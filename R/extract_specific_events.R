@@ -178,21 +178,24 @@ extract_triggers <- function(events){
 #'
 #' @return A data.frame with the list of \code{\link{eyelinkfRecording}}
 #' @export
+#' @importFrom dplyr %>% filter select mutate
+#' @importFrom tidyr separate
+#' @importFrom stringr str_detect
 #'
 #' @examples
 #' gaze <- data('example')
 #' gaze$AOIs <- extract_AOIs(gaze$events)
 extract_AOIs <- function(events){
   events %>%
-    filter(str_detect(.data$message, '^!V IAREA RECTANGLE')) %>%
-    separate(col = .data$message,
+    dplyr::filter(stringr::str_detect(.data$message, '^!V IAREA RECTANGLE')) %>%
+    tidyr::separate(col = .data$message,
              into = c("Exclamation", "IAREA", "RECTANGLE", "index", "left", "top", "right", "bottom", "label"),
              sep = ' ',
              remove = FALSE) %>%
-    select(c("trial", "sttime", "sttime_rel", "index", "label", "left", "top", "right", "bottom")) %>%
-    mutate(left= as.numeric(.data$left),
-           right= as.numeric(.data$right),
-           top= as.numeric(.data$top),
-           bottom= as.numeric(.data$bottom),
-           index= as.integer(.data$index))
+    dplyr::select(c("trial", "sttime", "sttime_rel", "index", "label", "left", "top", "right", "bottom")) %>%
+    dplyr::mutate(left= as.numeric(.data$left),
+                  right= as.numeric(.data$right),
+                  top= as.numeric(.data$top),
+                  bottom= as.numeric(.data$bottom),
+                  index= as.integer(.data$index))
 }
