@@ -184,8 +184,8 @@ extract_triggers <- function(events){
 #' @importFrom rlang .data
 #'
 #' @examples
-#' gaze <- data('example')
-#' gaze$AOIs <- extract_AOIs(gaze$events)
+#' data('example')
+#' example$AOIs <- extract_AOIs(example$events)
 extract_AOIs <- function(events){
   events %>%
     dplyr::filter(stringr::str_detect(.data$message, '^!V IAREA RECTANGLE')) %>%
