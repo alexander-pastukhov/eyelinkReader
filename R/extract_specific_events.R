@@ -184,8 +184,10 @@ extract_triggers <- function(events){
 #' @importFrom rlang .data
 #'
 #' @examples
-#' data('example')
-#' example$AOIs <- extract_AOIs(example$events)
+#' if (eyelinkReader::is_compiled()) {
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#'     recording$AOIs <- extract_AOIs(recording$events)
+#' }
 extract_AOIs <- function(events){
   events %>%
     dplyr::filter(stringr::str_detect(.data$message, '^!V IAREA RECTANGLE')) %>%

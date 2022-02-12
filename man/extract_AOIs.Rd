@@ -18,6 +18,8 @@ Specifically, we expect it to be in format \code{!V IAREA RECTANGLE <index> <lef
 where \code{<label>} is a string label and all other variables are integer.
 }
 \examples{
-data('example')
-example$AOIs <- extract_AOIs(example$events)
+if (eyelinkReader::is_compiled()) {
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+    recording$AOIs <- extract_AOIs(recording$events)
+}
 }
