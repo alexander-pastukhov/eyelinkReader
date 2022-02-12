@@ -181,6 +181,7 @@ extract_triggers <- function(events){
 #' @importFrom dplyr %>% filter select mutate
 #' @importFrom tidyr separate
 #' @importFrom stringr str_detect
+#' @importFrom rlang .data
 #'
 #' @examples
 #' gaze <- data('example')
