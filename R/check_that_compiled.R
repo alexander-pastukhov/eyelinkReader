@@ -6,6 +6,7 @@
 #' for test use only).
 #'
 #' @export
+#' @keywords internal
 #'
 #' @examples
 #' check_that_compiled(fail_loudly = FALSE)

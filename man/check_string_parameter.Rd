@@ -19,3 +19,4 @@ Checks for validity of a string parameter, stops if not valid
 start_marker <- "TRIALID"
 check_string_parameter(start_marker)
 }
+\keyword{internal}

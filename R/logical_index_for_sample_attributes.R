@@ -5,6 +5,7 @@
 #'
 #' @return logical vector
 #' @export
+#' @keywords internal
 #'
 #' @examples
 #' logical_index_for_sample_attributes(TRUE, c('time', 'gx', 'gy'))

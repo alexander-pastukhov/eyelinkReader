@@ -19,3 +19,4 @@ interface was successfully be compiled
 \examples{
 check_that_compiled(fail_loudly = FALSE)
 }
+\keyword{internal}

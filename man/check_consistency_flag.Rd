@@ -20,3 +20,4 @@ Checks consistency flag, stops if invalid, returns code if valid.
 \examples{
 check_consistency_flag('no consistency check')
 }
+\keyword{internal}

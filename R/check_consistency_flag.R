@@ -6,6 +6,7 @@
 #'
 #' @return integer index
 #' @export
+#' @keywords internal
 #'
 #' @examples
 #' check_consistency_flag('no consistency check')

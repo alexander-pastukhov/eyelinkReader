@@ -4,6 +4,7 @@
 #'
 #' @return character, value of the string_parameter
 #' @export
+#' @keywords internal
 #'
 #' @examples
 #' start_marker <- "TRIALID"
