@@ -5,7 +5,7 @@
 \alias{gaze}
 \title{Imported example.edf, events and samples}
 \format{
-An object of class \code{edfRecording} of length 10.
+An object of class \code{eyelinkRecording} of length 9.
 }
 \usage{
 gaze

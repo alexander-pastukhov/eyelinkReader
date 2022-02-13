@@ -1,7 +1,9 @@
 #' Extract saccades from recorded events
 #'
-#' @description Extract saccades from the \code{events} table. Normally, you don't need to call this function yourself,
-#' as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
+#' @description Extract saccades from the \code{events} table of the \code{\link{eyelinkRecording}} object.
+#' Normally, you don't need to call this function yourself,
+#' as it is called during the \code{\link{read_edf}} with default
+#' settings (\emph{e.g.}, \code{import_saccades = TRUE}).
 #'
 #' @param object Either an \code{\link{eyelinkRecording}} object or data.frame with events,
 #' i.e., \code{events} slot of the \code{\link{eyelinkRecording}} object.
