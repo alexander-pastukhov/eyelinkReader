@@ -1,6 +1,6 @@
 #' Extract saccades from recorded events
 #'
-#' @description Extract saccades from the events table. Normally, you don't need to call this function yourself,
+#' @description Extract saccades from the \code{events} table. Normally, you don't need to call this function yourself,
 #' as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
 #'
 #' @param object Either an \code{\link{eyelinkRecording}} object or data.frame with events,
@@ -26,7 +26,7 @@
 #'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
 #'                           import_saccades = FALSE)
 #'
-#'     # by passing the recoring
+#'     # by passing the recording
 #'     recording <- extract_saccades(recording)
 #'
 #'     # by passing events table

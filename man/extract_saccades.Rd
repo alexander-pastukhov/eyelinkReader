@@ -22,7 +22,7 @@ with an additional \code{saccades} slot or a data.frame with saccades' informati
 \code{\link{eyelinkRecording}} for details.
 }
 \description{
-Extract saccades from the events table. Normally, you don't need to call this function yourself,
+Extract saccades from the \code{events} table. Normally, you don't need to call this function yourself,
 as it is called during the \code{\link{read_edf}} with default settings (\emph{e.g.}, \code{import_saccades = TRUE}).
 }
 \examples{
@@ -38,7 +38,7 @@ if (eyelinkReader::is_compiled()) {
     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
                           import_saccades = FALSE)
 
-    # by passing the recoring
+    # by passing the recording
     recording <- extract_saccades(recording)
 
     # by passing events table
