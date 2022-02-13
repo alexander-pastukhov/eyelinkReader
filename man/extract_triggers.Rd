@@ -26,7 +26,7 @@ with an additional \code{triggers} slot or a data.frame with triggers' informati
 }
 \description{
 Extracts trigger events, messages that adhere to a
-\code{<message_prefix> <label>"} format. Their purpose is to identify the time
+\code{<message_prefix> <label>} format. Their purpose is to identify the time
 instance of specific interest.
 Please note that due to a non-standard nature of this function \strong{is not} called
 during the \code{\link{read_edf}} call and you need to call it separately.
