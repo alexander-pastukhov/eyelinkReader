@@ -127,7 +127,6 @@ read_edf <- function(file,
                                                    'MESSAGEEVENT', 'BUTTONEVENT', 'INPUTEVENT', 'LOST_DATA_EVENT'))
   }
 
-
   # extracting specific event types, if requested
   if (import_events){
     if (import_saccades){
@@ -147,5 +146,3 @@ read_edf <- function(file,
   class(edf_recording) <- 'eyelinkRecording'
   return (edf_recording);
 }
-
-
