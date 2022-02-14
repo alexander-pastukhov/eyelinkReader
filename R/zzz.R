@@ -66,7 +66,24 @@
       packageStartupMessage("Could not locate EDF API, please read installation instructions.")
     }
   } else if (Sys.info()["sysname"] == "Darwin") {
-    packageStartupMessage("Mac OSX compilation is not yet implemented but will be added soon.")
+    include_path <- locate_files(required_headers,
+                                 c(Sys.getenv("EDFAPI_INC"),
+                                   '/Library/Frameworks/edfapi.framework/Headers/'))
+    library_path <-'/Library/Frameworks/edfapi.framework/'
+    if (!is.null(include_path)) {
+      Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
+      Sys.setenv("PKG_LIBS"==sprintf('-L"%s" -framework edfapi', library_path))
+      packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
+      compilation_outcome <- try(Rcpp::sourceCpp(filename,
+                                                 env = parent.env(environment()),
+                                                 echo = FALSE,
+                                                 verbose = FALSE))
+    }
+
+    if (is.null(include_path) || class(compilation_outcome) == "try-error") {
+      packageStartupMessage("Could not locate EDF API, please read installation instructions.")
+    }
+
   } else {
     packageStartupMessage("Unfortunately, there is no EDF API implementation for your plaform.")
   }
