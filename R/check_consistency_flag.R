@@ -14,6 +14,8 @@ check_consistency_flag <- function(consistency) {
   # converting consistency to integer constant that C-code understands
   requested_consistency <-  factor(consistency,
                                    levels= c('no consistency check', 'check consistency and report', 'check consistency and fix'))
+  if (length(requested_consistency) < 1) stop("Null value for consistency flag")
+  if (length(requested_consistency) > 1) stop("Multiple values for consistency flag")
   if (is.na(requested_consistency)) stop(sprintf('Bad consistency check value "%s".', consistency))
 
   # zero-based index
