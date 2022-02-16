@@ -2,7 +2,7 @@ Package: eyelinkReader
 Title: Import and Preprocess Gaze Data for Eyelink Eye Tracker
 Version: 0.0.1.9000
 Authors@R:
-  person(given = "Alexander (Sasha)",
+  person(given = "Alexander",
          family = "Pastukhov",
          role = c("aut", "cre"),
          email ="pastukhov.alexander@gmail.com",
