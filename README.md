@@ -11,30 +11,42 @@ This package relies on _edfapi_ library that is as part of the _EyeLink Develope
 
 ### Configure R environment variables
 
+The package needs to configure compiler flags for its dependency on EDF API library. Specifically, it needs to specify paths to include header files ( _edf.h_, _edf_data.h_, and _edftypes.h_) and to the library itself. The package will try to compile using sensible defaults for each platform, i.e., default installation paths for _EyeLink Developers Kit v2.1.1_. However, these defaults may change in the future or you may wish to install the library to a non-standard location (relevant primarily for Windows).
+
+If compilation with default paths fails, you need to define R environment variables as described below. These variables must be defined either in user or project [.Renviron](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html) file. The simplest way to edit it is via [usethis](https://usethis.r-lib.org/) library and [edit_r_environ()](https://usethis.r-lib.org/reference/edit.html) function. Type `usethis::edit_r_environ()` for user and `usethis::edit_r_environ('project')` for projects environments (note that the latter shadows the former, read [documentation](https://usethis.r-lib.org/) for details). In the case of Windows, note that you do not need to worry about forward vs. backward slashes as R will normalize strings for you. Once you define the variables, restart session and check them by typing `Sys.getenv()` (to see all variables) or `Sys.getenv("EDFAPI_INC")` to check a specific one.
+
 #### Windows
-For Windows you might need to configure a few R environment variables. The package will try to build the interface library assuming default installation location: `c:/Program Files (x86)/SR Research/EyeLink`. However, that might change in the future or you might prefer to install it in a different folder. In these cases, you need to define:
+Default values assume that the Eyelink Developers Kit is installed in `c:/Program Files (x86)/SR Research/EyeLink` (default installation path).
 
-* `EDFAPI_LIB` : path to **edfapi.dll** for 32-bit systems. For _EyeLink Developers Kit v2.1.1_ a default installation path is `c:\Program Files (x86)\SR Research` and so the libraries are at `c:/Program Files (x86)/SR Research/EyeLink/libs`.
-* `EDFAPI_LIB64` (optional): path to **edfapi64.dll** for 64-bit systems. By default, the 64-bit library is in _x64_ subfolder:  `c:/Program Files (x86)/SR Research/EyeLink/libs/x64`. This variable is optional, as the package will try to guess this by itself by appending `/x64` to `EDFAPI_LIB` path. However, you should specify this variable explicitly if 64-libraries are in a non-standard folder (or SR Research changed it, or you just want to be sure).
-* `EDFAPI_INC` : path to C header files necessary for compilation. Specifically, the package requires _edf.h_, _edf_data.h_, and _edftypes.h_. By default they are located in `c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink`.
+* `EDFAPI_LIB` : path to `edfapi.dll` for **32-bit systems**. Defaults to `c:/Program Files (x86)/SR Research/EyeLink/libs`.
+* `EDFAPI_LIB64` (optional): path to `edfapi64.dll` for **64-bit systems**. By default, the 64-bit library is in _x64_ subfolder, i.e., `c:/Program Files (x86)/SR Research/EyeLink/libs/x64`. This variable is optional, as the package will try to guess this by itself by appending `/x64` to `EDFAPI_LIB` path. However, you should specify this variable explicitly if 64-libraries are in a non-standard folder (or SR Research changed it, or you just want to be sure).
+* `EDFAPI_INC` : path to C header files necessary for compilation. Specifically, the package requires _edf.h_, _edf_data.h_, and _edftypes.h_. Defaults to `c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink`.
 
-These variables must be defined either in user or project [.Renviron](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html) file. The simplest way to edit it is via [usethis](https://usethis.r-lib.org/) library and [edit_r_environ()](https://usethis.r-lib.org/reference/edit.html) function. Type `usethis::edit_r_environ()` for user and `usethis::edit_r_environ('project')` for projects environments (note that the latter shadows the former, read [documentation](https://usethis.r-lib.org/) for details). Note that you do not need to worry about forward vs. backward slashes as R will normalize strings for you. Your `.Renviron` file include lines similar to the ones below
+Your `.Renviron` file include lines similar to the ones below
 ```
 EDFAPI_LIB="c:/Program Files (x86)/SR Research/EyeLink/libs"
 EDFAPI_LIB64="c:/Program Files (x86)/SR Research/EyeLink/libs/x64"
 EDFAPI_INC="c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink"
 ```
-Restart session and check the variables by typing `Sys.getenv()` (to see all variables) or `Sys.getenv("EDFAPI_LIB")` to check a specific one.
 
 #### Linux
-For linux you might need to configure `EDFAPI_INC` environment variable. The package will try to build the interface library assuming default location of header files `/usr/include/EyeLink`, but it may change in the future. The variable must be defined either in user or project [.Renviron](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html) file. The simplest way to edit it from R is via [usethis](https://usethis.r-lib.org/) library and [edit_r_environ()](https://usethis.r-lib.org/reference/edit.html) function. Type `usethis::edit_r_environ()` for user and `usethis::edit_r_environ('project')` for projects environments (note that the latter shadows the former, read [documentation](https://usethis.r-lib.org/) for details). Your `.Renviron` file should include a line like this
+* `EDFAPI_INC` : path to C header files necessary for compilation. Specifically, the package requires _edf.h_, _edf_data.h_, and _edftypes.h_. Defaults to `/usr/include/EyeLink`.
+
+Your `.Renviron` file should include a line like this
 ```
 EDFAPI_INC="/usr/include/EyeLink"
 ```
-Restart session and check the variables by typing `Sys.getenv("EDFAPI_INC")`.
 
 #### Mac OS
-TODO
+
+* `EDFAPI_LIB`: path to EDF API framework. Defaults to `/Library/Frameworks`
+* `EDFAPI_INC` : path to C header files necessary for compilation. Specifically, the package requires _edf.h_, _edf_data.h_, and _edftypes.h_. Defaults to `/Library/Frameworks/edfapi.framework/Headers`
+
+Your `.Renviron` file include lines similar to the ones below
+```
+EDFAPI_LIB="/Library/Frameworks"
+EDFAPI_INC="/Library/Frameworks/edfapi.framework/Headers"
+```
 
 ### Install the library
 
