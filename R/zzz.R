@@ -72,7 +72,7 @@
     library_path <-'/Library/Frameworks/edfapi.framework/'
     if (!is.null(include_path)) {
       Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
-      Sys.setenv("PKG_LIBS"==sprintf('-L"%s" -framework edfapi', library_path))
+      Sys.setenv("PKG_LIBS"=sprintf('-framework edfapi -F%s -rpath %s', library_path, library_path))
       packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
       compilation_outcome <- try(Rcpp::sourceCpp(filename,
                                                  env = parent.env(environment()),
