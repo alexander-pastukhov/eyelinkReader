@@ -56,6 +56,39 @@ library("devtools")
 install_github("alexander-pastukhov/eyelinkReader", dependencies=TRUE)
 ```
 
+## Usage
+The main function is `read_edf()` that imports an EDF file (or throws an error, if EDF API is not installed). By default it will import all events and attempt to extract standard events: saccades, blinks, fixations, logged variables, etc.
+```r
+library(eyelinkReader)
+gaze <- read_edf('eyelink-recording.edf')
+```
+
+Events and individual event types are stored as tables inside the `eyelinkRecording` object
+```r
+View(gaze$saccades)
+```
+
+The package also includes function to parse non-standard events: recorded areas of interest (`extract_AOIs`) and trigger events that help to time events (`extract_triggers`). These need to be called separately.
+
+```r
+gaze <- extract_AOIs(gaze)
+gaze <- extract_triggers(gaze)
+```
+
+To import samples, add `import_samples = TRUE` and, optionally, specify which sample attributes need to be imported, e.g., `sample_attributes = c('time', 'gx', 'gy')`. All attributes are imported if `sample_attributes` is not specified. See package and EDF API documentation for the full list of attribute names.
+
+```r
+# import samples with all attributes
+gaze <- read_edf('eyelink-recording.edf', import_samples = TRUE)
+
+# import samples with selected attributes
+gaze <- read_edf('eyelink-recording.edf',
+                 import_samples = TRUE,
+                 sample_attributes = c('time', 'gx', 'gy'))
+```
+
+Please refer to documentation on `eyelinkRecording` class for details on events and samples.
+
 
 ## Further information on EDF file content
 
