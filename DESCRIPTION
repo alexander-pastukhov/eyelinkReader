@@ -1,6 +1,6 @@
 Package: eyelinkReader
 Title: Import and Preprocess Gaze Data for Eyelink Eye Tracker
-Version: 0.0.1.9000
+Version: 0.1.0
 Authors@R:
   person(given = "Alexander",
          family = "Pastukhov",
