@@ -4,6 +4,7 @@
 #'
 #' @return logical, value of the logical_flag
 #' @export
+#' @keywords internal
 #'
 #' @examples
 #' import_samples <- TRUE

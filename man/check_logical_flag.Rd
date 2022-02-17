@@ -19,3 +19,4 @@ Checks for validity of a logical flag, stops if not valid
 import_samples <- TRUE
 check_logical_flag(import_samples)
 }
+\keyword{internal}
