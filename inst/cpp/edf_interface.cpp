@@ -144,7 +144,7 @@ typedef struct TRAIL_SAMPLES{
 //[[Rcpp::export]]
 CharacterVector library_version(){
   Rcpp::StringVector version_info(1);
-  version_info[0]= edfapi::edf_get_version();
+  version_info[0] = edfapi::edf_get_version();
   return version_info;
 }
 
@@ -255,7 +255,7 @@ NumericMatrix prepare_trial_headers(int total_trials){
   NumericVector row_index(total_trials);
   for(int iTrial= 0; iTrial< total_trials; iTrial++)
   {
-    row_index[iTrial]= iTrial+1;
+    row_index[iTrial] = iTrial+1;
   };
 
   // column names
@@ -267,7 +267,7 @@ NumericMatrix prepare_trial_headers(int total_trials){
 
   // create the matrix
   NumericMatrix trial_headers= NumericMatrix(total_trials, col_names.size());
-  trial_headers.attr("dimnames")= List::create(row_index, col_names);
+  trial_headers.attr("dimnames") = List::create(row_index, col_names);
   return (trial_headers);
 }
 
@@ -290,21 +290,21 @@ void read_trial_header(edfapi::EDFFILE* edfFile, NumericMatrix &trial_headers, i
   }
 
   // copying it over
-  trial_headers(iTrial, 0)= iTrial+1;
-  trial_headers(iTrial, 1)= current_header.duration;
-  trial_headers(iTrial, 2)= current_header.starttime;
-  trial_headers(iTrial, 3)= current_header.endtime;
-  trial_headers(iTrial, 4)= current_header.rec->time;
-  trial_headers(iTrial, 5)= current_header.rec->sample_rate ;
-  trial_headers(iTrial, 6)= current_header.rec->eflags;
-  trial_headers(iTrial, 7)= current_header.rec->sflags;
-  trial_headers(iTrial, 8)= current_header.rec->state;
-  trial_headers(iTrial, 9)= current_header.rec->record_type;
-  trial_headers(iTrial,10)= current_header.rec->pupil_type;
-  trial_headers(iTrial,11)= current_header.rec->recording_mode;
-  trial_headers(iTrial,12)= current_header.rec->filter_type;
-  trial_headers(iTrial,13)= current_header.rec->pos_type;
-  trial_headers(iTrial,14)= current_header.rec->eye;
+  trial_headers(iTrial, 0) = iTrial+1;
+  trial_headers(iTrial, 1) = current_header.duration;
+  trial_headers(iTrial, 2) = current_header.starttime;
+  trial_headers(iTrial, 3) = current_header.endtime;
+  trial_headers(iTrial, 4) = current_header.rec->time;
+  trial_headers(iTrial, 5) = current_header.rec->sample_rate ;
+  trial_headers(iTrial, 6) = current_header.rec->eflags;
+  trial_headers(iTrial, 7) = current_header.rec->sflags;
+  trial_headers(iTrial, 8) = current_header.rec->state;
+  trial_headers(iTrial, 9) = current_header.rec->record_type;
+  trial_headers(iTrial,10) = current_header.rec->pupil_type;
+  trial_headers(iTrial,11) = current_header.rec->recording_mode;
+  trial_headers(iTrial,12) = current_header.rec->filter_type;
+  trial_headers(iTrial,13) = current_header.rec->pos_type;
+  trial_headers(iTrial,14) = current_header.rec->eye;
 }
 
 // @title Appends event to the even structure
@@ -317,7 +317,7 @@ void read_trial_header(edfapi::EDFFILE* edfFile, NumericMatrix &trial_headers, i
 // @return modifies events structure
 // @keywords internal
 void append_event(TRIAL_EVENTS &events, edfapi::FEVENT new_event, unsigned int iTrial, edfapi::UINT32 trial_start){
-  events.trial_index.push_back(iTrial+1);
+  events.trial_index.push_back(iTrial);
   events.time.push_back(new_event.time);
   events.type.push_back(new_event.type);
   events.read.push_back(new_event.read);
@@ -362,12 +362,12 @@ void append_event(TRIAL_EVENTS &events, edfapi::FEVENT new_event, unsigned int i
   events.parsedby.push_back(new_event.parsedby);
 
   // special case: LSTRING message
-  edfapi::LSTRING* message_ptr= ((edfapi::LSTRING*)new_event.message);
-  if (message_ptr==0 || message_ptr==NULL){
+  edfapi::LSTRING* message_ptr = ((edfapi::LSTRING*)new_event.message);
+  if (message_ptr == 0 || message_ptr == NULL){
     events.message.push_back("");
   }
   else{
-    char* message_char= new char[message_ptr->len];
+    char* message_char = new char[message_ptr->len];
     strncpy(message_char, &(message_ptr->c), message_ptr->len);
     events.message.push_back(message_char);
     delete[] message_char;
@@ -555,24 +555,45 @@ List read_edf_file(std::string filename,
                    std::string start_marker_string,
                    std::string end_marker_string,
                    bool verbose){
+  // data storage
+  TRIAL_EVENTS all_events;
+  TRIAL_SAMPLES all_samples;
+  TRIAL_RECORDINGS all_recordings;
 
-  // opening the edf file
-  edfapi::EDFFILE* edfFile = safely_open_edf_file(filename, consistency, import_events, import_samples);
+  // collecting all message before the first recording
+  // should contain service information, such as DISPLAY_COORDS
+  edfapi::EDFFILE* edfFile = safely_open_edf_file(filename, consistency, 1, 0);
+  for(bool keep_looking = true; keep_looking; ){
+    int DataType = edfapi::edf_get_next_data(edfFile);
+    edfapi::ALLF_DATA* current_data = edfapi::edf_get_float_data(edfFile);
+    switch(DataType){
+    case MESSAGEEVENT:
+      append_event(all_events, current_data->fe, 0, 0);
+      break;
+    case RECORDING_INFO:
+      // the recording has started, done with preliminaries
+      keep_looking = false;
+      break;
+    }
+  }
+  edfapi::edf_close_file(edfFile);
+
+
+  // opening the edf file to load info trial by trial
+  edfFile = safely_open_edf_file(filename, consistency, import_events, import_samples);
 
   // set the trial navigation up
   set_trial_navigation_up(edfFile, start_marker_string, end_marker_string);
 
   // figure out, just how many trials we have
-  unsigned int total_trials = edf_get_trial_count(edfFile);
+  unsigned int total_trials = edfapi::edf_get_trial_count(edfFile);
   if (verbose){
     ::Rprintf("Trials count: %d\n", total_trials);
   }
 
   // creating headers, events, and samples
   NumericMatrix trial_headers = prepare_trial_headers(total_trials);
-  TRIAL_EVENTS all_events;
-  TRIAL_SAMPLES all_samples;
-  TRIAL_RECORDINGS all_recordings;
+
 
   // looping over the trials
   Progress trial_counter(total_trials, verbose);
@@ -601,7 +622,7 @@ List read_edf_file(std::string filename,
 
     bool TrialIsOver = false;
     edfapi::UINT32 data_timestamp = 0;
-    for(int DataType = edf_get_next_data(edfFile);
+    for(int DataType = edfapi::edf_get_next_data(edfFile);
         (DataType != NO_PENDING_ITEMS) && !TrialIsOver;
         DataType = edfapi::edf_get_next_data(edfFile)){
 
@@ -640,7 +661,7 @@ List read_edf_file(std::string filename,
           break;
         }
         if (import_events){
-          append_event(all_events, current_data->fe, iTrial, trial_start_time);
+          append_event(all_events, current_data->fe, iTrial + 1, trial_start_time);
         }
         break;
 
@@ -663,226 +684,190 @@ List read_edf_file(std::string filename,
   // closing file
   edfapi::edf_close_file(edfFile);
 
-  // attempting to identify display info, should be BEFORE the first trial
-  edfFile = safely_open_edf_file(filename, consistency, 1, 0);
-  bool found_info = false;
-  std::string display_coords;
-
-  for(bool keep_looking = true; keep_looking; ){
-    edfapi::LSTRING* message_ptr;
-    int DataType= edfapi::edf_get_next_data(edfFile);
-    edfapi::ALLF_DATA* current_data= edf_get_float_data(edfFile);
-    switch(DataType){
-    case MESSAGEEVENT:
-      message_ptr = ((edfapi::LSTRING*)current_data->fe.message);
-      if (message_ptr != 0 && message_ptr != NULL)) {
-        char* message_char= new char[message_ptr->len];
-        strncpy(message_char, &(message_ptr->c), message_ptr->len);
-        std::string message_str(message_char);
-        if (message_str.find("DISPLAY_COORDS") != std::string::npos){
-          display_coords= message_str;
-          found_info= true;
-          keep_looking= false;
-        }
-        delete[] message_char;
-      }
-      break;
-    case RECORDING_INFO:
-      // if recording has started, this means that there was no preliminary information stored at all
-      keep_looking= false;
-      break;
-    }
-  }
-  edfapi::edf_close_file(edfFile);
-
   // returning data
   List edf_recording;
-  edf_recording["headers"]= trial_headers;
-
-  if (found_info){
-    edf_recording["display_coords"]= display_coords;
-  }
+  edf_recording["headers"] = trial_headers;
 
   // converting structure of vectors into a data frame
   if (import_events){
     DataFrame events;
-    events["trial"]= all_events.trial_index;
-    events["time"]= all_events.time;
-    events["type"]= all_events.type;
-    events["read"]= all_events.read;
-    events["sttime"]= all_events.sttime;
-    events["entime"]= all_events.entime;
-    events["sttime_rel"]= all_events.sttime_rel;
-    events["entime_rel"]= all_events.entime_rel;
-    events["hstx"]= all_events.hstx;
-    events["hsty"]= all_events.hsty;
-    events["gstx"]= all_events.gstx;
-    events["gsty"]= all_events.gsty;
-    events["sta"]= all_events.sta;
-    events["henx"]= all_events.henx;
-    events["heny"]= all_events.heny;
-    events["genx"]= all_events.genx;
-    events["geny"]= all_events.geny;
-    events["ena"]= all_events.ena;
-    events["havx"]= all_events.havx;
-    events["havy"]= all_events.havy;
-    events["gavx"]= all_events.gavx;
-    events["gavy"]= all_events.gavy;
-    events["ava"]= all_events.ava;
-    events["avel"]= all_events.avel;
-    events["pvel"]= all_events.pvel;
-    events["svel"]= all_events.svel;
-    events["evel"]= all_events.evel;
-    events["supd_x"]= all_events.supd_x;
-    events["eupd_x"]= all_events.eupd_x;
-    events["supd_y"]= all_events.supd_y;
-    events["eupd_y"]= all_events.eupd_y;
-    events["eye"]= all_events.eye;
-    events["status"]= all_events.status;
-    events["flags"]= all_events.flags;
-    events["input"]= all_events.input;
-    events["buttons"]= all_events.buttons;
-    events["parsedby"]= all_events.parsedby;
-    events["message"]= all_events.message;
-    edf_recording["events"]= events;
+    events["trial"] = all_events.trial_index;
+    events["time"] = all_events.time;
+    events["type"] = all_events.type;
+    events["read"] = all_events.read;
+    events["sttime"] = all_events.sttime;
+    events["entime"] = all_events.entime;
+    events["sttime_rel"] = all_events.sttime_rel;
+    events["entime_rel"] = all_events.entime_rel;
+    events["hstx"] = all_events.hstx;
+    events["hsty"] = all_events.hsty;
+    events["gstx"] = all_events.gstx;
+    events["gsty"] = all_events.gsty;
+    events["sta"] = all_events.sta;
+    events["henx"] = all_events.henx;
+    events["heny"] = all_events.heny;
+    events["genx"] = all_events.genx;
+    events["geny"] = all_events.geny;
+    events["ena"] = all_events.ena;
+    events["havx"] = all_events.havx;
+    events["havy"] = all_events.havy;
+    events["gavx"] = all_events.gavx;
+    events["gavy"] = all_events.gavy;
+    events["ava"] = all_events.ava;
+    events["avel"] = all_events.avel;
+    events["pvel"] = all_events.pvel;
+    events["svel"] = all_events.svel;
+    events["evel"] = all_events.evel;
+    events["supd_x"] = all_events.supd_x;
+    events["eupd_x"] = all_events.eupd_x;
+    events["supd_y"] = all_events.supd_y;
+    events["eupd_y"] = all_events.eupd_y;
+    events["eye"] = all_events.eye;
+    events["status"] = all_events.status;
+    events["flags"] = all_events.flags;
+    events["input"] = all_events.input;
+    events["buttons"] = all_events.buttons;
+    events["parsedby"] = all_events.parsedby;
+    events["message"] = all_events.message;
+    edf_recording["events"] = events;
   }
 
   if (import_recordings){
     DataFrame recordings;
-    recordings["trial_index"]= all_recordings.trial_index;
-    recordings["time"]= all_recordings.time;
-    recordings["time_rel"]= all_recordings.time_rel;
-    recordings["sample_rate"]= all_recordings.sample_rate;
-    recordings["eflags"]= all_recordings.eflags;
-    recordings["sflags"]= all_recordings.sflags;
-    recordings["state"]= all_recordings.state;
-    recordings["record_type"]= all_recordings.record_type;
-    recordings["pupil_type"]= all_recordings.pupil_type;
-    recordings["recording_mode"]= all_recordings.recording_mode;
-    recordings["filter_type"]= all_recordings.filter_type;
-    recordings["pos_type"]= all_recordings.pos_type;
-    recordings["eye"]= all_recordings.eye;
-    edf_recording["recordings"]= recordings;
+    recordings["trial_index"] = all_recordings.trial_index;
+    recordings["time"] = all_recordings.time;
+    recordings["time_rel"] = all_recordings.time_rel;
+    recordings["sample_rate"] = all_recordings.sample_rate;
+    recordings["eflags"] = all_recordings.eflags;
+    recordings["sflags"] = all_recordings.sflags;
+    recordings["state"] = all_recordings.state;
+    recordings["record_type"] = all_recordings.record_type;
+    recordings["pupil_type"] = all_recordings.pupil_type;
+    recordings["recording_mode"] = all_recordings.recording_mode;
+    recordings["filter_type"] = all_recordings.filter_type;
+    recordings["pos_type"] = all_recordings.pos_type;
+    recordings["eye"] = all_recordings.eye;
+    edf_recording["recordings"] = recordings;
   }
 
   if (import_samples){
     DataFrame samples;
-    samples["trial"]= all_samples.trial_index;
+    samples["trial"] = all_samples.trial_index;
     if (sample_attr_flag[0]){
-      samples["time"]= all_samples.time;
-      samples["time_rel"]= all_samples.time_rel;
+      samples["time"] = all_samples.time;
+      samples["time_rel"] = all_samples.time_rel;
     }
     if (sample_attr_flag[1]){
-      samples["pxL"]= all_samples.pxL;
-      samples["pxR"]= all_samples.pxR;
+      samples["pxL"] = all_samples.pxL;
+      samples["pxR"] = all_samples.pxR;
     }
     if (sample_attr_flag[2]){
-      samples["pyL"]= all_samples.pyL;
-      samples["pyR"]= all_samples.pyR;
+      samples["pyL"] = all_samples.pyL;
+      samples["pyR"] = all_samples.pyR;
     }
     if (sample_attr_flag[3]){
-      samples["hxL"]= all_samples.hxL;
-      samples["hxR"]= all_samples.hxR;
+      samples["hxL"] = all_samples.hxL;
+      samples["hxR"] = all_samples.hxR;
     }
     if (sample_attr_flag[4]){
-      samples["hyL"]= all_samples.hyL;
-      samples["hyR"]= all_samples.hyR;
+      samples["hyL"] = all_samples.hyL;
+      samples["hyR"] = all_samples.hyR;
     }
     if (sample_attr_flag[5]){
-      samples["paL"]= all_samples.paL;
-      samples["paR"]= all_samples.paR;
+      samples["paL"] = all_samples.paL;
+      samples["paR"] = all_samples.paR;
     }
     if (sample_attr_flag[6]){
-      samples["gxL"]= all_samples.gxL;
-      samples["gxR"]= all_samples.gxR;
+      samples["gxL"] = all_samples.gxL;
+      samples["gxR"] = all_samples.gxR;
     }
     if (sample_attr_flag[7]){
-      samples["gyL"]= all_samples.gyL;
-      samples["gyR"]= all_samples.gyR;
+      samples["gyL"] = all_samples.gyL;
+      samples["gyR"] = all_samples.gyR;
     }
     if (sample_attr_flag[8]){
-      samples["rx"]= all_samples.rx;
+      samples["rx"] = all_samples.rx;
     }
     if (sample_attr_flag[9]){
-      samples["ry"]= all_samples.ry;
+      samples["ry"] = all_samples.ry;
     }
     if (sample_attr_flag[10]){
-      samples["gxvelL"]= all_samples.gxvelL;
-      samples["gxvelR"]= all_samples.gxvelR;
+      samples["gxvelL"] = all_samples.gxvelL;
+      samples["gxvelR"] = all_samples.gxvelR;
     }
     if (sample_attr_flag[11]){
-      samples["gyvelL"]= all_samples.gyvelL;
-      samples["gyvelR"]= all_samples.gyvelR;
+      samples["gyvelL"] = all_samples.gyvelL;
+      samples["gyvelR"] = all_samples.gyvelR;
     }
     if (sample_attr_flag[12]){
-      samples["hxvelL"]= all_samples.hxvelL;
-      samples["hxvelR"]= all_samples.hxvelR;
+      samples["hxvelL"] = all_samples.hxvelL;
+      samples["hxvelR"] = all_samples.hxvelR;
     }
     if (sample_attr_flag[13]){
-      samples["hyvelL"]= all_samples.hyvelL;
-      samples["hyvelR"]= all_samples.hyvelR;
+      samples["hyvelL"] = all_samples.hyvelL;
+      samples["hyvelR"] = all_samples.hyvelR;
     }
     if (sample_attr_flag[14]){
-      samples["rxvelL"]= all_samples.rxvelL;
-      samples["rxvelR"]= all_samples.rxvelR;
+      samples["rxvelL"] = all_samples.rxvelL;
+      samples["rxvelR"] = all_samples.rxvelR;
     }
     if (sample_attr_flag[15]){
-      samples["ryvelL"]= all_samples.ryvelL;
-      samples["ryvelR"]= all_samples.ryvelR;
+      samples["ryvelL"] = all_samples.ryvelL;
+      samples["ryvelR"] = all_samples.ryvelR;
     }
     if (sample_attr_flag[16]){
-      samples["fgxvelL"]= all_samples.fgxvelL;
-      samples["fgxvelR"]= all_samples.fgxvelR;
+      samples["fgxvelL"] = all_samples.fgxvelL;
+      samples["fgxvelR"] = all_samples.fgxvelR;
     }
     if (sample_attr_flag[17]){
-      samples["fgyvelL"]= all_samples.fgyvelL;
-      samples["fgyvelR"]= all_samples.fgyvelR;
+      samples["fgyvelL"] = all_samples.fgyvelL;
+      samples["fgyvelR"] = all_samples.fgyvelR;
     }
     if (sample_attr_flag[18]){
-      samples["fhxvelL"]= all_samples.fhxvelL;
-      samples["fhxvelR"]= all_samples.fhxvelR;
+      samples["fhxvelL"] = all_samples.fhxvelL;
+      samples["fhxvelR"] = all_samples.fhxvelR;
     }
     if (sample_attr_flag[19]){
-      samples["fhyvelL"]= all_samples.fhyvelL;
-      samples["fhyvelR"]= all_samples.fhyvelR;
+      samples["fhyvelL"] = all_samples.fhyvelL;
+      samples["fhyvelR"] = all_samples.fhyvelR;
     }
     if (sample_attr_flag[20]){
-      samples["frxvelL"]= all_samples.frxvelL;
-      samples["frxvelR"]= all_samples.frxvelR;
+      samples["frxvelL"] = all_samples.frxvelL;
+      samples["frxvelR"] = all_samples.frxvelR;
     }
     if (sample_attr_flag[21]){
-      samples["fryvelL"]= all_samples.fryvelL;
-      samples["fryvelR"]= all_samples.fryvelR;
+      samples["fryvelL"] = all_samples.fryvelL;
+      samples["fryvelR"] = all_samples.fryvelR;
     }
     if (sample_attr_flag[22]){
-      samples["hdata_1"]= all_samples.hdata_1;
-      samples["hdata_2"]= all_samples.hdata_2;
-      samples["hdata_3"]= all_samples.hdata_3;
-      samples["hdata_4"]= all_samples.hdata_4;
-      samples["hdata_5"]= all_samples.hdata_5;
-      samples["hdata_6"]= all_samples.hdata_6;
-      samples["hdata_7"]= all_samples.hdata_7;
-      samples["hdata_8"]= all_samples.hdata_8;
+      samples["hdata_1"] = all_samples.hdata_1;
+      samples["hdata_2"] = all_samples.hdata_2;
+      samples["hdata_3"] = all_samples.hdata_3;
+      samples["hdata_4"] = all_samples.hdata_4;
+      samples["hdata_5"] = all_samples.hdata_5;
+      samples["hdata_6"] = all_samples.hdata_6;
+      samples["hdata_7"] = all_samples.hdata_7;
+      samples["hdata_8"] = all_samples.hdata_8;
     }
     if (sample_attr_flag[23]){
-      samples["flags"]= all_samples.flags;
+      samples["flags"] = all_samples.flags;
     }
     if (sample_attr_flag[24]){
-      samples["input"]= all_samples.input;
+      samples["input"] = all_samples.input;
     }
     if (sample_attr_flag[25]){
-      samples["buttons"]= all_samples.buttons;
+      samples["buttons"] = all_samples.buttons;
     }
     if (sample_attr_flag[26]){
-      samples["htype"]= all_samples.htype;
+      samples["htype"] = all_samples.htype;
     }
     if (sample_attr_flag[27]){
-      samples["errors"]= all_samples.errors;
+      samples["errors"] = all_samples.errors;
     }
-    edf_recording["samples"]= samples;
+    edf_recording["samples"] = samples;
   }
 
-  edf_recording.attr("class")= "edf";
+  edf_recording.attr("class") = "edf";
   return (edf_recording);
 }
 
