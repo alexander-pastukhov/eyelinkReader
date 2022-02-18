@@ -5,14 +5,18 @@
 \alias{gaze}
 \title{Imported example.edf, events and samples}
 \format{
-An object of class \code{eyelinkRecording} of length 9.
+An object of class \code{eyelinkRecording} of length 11.
 }
 \usage{
 gaze
 }
 \description{
-An \code{\link{eyelinkRecording}} object for \emph{example.edf},
-events and samples with all attributes.
+An \code{\link{eyelinkRecording}} for \emph{example.edf} via\
+\code{read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"), import_samples = TRUE)}).
+Contains all extracted events including triggers, areas of interested, and display coordinates.
 See \code{\link{eyelinkRecording}} for details.
+}
+\seealso{
+\code{\link{eyelinkRecording}}, \link{read_edf}}
 }
 \keyword{datasets}
