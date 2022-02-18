@@ -96,11 +96,6 @@ read_edf <- function(file,
   # adding preamble
   edf_recording$preamble <- read_preamble(file)
 
-  # checking display info, if present
-  if (!is.null(edf_recording$display_coords)){
-    edf_recording$display_coords <- as.numeric(unlist(strsplit(trimws(gsub("DISPLAY_COORDS", "", edf_recording$display_coords)), " ")))
-  }
-
   # converting header to data.frame
   edf_recording$headers <- data.frame(edf_recording$headers)
   edf_recording$headers <- convert_header_codes(edf_recording$headers);
@@ -129,6 +124,11 @@ read_edf <- function(file,
 
   # extracting specific event types, if requested
   if (import_events){
+    # checking display info, if present
+    if (!is.null(edf_recording$display_coords)){
+      edf_recording$display_coords <- as.numeric(unlist(strsplit(trimws(gsub("DISPLAY_COORDS", "", edf_recording$display_coords)), " ")))
+    }
+
     if (import_saccades){
       edf_recording$saccades <- extract_saccades(edf_recording$events)
     }
