@@ -14,13 +14,15 @@
 #' @slot samples Samples table  which is a collection of all \code{FSAMPLE} imported from the EDF file. See description below.
 #' @slot headers Headers of the individual trials, see description below.
 #' @slot recordings Individual recording start/end information, see description below.
-#' @slot display_coords Recorded screen coordinates (if recorded).
-#' @slot saccades Saccades extracted from \code{events}, see description below.
-#' @slot fixations Fixations extracted from \code{events}, see description below.
-#' @slot blinks Blinks extracted from \code{events}, see description below.
-#' @slot variables Recorded variables extracted from \code{events}, see description below.
-#' @slot triggers Events messages that adhere to a \code{TRIGGER <label>} format. This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets, similar to how it is done in M/EEG.
-#' @slot AOIs Areas of interest events.
+#' @slot display_coords Recorded screen coordinates (if recorded), see \code{\link{extract_display_coords}}.
+#' @slot saccades Saccades extracted from \code{events}, see description below and \code{\link{extract_saccades}}.
+#' @slot fixations Fixations extracted from \code{events}, see description below and \code{\link{extract_fixations}}.
+#' @slot blinks Blinks extracted from \code{events}, see description below and \code{\link{extract_blinks}}.
+#' @slot variables Recorded variables extracted from \code{events}, see description below and \code{\link{extract_variables}}.
+#' @slot triggers Events messages that adhere to a \code{TRIGGER <label>} format.
+#'   This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets,
+#'   similar to how it is done in M/EEG. See description below and \code{\link{extract_triggers}}.
+#' @slot AOIs Areas of interest events. See description below and \code{\link{extract_AOIs}}.
 #'
 #' @section Events:
 #' Events table which is a collection of all \code{FEVENT} imported from the EDF file.
@@ -196,5 +198,5 @@
 #' * \code{label} AOI label.
 #'
 #' @seealso
-#'   \code{\link{read_edf}}
+#'   \code{\link{read_edf}}, \code{\link{extract_saccades}}, \code{\link{extract_fixations}}, \code{\link{extract_blinks}}, \code{\link{extract_triggers}}, \code{\link{extract_display_coords}}, \code{\link{extract_AOIs}}
 NULL

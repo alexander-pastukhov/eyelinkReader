@@ -24,19 +24,21 @@ See \code{methods(class = "eyelinkRecording")} for an overview of available meth
 
 \item{\code{recordings}}{Individual recording start/end information, see description below.}
 
-\item{\code{display_coords}}{Recorded screen coordinates (if recorded).}
+\item{\code{display_coords}}{Recorded screen coordinates (if recorded), see \code{\link{extract_display_coords}}.}
 
-\item{\code{saccades}}{Saccades extracted from \code{events}, see description below.}
+\item{\code{saccades}}{Saccades extracted from \code{events}, see description below and \code{\link{extract_saccades}}.}
 
-\item{\code{fixations}}{Fixations extracted from \code{events}, see description below.}
+\item{\code{fixations}}{Fixations extracted from \code{events}, see description below and \code{\link{extract_fixations}}.}
 
-\item{\code{blinks}}{Blinks extracted from \code{events}, see description below.}
+\item{\code{blinks}}{Blinks extracted from \code{events}, see description below and \code{\link{extract_blinks}}.}
 
-\item{\code{variables}}{Recorded variables extracted from \code{events}, see description below.}
+\item{\code{variables}}{Recorded variables extracted from \code{events}, see description below and \code{\link{extract_variables}}.}
 
-\item{\code{triggers}}{Events messages that adhere to a \code{TRIGGER <label>} format. This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets, similar to how it is done in M/EEG.}
+\item{\code{triggers}}{Events messages that adhere to a \code{TRIGGER <label>} format.
+This is a \bold{non-standard message} that the package author uses to mark events like onsets or offsets,
+similar to how it is done in M/EEG. See description below and \code{\link{extract_triggers}}.}
 
-\item{\code{AOIs}}{Areas of interest events.}
+\item{\code{AOIs}}{Areas of interest events. See description below and \code{\link{extract_AOIs}}.}
 }}
 
 \section{Events}{
@@ -247,5 +249,5 @@ where \code{<label>} is a string label and all other variables are integer.
 }
 
 \seealso{
-\code{\link{read_edf}}
+\code{\link{read_edf}}, \code{\link{extract_saccades}}, \code{\link{extract_fixations}}, \code{\link{extract_blinks}}, \code{\link{extract_triggers}}, \code{\link{extract_display_coords}}, \code{\link{extract_AOIs}}
 }
