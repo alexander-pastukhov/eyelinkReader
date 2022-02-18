@@ -11,7 +11,7 @@ An object of class \code{eyelinkRecording} of length 11.
 gaze
 }
 \description{
-An \code{\link{eyelinkRecording}} for \emph{example.edf} via\
+An \code{\link{eyelinkRecording}} for \emph{example.edf} via
 \code{read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"), import_samples = TRUE)}).
 Contains all extracted events including triggers, areas of interested, and display coordinates.
 See \code{\link{eyelinkRecording}} for details.
