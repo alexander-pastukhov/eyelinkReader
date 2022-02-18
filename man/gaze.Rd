@@ -21,6 +21,6 @@ one second and stays on the screen for another second. Includes all relevant eve
 See \code{\link{eyelinkRecording}} for details.
 }
 \seealso{
-\code{\link{eyelinkRecording}}, \link{read_edf}}
+\code{\link{eyelinkRecording}}, \code{\link{read_edf}}
 }
 \keyword{datasets}
