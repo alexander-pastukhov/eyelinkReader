@@ -557,26 +557,26 @@ List read_edf_file(std::string filename,
                    bool verbose){
 
   // opening the edf file
-  edfapi::EDFFILE* edfFile= safely_open_edf_file(filename, consistency, import_events, import_samples);
+  edfapi::EDFFILE* edfFile = safely_open_edf_file(filename, consistency, import_events, import_samples);
 
   // set the trial navigation up
   set_trial_navigation_up(edfFile, start_marker_string, end_marker_string);
 
   // figure out, just how many trials we have
-  unsigned int total_trials= edf_get_trial_count(edfFile);
+  unsigned int total_trials = edf_get_trial_count(edfFile);
   if (verbose){
     ::Rprintf("Trials count: %d\n", total_trials);
   }
 
   // creating headers, events, and samples
-  NumericMatrix trial_headers= prepare_trial_headers(total_trials);
+  NumericMatrix trial_headers = prepare_trial_headers(total_trials);
   TRIAL_EVENTS all_events;
   TRIAL_SAMPLES all_samples;
   TRIAL_RECORDINGS all_recordings;
 
   // looping over the trials
   Progress trial_counter(total_trials, verbose);
-  for(unsigned int iTrial= 0; iTrial< total_trials; iTrial++){
+  for(unsigned int iTrial = 0; iTrial< total_trials; iTrial++){
     // visuals and interaction
     if (verbose){
       if (Progress::check_abort() ){
@@ -599,11 +599,11 @@ List read_edf_file(std::string filename,
       continue;
     }
 
-    bool TrialIsOver= false;
-    edfapi::UINT32 data_timestamp= 0;
+    bool TrialIsOver = false;
+    edfapi::UINT32 data_timestamp = 0;
     for(int DataType = edf_get_next_data(edfFile);
         (DataType != NO_PENDING_ITEMS) && !TrialIsOver;
-        DataType= edfapi::edf_get_next_data(edfFile)){
+        DataType = edfapi::edf_get_next_data(edfFile)){
 
       // obtaining next data piece
       current_data = edfapi::edf_get_float_data(edfFile);
@@ -663,10 +663,9 @@ List read_edf_file(std::string filename,
   // closing file
   edfapi::edf_close_file(edfFile);
 
-
   // attempting to identify display info, should be BEFORE the first trial
   edfFile = safely_open_edf_file(filename, consistency, 1, 0);
-  bool found_info= false;
+  bool found_info = false;
   std::string display_coords;
 
   for(bool keep_looking = true; keep_looking; ){
@@ -676,10 +675,7 @@ List read_edf_file(std::string filename,
     switch(DataType){
     case MESSAGEEVENT:
       message_ptr = ((edfapi::LSTRING*)current_data->fe.message);
-      if (message_ptr==0 || message_ptr==NULL) {
-
-      }
-      else {
+      if (message_ptr != 0 && message_ptr != NULL)) {
         char* message_char= new char[message_ptr->len];
         strncpy(message_char, &(message_ptr->c), message_ptr->len);
         std::string message_str(message_char);
