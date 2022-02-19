@@ -28,24 +28,13 @@ as it is called during the \code{\link{read_edf}} with default settings
 (\emph{e.g.}, \code{import_blinks = TRUE}).
 }
 \examples{
-if (eyelinkReader::is_compiled()) {
-    # blinks are extracted during the initial read_edf call
-    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                          import_blinks = TRUE)
+data(gaze)
 
-    # blinks are extracted during the initial read_edf call by default
-    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+# by passing the recording
+gaze <- extract_blinks(gaze)
 
-    # blinks are extracted later
-    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                          import_blinks = FALSE)
-
-    # by passing the recording
-    recording <- extract_blinks(recording)
-
-    # by passing events table
-    recording$blinks <- extract_blinks(recording$events)
-}
+# by passing events table
+blinks <- extract_blinks(gaze$events)
 }
 \seealso{
 read_edf, eyelinkRecording

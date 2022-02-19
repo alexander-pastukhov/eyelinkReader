@@ -17,15 +17,13 @@
 #' @export
 #'
 #' @examples
-#' if (eyelinkReader::is_compiled()) {
-#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' data(gaze)
 #'
-#'     # by passing the recording
-#'     recording <- extract_AOIs(recording)
+#' # by passing the recording
+#' gaze <- extract_AOIs(gaze)
 #'
-#'     # by passing events table
-#'     AOIs <- extract_AOIs(recording$events)
-#' }
+#' # by passing events table
+#' AOIs <- extract_AOIs(gaze$events)
 extract_AOIs <- function(object) { UseMethod("extract_AOIs") }
 
 #' @rdname extract_AOIs

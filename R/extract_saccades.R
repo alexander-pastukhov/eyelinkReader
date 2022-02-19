@@ -16,24 +16,13 @@
 #' @export
 #'
 #' @examples
-#' if (eyelinkReader::is_compiled()) {
-#'     # saccades are extracted during the initial read_edf call
-#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                           import_saccades = TRUE)
+#' data(gaze)
 #'
-#'     # saccades are extracted during the initial read_edf call by default
-#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' # by passing the recording
+#' gaze <- extract_saccades(gaze)
 #'
-#'     # saccades are extracted later
-#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                           import_saccades = FALSE)
-#'
-#'     # by passing the recording
-#'     recording <- extract_saccades(recording)
-#'
-#'     # by passing events table
-#'     saccades <- extract_saccades(recording$events)
-#' }
+#' # by passing events table
+#' saccades <- extract_saccades(gaze$events)
 extract_saccades <- function(object) { UseMethod("extract_saccades") }
 
 #' @rdname extract_saccades

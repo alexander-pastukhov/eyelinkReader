@@ -28,24 +28,13 @@ as it is called during the \code{\link{read_edf}} with default settings
 (\emph{e.g.}, \code{import_variables = TRUE}).
 }
 \examples{
-if (eyelinkReader::is_compiled()) {
-    # variables are extracted during the initial read_edf call
-    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                          import_variables = TRUE)
+data(gaze)
 
-    # variables are extracted during the initial read_edf call by default
-    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+# by passing the recording
+gaze <- extract_variables(gaze)
 
-    # variables are extracted later
-    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-                          import_variables = FALSE)
-
-    # by passing the recording
-    recording <- extract_variables(recording)
-
-    # by passing events table
-    variables <- extract_variables(recording$events)
-}
+# by passing events table
+variables <- extract_variables(gaze$events)
 }
 \seealso{
 read_edf, eyelinkRecording

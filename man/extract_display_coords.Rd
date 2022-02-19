@@ -36,7 +36,7 @@ data(gaze)
 gaze <- extract_display_coords(gaze)
 
 # by passing events table
-display_coords <- extract_display_coords(recording$events)
+display_coords <- extract_display_coords(gaze$events)
 }
 \seealso{
 read_edf, eyelinkRecording

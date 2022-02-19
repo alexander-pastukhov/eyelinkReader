@@ -31,13 +31,11 @@ Please note that due to a non-standard nature of this function \strong{is not} c
 during the \code{\link{read_edf}} call and you need to call it separately.
 }
 \examples{
-if (eyelinkReader::is_compiled()) {
-    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+data(gaze)
 
-    # by passing the recording
-    recording <- extract_AOIs(recording)
+# by passing the recording
+gaze <- extract_AOIs(gaze)
 
-    # by passing events table
-    AOIs <- extract_AOIs(recording$events)
-}
+# by passing events table
+AOIs <- extract_AOIs(gaze$events)
 }

@@ -23,7 +23,7 @@
 #' gaze <- extract_display_coords(gaze)
 #'
 #' # by passing events table
-#' display_coords <- extract_display_coords(recording$events)
+#' display_coords <- extract_display_coords(gaze$events)
 extract_display_coords <- function(object, message_prefix = "DISPLAY_COORDS") { UseMethod("extract_display_coords") }
 
 
