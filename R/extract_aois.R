@@ -1,7 +1,7 @@
 #' Extracts rectangular areas of interest (AOI)
 #'
 #' @description Extracts rectangular areas of interest (AOI),
-#' as defined by "!V IAREA RECTANGLE" command.
+#' as defined by \code{"!V IAREA RECTANGLE"} command.
 #' Specifically, we expect it to be in format
 #' \code{!V IAREA RECTANGLE <index> <left> <top> <right> <bottom> <label>},
 #' where \code{<label>} is a string label and all other variables are integer.
