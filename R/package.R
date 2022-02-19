@@ -11,3 +11,6 @@
 #' @useDynLib eyelinkReader
 #' @name eyelinkReader
 NULL
+
+
+#  usethis::use_git_config(user.name = "Alexander (Sasha) Pastukhov", user.email = "pastukhov.alexander@gmail.com")
