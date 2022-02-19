@@ -17,15 +17,13 @@
 #' @export
 #'
 #' @examples
-#' if (eyelinkReader::is_compiled()) {
-#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' data(gaze)
 #'
-#'     # by passing the recording
-#'     recording <- extract_display_coords(recording)
+#' # by passing the recording
+#' gaze <- extract_display_coords(gaze)
 #'
-#'     # by passing events table
-#'     extract_display_coords(recording$events)
-#' }
+#' # by passing events table
+#' display_coords <- extract_display_coords(recording$events)
 extract_display_coords <- function(object, message_prefix = "DISPLAY_COORDS") { UseMethod("extract_display_coords") }
 
 

@@ -19,15 +19,16 @@
 #' @export
 #'
 #' @examples
-#' if (eyelinkReader::is_compiled()) {
-#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' data(gaze)
 #'
-#'     # by passing the recording
-#'     recording <- extract_triggers(recording)
+#' # by passing the recording
+#' gaze <- extract_triggers(gaze)
 #'
-#'     # by passing events table
-#'     triggers <- extract_triggers(recording$events)
-#' }
+#' # by passing events table
+#' triggers <- extract_triggers(gaze$events)
+#'
+#' # with an explicit message prefix
+#' triggers <- extract_triggers(gaze$events, "TRIGGER")
 extract_triggers <- function(object, message_prefix = "TRIGGER") { UseMethod("extract_triggers") }
 
 

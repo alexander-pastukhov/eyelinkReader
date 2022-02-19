@@ -30,15 +30,13 @@ Extracts display coordinates from a message that adheres to a
 during the \code{\link{read_edf}} call and you need to call it separately.
 }
 \examples{
-if (eyelinkReader::is_compiled()) {
-    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+data(gaze)
 
-    # by passing the recording
-    recording <- extract_display_coords(recording)
+# by passing the recording
+gaze <- extract_display_coords(gaze)
 
-    # by passing events table
-    extract_display_coords(recording$events)
-}
+# by passing events table
+display_coords <- extract_display_coords(recording$events)
 }
 \seealso{
 read_edf, eyelinkRecording
