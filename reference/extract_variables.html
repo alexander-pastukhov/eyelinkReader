@@ -85,24 +85,13 @@ with an additional <code>variables</code> slot or a data.frame with variables' i
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu">eyelinkReader</span><span class="fu">::</span><span class="fu"><a href="is_compiled.html">is_compiled</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="co"># variables are extracted during the initial read_edf call</span></span>
-<span class="r-in">    <span class="va">recording</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_edf.html">read_edf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example.edf"</span>, package <span class="op">=</span> <span class="st">"eyelinkReader"</span><span class="op">)</span>,</span>
-<span class="r-in">                          import_variables <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gaze</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in">    <span class="co"># variables are extracted during the initial read_edf call by default</span></span>
-<span class="r-in">    <span class="va">recording</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_edf.html">read_edf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example.edf"</span>, package <span class="op">=</span> <span class="st">"eyelinkReader"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="co"># by passing the recording</span></span>
+<span class="r-in"><span class="va">gaze</span> <span class="op">&lt;-</span> <span class="fu">extract_variables</span><span class="op">(</span><span class="va">gaze</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in">    <span class="co"># variables are extracted later</span></span>
-<span class="r-in">    <span class="va">recording</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_edf.html">read_edf</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example.edf"</span>, package <span class="op">=</span> <span class="st">"eyelinkReader"</span><span class="op">)</span>,</span>
-<span class="r-in">                          import_variables <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">    <span class="co"># by passing the recording</span></span>
-<span class="r-in">    <span class="va">recording</span> <span class="op">&lt;-</span> <span class="fu">extract_variables</span><span class="op">(</span><span class="va">recording</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">    <span class="co"># by passing events table</span></span>
-<span class="r-in">    <span class="va">variables</span> <span class="op">&lt;-</span> <span class="fu">extract_variables</span><span class="op">(</span><span class="va">recording</span><span class="op">$</span><span class="va">events</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="co"># by passing events table</span></span>
+<span class="r-in"><span class="va">variables</span> <span class="op">&lt;-</span> <span class="fu">extract_variables</span><span class="op">(</span><span class="va">gaze</span><span class="op">$</span><span class="va">events</span><span class="op">)</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
