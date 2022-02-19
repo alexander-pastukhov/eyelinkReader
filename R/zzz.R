@@ -23,7 +23,7 @@
   if (Sys.info()["sysname"] == "Windows") {
     include_path <- locate_files(required_headers,
                                  c(Sys.getenv("EDFAPI_INC"),
-                                   "c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink"))
+                                 "c:/Program Files (x86)/SR Research/EyeLink/Includes/eyelink"))
 
     if (.Machine$sizeof.pointer == 8) {
       # 64-bit
@@ -41,10 +41,10 @@
     }
 
     if (all(!is.null(c(include_path, library_path)))) {
-      packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
       Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
       Sys.setenv("PKG_LIBS"=sprintf('-L"%s" -l%s', library_path, library_file))
-      Rcpp::sourceCpp(filename, env = parent.env(environment()))
+      packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
+        Rcpp::sourceCpp(filename, env = parent.env(environment()))
     } else {
       packageStartupMessage("Could not locate EDF API, please read installation instructions.")
     }
