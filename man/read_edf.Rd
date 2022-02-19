@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_edf.R
 \name{read_edf}
 \alias{read_edf}
-\title{Read EDF file with gaze data recorded by SR Research Eyelink eye tracker}
+\title{Read EDF file with gaze data recorded by SR Research EyeLink eye tracker}
 \usage{
 read_edf(
   file,
@@ -64,7 +64,7 @@ an \code{\link{eyelinkRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }
 \description{
-Reads EDF file with gaze data recorded by SR Research Eyelink eye tracker
+Reads EDF file with gaze data recorded by SR Research EyeLink eye tracker
 and returns an \code{\link{eyelinkRecording}} object that contains events, samples,
 and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 }

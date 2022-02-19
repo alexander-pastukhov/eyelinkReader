@@ -1,6 +1,6 @@
-#' Read EDF file with gaze data recorded by SR Research Eyelink eye tracker
+#' Read EDF file with gaze data recorded by SR Research EyeLink eye tracker
 #'
-#' Reads EDF file with gaze data recorded by SR Research Eyelink eye tracker
+#' Reads EDF file with gaze data recorded by SR Research EyeLink eye tracker
 #' and returns an \code{\link{eyelinkRecording}} object that contains events, samples,
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 #'
