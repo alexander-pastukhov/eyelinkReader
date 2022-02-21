@@ -18,7 +18,7 @@
 #' By default, all attributes are imported (default). For the complete list of sample attributes
 #' please refer to \code{\link{eyelinkRecording}} or EDF API documentation.
 #' @param start_marker event string that marks the beginning of the trial. Defaults to \code{"TRIALID"}.
-#' @param end_marker event string that marks the end of the trial. Defaults to \code{"TRIAL OK"}.
+#' @param end_marker event string that marks the end of the trial. Defaults to \code{"TRIAL_RESULT"}.
 #' Please note that an \strong{empty} string \code{''} means that a trial lasts from one \code{start_marker} till the next one.
 #' @param import_saccades logical, whether to extract saccade events into a separate table for convenience. Defaults to \code{TRUE}.
 #' @param import_blinks logical, whether to extract blink events into a separate table for convenience. Defaults to \code{TRUE}.
@@ -52,7 +52,7 @@ read_edf <- function(file,
                      import_samples = FALSE,
                      sample_attributes = NULL,
                      start_marker = 'TRIALID',
-                     end_marker = 'TRIAL OK',
+                     end_marker = 'TRIAL_RESULT',
                      import_saccades = TRUE,
                      import_blinks = TRUE,
                      import_fixations = TRUE,
@@ -102,10 +102,12 @@ read_edf <- function(file,
 
   # replacing -32768 with NA and converting lists to data.frames
   if (import_samples){
-    edf_recording$samples <- data.frame(convert_NAs(data.frame(edf_recording$samples)))
+    edf_recording$samples <- data.frame(edf_recording$samples)
+    # edf_recording$samples <- data.frame(convert_NAs(data.frame(edf_recording$samples)))
   }
   if (import_events){
-    edf_recording$events <- data.frame(convert_NAs(data.frame(edf_recording$events)))
+    edf_recording$events <- data.frame(edf_recording$events)
+    # edf_recording$events <- data.frame(convert_NAs(data.frame(edf_recording$events)))
   }
   if (import_recordings){
     edf_recording$recordings <- data.frame(convert_NAs(data.frame(edf_recording$recordings)))
