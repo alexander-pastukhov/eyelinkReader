@@ -19,7 +19,7 @@ List convert_NAs(List original_frame){
       case REALSXP: {
         NumericVector tmp = as<NumericVector>(*it);
         for(unsigned int iRow= 0; iRow<tmp.size(); iRow++){
-          if (tmp[iRow]<=-32767){
+          if ((tmp[iRow]<=-32767) || (tmp[iRow] >= 1e8)){
             tmp(iRow)= NA_REAL;
           }
         }
@@ -29,7 +29,7 @@ List convert_NAs(List original_frame){
         if( Rf_isFactor(*it) ) break; // factors have internal type INTSXP too
         IntegerVector tmp = as<IntegerVector>(*it);
         for(unsigned int iRow= 0; iRow<tmp.size(); iRow++){
-          if (tmp[iRow]<=-32767){
+          if (tmp[iRow]<=-32767 || (tmp[iRow] >= 1e8)){
             tmp(iRow)= NA_INTEGER;
           }
         }
