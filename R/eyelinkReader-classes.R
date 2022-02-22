@@ -52,7 +52,7 @@
 #' * \code{evel} End velocity.
 #' * \code{supd_x}, \code{supd_y} Start units-per-degree.
 #' * \code{eupd_x}, \code{eupd_y} End units-per-degree.
-#' * \code{eye} Either \code{'LEFT'} (1) or \code{'RIGHT'} (2).
+#' * \code{eye} Either \code{'LEFT'} (0) or \code{'RIGHT'} (1).
 #' * \code{status} Error, warning flags.
 #' * \code{flags} Flags to indicate contents.
 #' * \code{input} Extra (input word).
@@ -67,6 +67,7 @@
 #' Please refer to that manual for further details. Suffixes \code{L} and \code{R} denote left and right eye.
 #' Non-standard additional fields are marked in bold.
 #' * \strong{\code{trial}} Trial index, starts at 1.
+#' * \strong{\code{eye}} \code{'LEFT'} (0), \code{'RIGHT'} (1), or \code{'BINOCULAR'} (2).
 #' * \code{time} Time of sample.
 #' * \strong{\code{time_rel}} Time relative to the start of the trial.
 #' * \code{pxL}, \code{pxR}, \code{pyL}, \code{pyR} Pupil coordinates.

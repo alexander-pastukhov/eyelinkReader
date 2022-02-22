@@ -12,7 +12,7 @@ read_edf(
   import_samples = FALSE,
   sample_attributes = NULL,
   start_marker = "TRIALID",
-  end_marker = "TRIAL OK",
+  end_marker = "TRIAL_RESULT",
   import_saccades = TRUE,
   import_blinks = TRUE,
   import_fixations = TRUE,
@@ -43,7 +43,7 @@ please refer to \code{\link{eyelinkRecording}} or EDF API documentation.}
 
 \item{start_marker}{event string that marks the beginning of the trial. Defaults to \code{"TRIALID"}.}
 
-\item{end_marker}{event string that marks the end of the trial. Defaults to \code{"TRIAL OK"}.
+\item{end_marker}{event string that marks the end of the trial. Defaults to \code{"TRIAL_RESULT"}.
 Please note that an \strong{empty} string \code{''} means that a trial lasts from one \code{start_marker} till the next one.}
 
 \item{import_saccades}{logical, whether to extract saccade events into a separate table for convenience. Defaults to \code{TRUE}.}

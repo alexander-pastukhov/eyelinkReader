@@ -11,6 +11,8 @@ namespace edfapi {
 #include "edf.h"
 }
 
+const float FLOAT_NAN = nanf("");
+
 
 // ------------------ data structures, as defined in EDF C API user manual ------------------
 typedef struct TRIAL_EVENTS {
@@ -76,6 +78,9 @@ typedef struct TRAIL_SAMPLES{
   std::vector <unsigned int> trial_index;
   std::vector <edfapi::UINT32> time;
   std::vector <edfapi::UINT32> time_rel;
+  std::vector <unsigned int> eye;
+  // NumericVector pxL;
+  // NumericVector pxR;
   std::vector <float> pxL;
   std::vector <float> pxR;
   std::vector <float> pyL;
@@ -134,6 +139,15 @@ typedef struct TRAIL_SAMPLES{
 } TRIAL_SAMPLES;
 
 
+//' @title Converts a float value to an explicit NaN, if necessary
+//' @param value float
+//' @return float
+//' @keywords internal
+float float_or_nan(float value) {
+  if ((value <= -32767) || (value >= 1e8)) return FLOAT_NAN;
+  return value;
+}
+
 // ------------------ EDF API interface ------------------
 
 //' @title Version of the EDF API library
@@ -147,6 +161,7 @@ CharacterVector library_version(){
   version_info[0] = edfapi::edf_get_version();
   return version_info;
 }
+
 
 // @title Opens EDF file, throws exception on error
 // @description Opens EDF file for reading, throws exception and prints error message if fails.
@@ -412,91 +427,104 @@ void append_recording(TRIAL_RECORDINGS &recordings, edfapi::RECORDINGS new_rec, 
 void append_sample(TRIAL_SAMPLES &samples, edfapi::FSAMPLE new_sample, unsigned int iTrial, edfapi::UINT32 trial_start, LogicalVector sample_attr_flag)
 {
   samples.trial_index.push_back(iTrial+1);
+
+  if (new_sample.flags & SAMPLE_LEFT) {
+    if (new_sample.flags & SAMPLE_RIGHT) {
+      samples.eye.push_back(2);
+    }
+    else {
+      samples.eye.push_back(0);
+    }
+  }
+  else {
+    samples.eye.push_back(1);
+  }
+
   if (sample_attr_flag[0]){
     samples.time.push_back(new_sample.time);
     samples.time_rel.push_back(new_sample.time - trial_start);
   }
   if (sample_attr_flag[1]){
-    samples.pxL.push_back(new_sample.px[0]);
-    samples.pxR.push_back(new_sample.px[1]);
+    samples.pxL.push_back(float_or_nan(new_sample.px[0]));
+    samples.pxR.push_back(float_or_nan(new_sample.px[1]));
   }
   if (sample_attr_flag[2]){
-    samples.pyL.push_back(new_sample.py[0]);
-    samples.pyR.push_back(new_sample.py[1]);
+    samples.pyL.push_back(float_or_nan(new_sample.py[0]));
+    samples.pyR.push_back(float_or_nan(new_sample.py[1]));
   }
   if (sample_attr_flag[3]){
-    samples.hxL.push_back(new_sample.hx[0]);
-    samples.hxR.push_back(new_sample.hx[1]);
+    samples.hxL.push_back(float_or_nan(new_sample.hx[0]));
+    samples.hxR.push_back(float_or_nan(new_sample.hx[1]));
   }
   if (sample_attr_flag[4]){
-    samples.hyL.push_back(new_sample.hy[0]);
-    samples.hyR.push_back(new_sample.hy[1]);
+    samples.hyL.push_back(float_or_nan(new_sample.hy[0]));
+    samples.hyR.push_back(float_or_nan(new_sample.hy[1]));
   }
   if (sample_attr_flag[5]){
-    samples.paL.push_back(new_sample.pa[0]);
-    samples.paR.push_back(new_sample.pa[1]);
+    samples.paL.push_back(float_or_nan(new_sample.pa[0]));
+    samples.paR.push_back(float_or_nan(new_sample.pa[1]));
   }
   if (sample_attr_flag[6]){
-    samples.gxL.push_back(new_sample.gx[0]);
-    samples.gxR.push_back(new_sample.gx[1]);
+    samples.gxL.push_back(float_or_nan(new_sample.gx[0]));
+    samples.gxR.push_back(float_or_nan(new_sample.gx[1]));
   }
   if (sample_attr_flag[7]){
-    samples.gyL.push_back(new_sample.gy[0]);
-    samples.gyR.push_back(new_sample.gy[1]);
+    samples.gyL.push_back(float_or_nan(new_sample.gy[0]));
+    samples.gyR.push_back(float_or_nan(new_sample.gy[1]));
   }
   if (sample_attr_flag[8]){
-    samples.rx.push_back(new_sample.rx);
+    samples.rx.push_back(float_or_nan(new_sample.rx));
   }
   if (sample_attr_flag[9]){
-    samples.ry.push_back(new_sample.ry);
+    samples.ry.push_back(float_or_nan(new_sample.ry));
   }
   if (sample_attr_flag[10]){
-    samples.gxvelL.push_back(new_sample.gxvel[0]);
-    samples.gxvelR.push_back(new_sample.gxvel[1]);
+    samples.gxvelL.push_back(float_or_nan(new_sample.gxvel[0]));
+    samples.gxvelR.push_back(float_or_nan(new_sample.gxvel[1]));
   }
   if (sample_attr_flag[11]){
-    samples.gyvelL.push_back(new_sample.gyvel[0]);
-    samples.gyvelR.push_back(new_sample.gyvel[1]);
+    samples.gyvelL.push_back(float_or_nan(new_sample.gyvel[0]));
+    samples.gyvelR.push_back(float_or_nan(new_sample.gyvel[1]));
   }
   if (sample_attr_flag[12]){
-    samples.hxvelL.push_back(new_sample.hxvel[0]);
-    samples.hxvelR.push_back(new_sample.hxvel[1]);
+    samples.hxvelL.push_back(float_or_nan(new_sample.hxvel[0]));
+    samples.hxvelR.push_back(float_or_nan(new_sample.hxvel[1]));
   }
   if (sample_attr_flag[13]){
-    samples.hyvelL.push_back(new_sample.hyvel[0]);
-    samples.hyvelR.push_back(new_sample.hyvel[1]);
+    samples.hyvelL.push_back(float_or_nan(new_sample.hyvel[0]));
+    samples.hyvelR.push_back(float_or_nan(new_sample.hyvel[1]));
   }
   if (sample_attr_flag[14]){
-    samples.rxvelL.push_back(new_sample.rxvel[0]);
-    samples.rxvelR.push_back(new_sample.rxvel[1]);
+    samples.rxvelL.push_back(float_or_nan(new_sample.rxvel[0]));
+    samples.rxvelR.push_back(float_or_nan(new_sample.rxvel[1]));
   }
   if (sample_attr_flag[15]){
-    samples.ryvelL.push_back(new_sample.ryvel[0]);
-    samples.ryvelR.push_back(new_sample.ryvel[1]);
+    samples.ryvelL.push_back(float_or_nan(new_sample.ryvel[0]));
+    samples.ryvelR.push_back(float_or_nan(new_sample.ryvel[1]));
   }
   if (sample_attr_flag[16]){
-    samples.fgxvelL.push_back(new_sample.fgxvel[0]);
-    samples.fgxvelR.push_back(new_sample.fgxvel[1]);
+    samples.fgxvelL.push_back(float_or_nan(new_sample.fgxvel[0]));
+    samples.fgxvelR.push_back(float_or_nan(new_sample.fgxvel[1]));
   }
   if (sample_attr_flag[17]){
-    samples.fgyvelL.push_back(new_sample.fgyvel[0]);
-    samples.fgyvelR.push_back(new_sample.fgyvel[1]);
+    samples.fgyvelL.push_back(float_or_nan(new_sample.fgyvel[0]));
+    samples.fgyvelR.push_back(float_or_nan(new_sample.fgyvel[1]));
   }
   if (sample_attr_flag[18]){
-    samples.fhxvelL.push_back(new_sample.fhxvel[0]);
-    samples.fhxvelR.push_back(new_sample.fhxvel[1]);
+    samples.fhxvelL.push_back(float_or_nan(new_sample.fhxvel[0]));
+    samples.fhxvelR.push_back(float_or_nan(new_sample.fhxvel[1]));
   }
   if (sample_attr_flag[19]){
-    samples.fhyvelL.push_back(new_sample.fhyvel[0]);
-    samples.fhyvelR.push_back(new_sample.fhyvel[1]);
+    samples.fhyvelL.push_back(float_or_nan(new_sample.fhyvel[0]));
+    samples.fhyvelR.push_back(float_or_nan(new_sample.fhyvel[1]));
   }
   if (sample_attr_flag[20]){
-    samples.frxvelL.push_back(new_sample.frxvel[0]);
-    samples.frxvelR.push_back(new_sample.frxvel[1]);
+    samples.frxvelL.push_back(float_or_nan(new_sample.frxvel[0]));
+    samples.frxvelR.push_back(float_or_nan(new_sample.frxvel[1]));
   }
   if (sample_attr_flag[21]){
-    samples.fryvelL.push_back(new_sample.fryvel[0]);
-    samples.fryvelR.push_back(new_sample.fryvel[1]);
+    samples.fryvelL.push_back(float_or_nan(new_sample.fryvel[0]));
+    samples.fryvelR.push_back(float_or_nan(new_sample.fryvel[1]));
   }
   if (sample_attr_flag[22]){
     samples.hdata_1.push_back(new_sample.hdata[0]);
@@ -753,6 +781,7 @@ List read_edf_file(std::string filename,
   if (import_samples){
     DataFrame samples;
     samples["trial"] = all_samples.trial_index;
+    samples["eye"] = all_samples.eye;
     if (sample_attr_flag[0]){
       samples["time"] = all_samples.time;
       samples["time_rel"] = all_samples.time_rel;

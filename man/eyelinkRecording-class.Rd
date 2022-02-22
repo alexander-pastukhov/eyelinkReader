@@ -70,7 +70,7 @@ Please refer to that manual for further details. Additional non-standard fields 
 \item \code{evel} End velocity.
 \item \code{supd_x}, \code{supd_y} Start units-per-degree.
 \item \code{eupd_x}, \code{eupd_y} End units-per-degree.
-\item \code{eye} Either \code{'LEFT'} (1) or \code{'RIGHT'} (2).
+\item \code{eye} Either \code{'LEFT'} (0) or \code{'RIGHT'} (1).
 \item \code{status} Error, warning flags.
 \item \code{flags} Flags to indicate contents.
 \item \code{input} Extra (input word).
@@ -89,6 +89,7 @@ Please refer to that manual for further details. Suffixes \code{L} and \code{R} 
 Non-standard additional fields are marked in bold.
 \itemize{
 \item \strong{\code{trial}} Trial index, starts at 1.
+\item \strong{\code{eye}} \code{'LEFT'} (0), \code{'RIGHT'} (1), or \code{'BINOCULAR'} (2).
 \item \code{time} Time of sample.
 \item \strong{\code{time_rel}} Time relative to the start of the trial.
 \item \code{pxL}, \code{pxR}, \code{pyL}, \code{pyR} Pupil coordinates.

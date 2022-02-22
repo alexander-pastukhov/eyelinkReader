@@ -32,6 +32,7 @@
 #' and recordings, as well as specific events such as saccades, fixations, blinks, etc.
 #' @export
 #' @importFrom fs file_exists
+#' @importFrom dplyr %>% mutate mutate_if
 #' @examples
 #' if (eyelinkReader::is_compiled()) {
 #'     # Import only events and recordings information
@@ -102,12 +103,16 @@ read_edf <- function(file,
 
   # replacing -32768 with NA and converting lists to data.frames
   if (import_samples){
-    # edf_recording$samples <- data.frame(edf_recording$samples)
-    edf_recording$samples <- data.frame(convert_NAs(data.frame(edf_recording$samples)))
+    edf_recording$samples <-
+      data.frame(edf_recording$samples) %>%
+      mutate_if(is.numeric, ~ifelse(is.nan(.x), NA, .x)) %>%
+      mutate(eye = factor(.data$eye, levels = c(0, 1, 2), labels = c('LEFT', 'RIGHT', 'BINOCULAR')))
+
+    # edf_recording$samples <- data.frame(convert_NAs(data.frame(edf_recording$samples)))
   }
   if (import_events){
-    # edf_recording$events <- data.frame(edf_recording$events)
-    edf_recording$events <- data.frame(convert_NAs(data.frame(edf_recording$events)))
+    edf_recording$events <- data.frame(edf_recording$events)
+    # edf_recording$events <- data.frame(convert_NAs(data.frame(edf_recording$events)))
   }
   if (import_recordings){
     edf_recording$recordings <- data.frame(convert_NAs(data.frame(edf_recording$recordings)))
