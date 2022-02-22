@@ -143,8 +143,8 @@ typedef struct TRAIL_SAMPLES{
 //' @param value float
 //' @return float
 //' @keywords internal
-float float_or_nan(float value) {
-  if ((value <= -32767) || (value >= 1e8)) return FLOAT_NAN;
+inline float float_or_nan(float value) {
+  if ((value <= MISSING_DATA) || (value >= 1e8)) return FLOAT_NAN;
   return value;
 }
 
