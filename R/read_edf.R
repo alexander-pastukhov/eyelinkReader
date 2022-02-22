@@ -102,12 +102,12 @@ read_edf <- function(file,
 
   # replacing -32768 with NA and converting lists to data.frames
   if (import_samples){
-    edf_recording$samples <- data.frame(edf_recording$samples)
-    # edf_recording$samples <- data.frame(convert_NAs(data.frame(edf_recording$samples)))
+    # edf_recording$samples <- data.frame(edf_recording$samples)
+    edf_recording$samples <- data.frame(convert_NAs(data.frame(edf_recording$samples)))
   }
   if (import_events){
-    edf_recording$events <- data.frame(edf_recording$events)
-    # edf_recording$events <- data.frame(convert_NAs(data.frame(edf_recording$events)))
+    # edf_recording$events <- data.frame(edf_recording$events)
+    edf_recording$events <- data.frame(convert_NAs(data.frame(edf_recording$events)))
   }
   if (import_recordings){
     edf_recording$recordings <- data.frame(convert_NAs(data.frame(edf_recording$recordings)))
