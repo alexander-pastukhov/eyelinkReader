@@ -414,7 +414,7 @@ void append_sample(TRIAL_SAMPLES &samples, edfapi::FSAMPLE new_sample, unsigned 
   samples.trial_index.push_back(iTrial+1);
   if (sample_attr_flag[0]){
     samples.time.push_back(new_sample.time);
-    samples.time_rel.push_back(new_sample.time-trial_start);
+    samples.time_rel.push_back(new_sample.time - trial_start);
   }
   if (sample_attr_flag[1]){
     samples.pxL.push_back(new_sample.px[0]);
