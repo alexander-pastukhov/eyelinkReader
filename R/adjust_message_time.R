@@ -26,7 +26,7 @@ adjust_message_time <- function(object, prefix) { UseMethod("adjust_message_time
 #' @export
 adjust_message_time.eyelinkRecording <- function(object, prefix = "^[-+]?[:digit:]+[:space:]+"){
   # check that events are in the recording at all
-  if (!("events" %in% names(gaze))) {
+  if (!("events" %in% names(object))) {
     warning("No events in an eyelinkRecording object, nothing to do.")
     return(object)
   }
