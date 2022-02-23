@@ -18,6 +18,9 @@
   file.copy(system.file("cpp", "edf_interface.cpp", package = pkgname), temp_dir)
   filename <- paste0(temp_dir, "/edf_interface.cpp")
 
+  # make a copy of original compilation flags
+  the_CXXFLAGS <- Sys.getenv("PKG_CXXFLAGS")
+  the_PKG_LIBS <- Sys.getenv("PKG_LIBS")
 
   # figuring out which OS are we dealing with
   if (Sys.info()["sysname"] == "Windows") {
@@ -44,7 +47,10 @@
       Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
       Sys.setenv("PKG_LIBS"=sprintf('-L"%s" -l%s', library_path, library_file))
       packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
-        Rcpp::sourceCpp(filename, env = parent.env(environment()))
+      compilation_outcome <- try(Rcpp::sourceCpp(filename, env = parent.env(environment())))
+      if (class(compilation_outcome) == "try-error") {
+        packageStartupMessage("Could not locate EDF API, please read installation instructions.")
+      }
     } else {
       packageStartupMessage("Could not locate EDF API, please read installation instructions.")
     }
@@ -87,4 +93,8 @@
   } else {
     packageStartupMessage("Unfortunately, there is no EDF API implementation for your plaform.")
   }
+
+  # restore original compilation flags
+  Sys.setenv("PKG_CXXFLAGS" = the_CXXFLAGS)
+  Sys.setenv("PKG_LIBS" = the_PKG_LIBS)
 }
