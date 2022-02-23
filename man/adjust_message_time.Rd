@@ -2,22 +2,27 @@
 % Please edit documentation in R/adjust_message_time.R
 \name{adjust_message_time}
 \alias{adjust_message_time}
+\alias{adjust_message_time.data.frame}
 \alias{adjust_message_time.eyelinkRecording}
 \title{Adjusts message time based on embedded text offset}
 \usage{
 adjust_message_time(object, prefix)
 
+\method{adjust_message_time}{data.frame}(object, prefix = "^[-+]?[:digit:]+[:space:]+")
+
 \method{adjust_message_time}{eyelinkRecording}(object, prefix = "^[-+]?[:digit:]+[:space:]+")
 }
 \arguments{
-\item{object}{An \code{\link{eyelinkRecording}} object.}
+\item{object}{An \code{\link{eyelinkRecording}} object or data.frame with events,
+i.e., \code{events} slot of the \code{\link{eyelinkRecording}} object.}
 
 \item{prefix}{String with a regular expression that defines the offset.
 Defaults to \code{"^[-+]?[:digit:]+[:space:]+"} (a string starts with a positive
 or negative integer offset followed by a white space and the rest of the message).}
 }
 \value{
-An \code{\link{eyelinkRecording}} object.
+Object of the same time as input, i.e., either a \code{\link{eyelinkRecording}} object
+with \emph{modified} \code{events} slot or a data.frame with offset-adjusted events.
 }
 \description{
 Uses text in the message to adjust its time. E.g.,
@@ -29,5 +34,10 @@ its time become \code{105550}.
 }
 \examples{
 data(gaze)
+
+# by passing events table
+adjusted_events <- adjust_message_time(gaze$events)
+
+# by passing the recording
 gaze <- adjust_message_time(gaze)
 }
