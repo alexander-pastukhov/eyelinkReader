@@ -10,6 +10,9 @@
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/index.html</loc>
   </url>
   <url>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/adjust_message_time.html</loc>
+  </url>
+  <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_consistency_flag.html</loc>
   </url>
   <url>
@@ -77,5 +80,8 @@
   </url>
   <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_preamble.html</loc>
+  </url>
+  <url>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/simplify_samples_to_monocular.html</loc>
   </url>
 </urlset>
