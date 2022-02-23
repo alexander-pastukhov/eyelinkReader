@@ -25,6 +25,12 @@ adjust_message_time <- function(object, prefix) { UseMethod("adjust_message_time
 #' @rdname adjust_message_time
 #' @export
 adjust_message_time.eyelinkRecording <- function(object, prefix = "^[-+]?[:digit:]+[:space:]+"){
+  # check that events are in the recording at all
+  if (!("events" %in% names(gaze))) {
+    warning("No events in an eyelinkRecording object, nothing to do.")
+    return(object)
+  }
+
   # find messages that need adjusting
   need_adjusting <- which(stringr::str_detect(object$events$message, prefix))
 
