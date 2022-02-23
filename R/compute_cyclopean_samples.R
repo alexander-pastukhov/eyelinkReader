@@ -1,18 +1,21 @@
-#' Simplifies samples by averaging over binocular recorded properties
+#' Computes cyclopean samples by averaging over binocular data
 #'
-#' Simplifies samples by averaging over binocular recorded properties
-#' such as \code{px}, \code{py}, \code{hx}, \code{hy}, \code{pa},
-#' \code{gx}, \code{gy}, etc. Uses function specified via \code{fun}
+#' Computes cyclopean samples by averaging over binocular recorded properties
+#' such as \code{pxL}/\code{pxR}, \code{pyL}/\code{pyR}, \code{hxL}/\code{hxR},
+#' etc. Uses function specified via \code{fun}
 #' parameter to compute the average with \code{na.rm = TRUE} option.
-#' In case of a monocular recording or information from one eye missing,
-#' this corresponds to using information from one eye only.
+#' In case of a monocular recording or when the information from one eye missing,
+#' uses information from one eye only, ignoring the other column.
+#' In both binocular and monocular recording cases, simplifies column names
+#' so that \code{pxL} and/or \code{pxR} are replaced
+#' with a single column \code{px}, \code{pyL}/\code{pyR} with \code{py}, etc.
 #'
 #' @param object Either an \code{\link{eyelinkRecording}} object or data.frame with samples,
 #' i.e., \code{samples} slot of the \code{\link{eyelinkRecording}} object.
 #' @param fun Function used to average across eyes, defaults to \code{\link{mean}}.
 #'
 #' @return Object of the same time as input, i.e., either a \code{\link{eyelinkRecording}} object
-#' with \emph{modified} \code{samples} slot or a data.frame with simplified monocular samples.
+#' with \emph{modified} \code{samples} slot or a data.frame with cyclopean samples.
 
 #' @export
 #'
@@ -20,20 +23,23 @@
 #' data(gaze)
 #'
 #' # by passing samples table
-#' monocular_samples <- simplify_samples_to_monocular(gaze$samples)
+#' cyclopean_samples <- compute_cyclopean_samples(gaze$samples)
 #'
-#' # by passing the recording
-#' gaze <- simplify_samples_to_monocular(gaze)
-simplify_samples_to_monocular <- function(object, fun = mean) { UseMethod("simplify_samples_to_monocular") }
+#' # storing cyclopean samples as a separate table in recording
+#' gaze$cyclopean_samples <- compute_cyclopean_samples(gaze$samples)
+#'
+#' # by passing the recording, cyclopean samples replace original ones
+#' gaze <- compute_cyclopean_samples(gaze)
+compute_cyclopean_samples <- function(object, fun = mean) { UseMethod("compute_cyclopean_samples") }
 
 
-#' @rdname simplify_samples_to_monocular
+#' @rdname compute_cyclopean_samples
 #' @export
 #' @importFrom dplyr %>% select all_of mutate_if
 #' @importFrom tidyr separate
 #' @importFrom stringr str_detect str_remove
 #' @importFrom rlang .data
-simplify_samples_to_monocular.data.frame <- function(object, fun = mean) {
+compute_cyclopean_samples.data.frame <- function(object, fun = mean) {
   # figuring out columns that we need to compute the mean over
   i_eye_specific_column <- stringr::str_detect(names(object), "[L|R]$")
   eye_specific_columns <- names(object)[i_eye_specific_column]
@@ -61,15 +67,15 @@ simplify_samples_to_monocular.data.frame <- function(object, fun = mean) {
 }
 
 
-#' @rdname simplify_samples_to_monocular
+#' @rdname compute_cyclopean_samples
 #' @export
-simplify_samples_to_monocular.eyelinkRecording <- function(object, fun = mean) {
+compute_cyclopean_samples.eyelinkRecording <- function(object, fun = mean) {
   # check that samples are in the recording at all
   if (!("samples" %in% names(object))) {
     stop("No samples in an eyelinkRecording object.")
   }
 
   # modify in place
-  object$samples <- simplify_samples_to_monocular(object$samples, fun)
+  object$samples <- compute_cyclopean_samples(object$samples, fun)
   object
 }
