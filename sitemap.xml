@@ -25,6 +25,9 @@
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_that_compiled.html</loc>
   </url>
   <url>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/compute_cyclopean_samples.html</loc>
+  </url>
+  <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_header_codes.html</loc>
   </url>
   <url>
@@ -80,8 +83,5 @@
   </url>
   <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_preamble.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/simplify_samples_to_monocular.html</loc>
   </url>
 </urlset>
