@@ -40,6 +40,13 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/installation.html">Installation</a>
+    <a class="dropdown-item" href="articles/usage.html">Usage</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -66,6 +73,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
+<p>These instructions are also available as a vignette.</p>
 <p>The library installation involves three easy (famous last words) steps.</p>
 <div class="section level3">
 <h3 id="install-sr-research-eyelink-developers-kit">Install SR Research EyeLink Developers Kit<a class="anchor" aria-label="anchor" href="#install-sr-research-eyelink-developers-kit"></a>
@@ -151,7 +159,7 @@
 <span class="va">gaze</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_edf.html">read_edf</a></span><span class="op">(</span><span class="st">'eyelink-recording.edf'</span>,
                  import_samples <span class="op">=</span> <span class="cn">TRUE</span>,
                  sample_attributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'time'</span>, <span class="st">'gx'</span>, <span class="st">'gy'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Please refer to documentation on <code>eyelinkRecording</code> class for details on events and samples.</p>
+<p>See also a vignette on package usage. Please refer to documentation on <code>eyelinkRecording</code> class for details on events and samples.</p>
 </div>
 <div class="section level2">
 <h2 id="further-information-on-edf-file-content">Further information on EDF file content<a class="anchor" aria-label="anchor" href="#further-information-on-edf-file-content"></a>
