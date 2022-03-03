@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   installation: installation.html
   usage: usage.html
-last_built: 2022-03-02T12:54Z
+last_built: 2022-03-03T12:12Z
 urls:
   reference: https://alexander-pastukhov.github.io/eyelinkReader/reference
   article: https://alexander-pastukhov.github.io/eyelinkReader/articles
