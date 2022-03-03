@@ -29,12 +29,7 @@ Events and individual event types are stored as tables inside the `eyelinkRecord
 View(gaze$saccades)
 ```
 
-The package also includes functions to parse non-standard events: recorded areas of interest (`extract_AOIs`) and trigger events that help to time events (`extract_triggers`). These need to be called separately.
-
-```r
-gaze <- extract_AOIs(gaze)
-gaze <- extract_triggers(gaze)
-```
+## Working with samples
 
 To import samples, add `import_samples = TRUE` and, optionally, specify which sample attributes need to be imported, e.g., `sample_attributes = c('time', 'gx', 'gy')`. All attributes are imported if `sample_attributes` is not specified. See package and EDF API documentation for the full list of attribute names.
 
@@ -48,4 +43,31 @@ gaze <- read_edf('eyelink-recording.edf',
                  sample_attributes = c('time', 'gx', 'gy'))
 ```
 
-Please refer to documentation on `eyelinkRecording` class for details on events and samples.
+You can convert makes samples _cyclopean_. In case of a binocular recording, a single column would represent an average between to eyes. E.g., $gx = (gxL + gxR) / 2$. In case of a monocular recording, a single column will contain information for a recorded eye. This is particularly useful, if you have multiple monocular recordings but some for the right eye and some for the left.
+
+```r
+cyclopean_samples <- compute_cyclopean_samples(gaze$samples)
+```
+
+## Utility functions
+The package includes various utility functions that need to be called separately. For example, to parse non-standard events: recorded areas of interest (`extract_AOIs`) and trigger events that help to time events (`extract_triggers`). 
+
+```r
+gaze <- extract_AOIs(gaze)
+gaze <- extract_triggers(gaze)
+```
+
+or, tidyverse-style
+```r
+library(tidyverse)
+gaze <-
+  read_edf('eyelink-recording.edf') %>%
+  extract_AOIs() %>%
+  extract_triggers()
+```
+
+Function `adjust_message_time()` alters time stamps of messages that are prefixed by a numeric offset that makes synchronization easier for e E-Prime / Presentation. I.e., a message `"-50 TARGET_ONSET"` that was sent at `105600` becomes a message `"TARGET_ONSET"` and its time stamp is `105550`.
+
+```r
+gaze <- adjust_message_time(gaze)
+```
