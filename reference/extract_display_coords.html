@@ -113,17 +113,9 @@ Either a four element numeric vector with display coordinates, or <code>NULL</co
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># by passing the recording</span></span>
 <span class="r-in"><span class="va">gaze</span> <span class="op">&lt;-</span> <span class="fu">extract_display_coords</span><span class="op">(</span><span class="va">gaze</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::filter(object, .data$trial == 0, startsWith(.data$message,     message_prefix, silent)):</span> Problem while computing `..2 = startsWith(.data$message, message_prefix,</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> silent)`.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `startsWith()`:</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> unused argument (silent)</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># by passing events table</span></span>
 <span class="r-in"><span class="va">display_coords</span> <span class="op">&lt;-</span> <span class="fu">extract_display_coords</span><span class="op">(</span><span class="va">gaze</span><span class="op">$</span><span class="va">events</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::filter(object, .data$trial == 0, startsWith(.data$message,     message_prefix, silent)):</span> Problem while computing `..2 = startsWith(.data$message, message_prefix,</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> silent)`.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `startsWith()`:</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> unused argument (silent)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
