@@ -63,5 +63,5 @@ EDFAPI_INC="/Library/Frameworks/edfapi.framework/Headers"
 To install from github
 ```
 library("devtools")
-install_github("alexander-pastukhov/eyelinkReader", dependencies=TRUE)
+install_github("alexander-pastukhov/eyelinkReader", dependencies=TRUE,  build_vignettes = TRUE)
 ```
