@@ -130,7 +130,7 @@ read_edf <- function(file,
   # extracting specific event types, if requested
   if (import_events){
     # checking display info, if present
-    edf_recording$display_coords <- extract_display_coords(edf_recording$events)
+    edf_recording$display_coords <- extract_display_coords(edf_recording$events, silent = TRUE)
 
     if (import_saccades){
       edf_recording$saccades <- extract_saccades(edf_recording$events)
