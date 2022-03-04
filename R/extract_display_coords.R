@@ -36,7 +36,7 @@ extract_display_coords <- function(object, message_prefix = "DISPLAY_COORDS", si
 
 extract_display_coords.data.frame <- function(object, message_prefix = "DISPLAY_COORDS", silent = FALSE) {
   if (!is.null(object)){
-    display_coord_msg <- dplyr::filter(object, .data$trial == 0, startsWith(.data$message, message_prefix, silent))
+    display_coord_msg <- dplyr::filter(object, .data$trial == 0, startsWith(.data$message, message_prefix))
 
     if (nrow(display_coord_msg) == 0) {
       if (!silent) warning("No DISPLAY_COORDS message found.")
