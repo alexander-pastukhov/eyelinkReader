@@ -1,8 +1,9 @@
 #' Extract display coordinates from an event message
 #'
 #' @description Extracts display coordinates from a message that adheres to a
-#' \code{<message_prefix> <label>} format. Please note that this function \strong{is not} called
-#' during the \code{\link{read_edf}} call and you need to call it separately.
+#' \code{<message_prefix> <label>} format. Please note that this function called
+#' during the \code{\link{read_edf}} call with \code{silent = TRUE}. If \code{display_coords}
+#' are missing from the \code{\link{eyelinkRecording}}, run this method to see the warnings.
 #'
 #' @param object Either an \code{\link{eyelinkRecording}} object or data.frame with events,
 #' i.e., \code{events} slot of the \code{\link{eyelinkRecording}} object.
