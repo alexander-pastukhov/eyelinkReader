@@ -6,11 +6,23 @@
 \alias{extract_display_coords.eyelinkRecording}
 \title{Extract display coordinates from an event message}
 \usage{
-extract_display_coords(object, message_prefix = "DISPLAY_COORDS")
+extract_display_coords(
+  object,
+  message_prefix = "DISPLAY_COORDS",
+  silent = FALSE
+)
 
-\method{extract_display_coords}{data.frame}(object, message_prefix = "DISPLAY_COORDS")
+\method{extract_display_coords}{data.frame}(
+  object,
+  message_prefix = "DISPLAY_COORDS",
+  silent = FALSE
+)
 
-\method{extract_display_coords}{eyelinkRecording}(object, message_prefix = "DISPLAY_COORDS")
+\method{extract_display_coords}{eyelinkRecording}(
+  object,
+  message_prefix = "DISPLAY_COORDS",
+  silent = FALSE
+)
 }
 \arguments{
 \item{object}{Either an \code{\link{eyelinkRecording}} object or data.frame with events,
@@ -18,6 +30,8 @@ i.e., \code{events} slot of the \code{\link{eyelinkRecording}} object.}
 
 \item{message_prefix}{Beginning of the message string that identifies the DISPLAY_COORDS message.
 Defaults to \code{"DISPLAY_COORDS"}.}
+
+\item{silent}{Whether to suppress a warning when DISPLAY_COORDS message is missing. Default to \code{FALSE}.}
 }
 \value{
 A \code{\link{eyelinkRecording}} object with an additional \code{display_coords} slot (if that was \code{object} type),

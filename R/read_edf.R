@@ -107,12 +107,10 @@ read_edf <- function(file,
       data.frame(edf_recording$samples) %>%
       mutate_if(is.numeric, ~ifelse(is.nan(.x), NA, .x)) %>%
       mutate(eye = factor(.data$eye, levels = c(0, 1, 2), labels = c('LEFT', 'RIGHT', 'BINOCULAR')))
-
-    # edf_recording$samples <- data.frame(convert_NAs(data.frame(edf_recording$samples)))
   }
   if (import_events){
     edf_recording$events <- data.frame(edf_recording$events)
-    # edf_recording$events <- data.frame(convert_NAs(data.frame(edf_recording$events)))
+
   }
   if (import_recordings){
     edf_recording$recordings <- data.frame(convert_NAs(data.frame(edf_recording$recordings)))
@@ -132,9 +130,7 @@ read_edf <- function(file,
   # extracting specific event types, if requested
   if (import_events){
     # checking display info, if present
-    if (!is.null(edf_recording$display_coords)){
-      edf_recording$display_coords <- as.numeric(unlist(strsplit(trimws(gsub("DISPLAY_COORDS", "", edf_recording$display_coords)), " ")))
-    }
+    edf_recording$display_coords <- extract_display_coords(edf_recording$events)
 
     if (import_saccades){
       edf_recording$saccades <- extract_saccades(edf_recording$events)
