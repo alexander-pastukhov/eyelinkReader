@@ -3,6 +3,7 @@
 #' @param libname character
 #' @param pkgname character
 #' @export
+#' @importFrom methods is
 #' @keywords internal
 .onLoad <- function(libname, pkgname) {
   required_headers <- c('edf.h', 'edf_data.h', 'edftypes.h')
@@ -48,7 +49,7 @@
       Sys.setenv("PKG_LIBS"=sprintf('-L"%s" -l%s', library_path, library_file))
       packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
       compilation_outcome <- try(Rcpp::sourceCpp(filename, env = parent.env(environment())))
-      if (class(compilation_outcome) == "try-error") {
+      if (is(compilation_outcome, "try-error")) {
         packageStartupMessage("Could not locate EDF API, please read installation instructions.")
       }
     } else {
@@ -68,7 +69,7 @@
                                                  verbose = FALSE))
     }
 
-    if (is.null(include_path) || class(compilation_outcome) == "try-error") {
+    if (is.null(include_path) || is(compilation_outcome, "try-error")) {
       packageStartupMessage("Could not locate EDF API, please read installation instructions.")
     }
   } else if (Sys.info()["sysname"] == "Darwin") {
@@ -86,7 +87,7 @@
                                                  verbose = FALSE))
     }
 
-    if (is.null(include_path) || class(compilation_outcome) == "try-error") {
+    if (is.null(include_path) || is(compilation_outcome, "try-error")) {
       packageStartupMessage("Could not locate EDF API, please read installation instructions.")
     }
 
