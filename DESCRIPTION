@@ -26,15 +26,16 @@ LinkingTo: Rcpp, RcppProgress
 Imports:
   dplyr,
   fs,
-  knitr,
   Rcpp,
   stringr,
   tidyr,
-  methods
+  methods,
+  ggplot2
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 SystemRequirements: GNU make
 Suggests: 
     rmarkdown,
+    knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
