@@ -14,6 +14,19 @@ namespace edfapi {
 const float FLOAT_NAN = nanf("");
 
 
+//' @title Status of compiled library
+//' @description Return status of compiled library
+//' @return logical
+//' @export
+//' @examples
+//' compiled_library_status()
+//[[Rcpp::export]]
+bool compiled_library_status(){
+  // the other version, compiled at installation returns false
+  return(true);
+}
+
+
 // ------------------ data structures, as defined in EDF C API user manual ------------------
 typedef struct TRIAL_EVENTS {
   std::vector <unsigned int> trial_index;
