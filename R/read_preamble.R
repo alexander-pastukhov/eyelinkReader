@@ -10,15 +10,15 @@
 #' @importFrom stringr str_split str_remove_all
 #'
 #' @examples
-#' if (eyelinkReader::is_compiled()) {
-#'     read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' \donttest{
+#'   read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #' }
 read_preamble <- function(file, fail_loudly = TRUE){
   # failing with NULL, if no error was forced
   if (!check_that_compiled(fail_loudly)) return(NULL)
 
   # getting the preamble as a single string and splitting it by new-line
-  preamble <- eyelinkReader:::read_preamble_str(file) %>%
+  preamble <- eyelinkReader::read_preamble_str(file) %>%
     stringr::str_split('\\n', simplify = FALSE)
 
   # removing leading '** ', cause why would we need them?

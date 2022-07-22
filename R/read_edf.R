@@ -34,17 +34,17 @@
 #' @importFrom fs file_exists
 #' @importFrom dplyr %>% mutate mutate_if
 #' @examples
-#' if (eyelinkReader::is_compiled()) {
-#'     # Import only events and recordings information
-#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' \donttest{
+#'   # Import only events and recordings information
+#'    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
 #'
-#'     # Import events and samples (only time and  screen gaze coordinates)
-#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                       sample_attributes = c('time', 'gx', 'gy'))
+#'   # Import events and samples (only time and  screen gaze coordinates)
+#'   recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                         sample_attributes = c('time', 'gx', 'gy'))
 #'
-#'     # Import events and samples (all attributes)
-#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
-#'                           import_samples= TRUE)
+#'   # Import events and samples (all attributes)
+#'   recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"),
+#'                         import_samples= TRUE)
 #' }
 read_edf <- function(file,
                      consistency = 'check consistency and report',
@@ -84,15 +84,15 @@ read_edf <- function(file,
   import_samples <- sum(sample_attr_flag) > 0
 
   # importing data
-  edf_recording <- eyelinkReader:::read_edf_file(file,
-                                 requested_consistency,
-                                 import_events,
-                                 import_recordings,
-                                 import_samples,
-                                 sample_attr_flag,
-                                 start_marker,
-                                 end_marker,
-                                 verbose)
+  edf_recording <- eyelinkReader::read_edf_file(file,
+                                                requested_consistency,
+                                                import_events,
+                                                import_recordings,
+                                                import_samples,
+                                                sample_attr_flag,
+                                                start_marker,
+                                                end_marker,
+                                                verbose)
 
   # adding preamble
   edf_recording$preamble <- read_preamble(file)

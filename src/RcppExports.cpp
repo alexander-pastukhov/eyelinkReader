@@ -10,6 +10,16 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// compiled_library_status
+bool compiled_library_status();
+RcppExport SEXP _eyelinkReader_compiled_library_status() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(compiled_library_status());
+    return rcpp_result_gen;
+END_RCPP
+}
 // convert_NAs
 List convert_NAs(List original_frame);
 RcppExport SEXP _eyelinkReader_convert_NAs(SEXP original_frameSEXP) {
@@ -21,9 +31,42 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// read_edf_file
+List read_edf_file(std::string filename, int consistency, bool import_events, bool import_recordings, bool import_samples, LogicalVector sample_attr_flag, std::string start_marker_string, std::string end_marker_string, bool verbose);
+RcppExport SEXP _eyelinkReader_read_edf_file(SEXP filenameSEXP, SEXP consistencySEXP, SEXP import_eventsSEXP, SEXP import_recordingsSEXP, SEXP import_samplesSEXP, SEXP sample_attr_flagSEXP, SEXP start_marker_stringSEXP, SEXP end_marker_stringSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
+    Rcpp::traits::input_parameter< int >::type consistency(consistencySEXP);
+    Rcpp::traits::input_parameter< bool >::type import_events(import_eventsSEXP);
+    Rcpp::traits::input_parameter< bool >::type import_recordings(import_recordingsSEXP);
+    Rcpp::traits::input_parameter< bool >::type import_samples(import_samplesSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type sample_attr_flag(sample_attr_flagSEXP);
+    Rcpp::traits::input_parameter< std::string >::type start_marker_string(start_marker_stringSEXP);
+    Rcpp::traits::input_parameter< std::string >::type end_marker_string(end_marker_stringSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(read_edf_file(filename, consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// read_preamble_str
+std::string read_preamble_str(std::string filename);
+RcppExport SEXP _eyelinkReader_read_preamble_str(SEXP filenameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
+    rcpp_result_gen = Rcpp::wrap(read_preamble_str(filename));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_eyelinkReader_compiled_library_status", (DL_FUNC) &_eyelinkReader_compiled_library_status, 0},
     {"_eyelinkReader_convert_NAs", (DL_FUNC) &_eyelinkReader_convert_NAs, 1},
+    {"_eyelinkReader_read_edf_file", (DL_FUNC) &_eyelinkReader_read_edf_file, 9},
+    {"_eyelinkReader_read_preamble_str", (DL_FUNC) &_eyelinkReader_read_preamble_str, 1},
     {NULL, NULL, 0}
 };
 

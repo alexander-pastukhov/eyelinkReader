@@ -2,16 +2,18 @@
 #'
 #' @param libname character
 #' @param pkgname character
+#' @return NULL
 #' @export
 #' @importFrom methods is
 #' @keywords internal
 .onLoad <- function(libname, pkgname) {
+  # attempt_to_compile()
   required_headers <- c('edf.h', 'edf_data.h', 'edftypes.h')
 
   locate_files <- function(files, folders) {
     for(a_folder in folders) if (all(file.exists(paste0(a_folder, "/", files)))) return(a_folder)
 
-    NULL
+    return(NULL)
   }
 
   # copying the C++ source file file to a temporary folder for compilation
@@ -47,13 +49,7 @@
     if (all(!is.null(c(include_path, library_path)))) {
       Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
       Sys.setenv("PKG_LIBS"=sprintf('-L"%s" -l%s', library_path, library_file))
-      packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
       compilation_outcome <- try(Rcpp::sourceCpp(filename, env = parent.env(environment())))
-      if (is(compilation_outcome, "try-error")) {
-        packageStartupMessage("Could not locate EDF API, please read installation instructions.")
-      }
-    } else {
-      packageStartupMessage("Could not locate EDF API, please read installation instructions.")
     }
   } else if (Sys.info()["sysname"] == "Linux") {
     include_path <- locate_files(required_headers,
@@ -62,15 +58,10 @@
     if (!is.null(include_path)) {
       Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
       Sys.setenv("PKG_LIBS"='-ledfapi')
-      packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
       compilation_outcome <- try(Rcpp::sourceCpp(filename,
                                                  env = parent.env(environment()),
                                                  echo = FALSE,
                                                  verbose = FALSE))
-    }
-
-    if (is.null(include_path) || is(compilation_outcome, "try-error")) {
-      packageStartupMessage("Could not locate EDF API, please read installation instructions.")
     }
   } else if (Sys.info()["sysname"] == "Darwin") {
     include_path <- locate_files(required_headers,
@@ -80,22 +71,32 @@
     if (!is.null(include_path)) {
       Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
       Sys.setenv("PKG_LIBS"=sprintf('-framework edfapi -F%s -rpath %s', library_path, library_path))
-      packageStartupMessage("Compiling EDF API library interface, this will take a moment...")
       compilation_outcome <- try(Rcpp::sourceCpp(filename,
                                                  env = parent.env(environment()),
                                                  echo = FALSE,
                                                  verbose = FALSE))
     }
-
-    if (is.null(include_path) || is(compilation_outcome, "try-error")) {
-      packageStartupMessage("Could not locate EDF API, please read installation instructions.")
-    }
-
-  } else {
-    packageStartupMessage("Unfortunately, there is no EDF API implementation for your plaform.")
   }
 
   # restore original compilation flags
   Sys.setenv("PKG_CXXFLAGS" = the_CXXFLAGS)
   Sys.setenv("PKG_LIBS" = the_PKG_LIBS)
+}
+
+
+#' Check if the library was compiled
+#'
+#' @param libname character
+#' @param pkgname character
+#' @return NULL
+#' @export
+#' @keywords internal
+.onAttach <- function(libname, pkgname) {
+  if (!eyelinkReader::compiled_library_status()){
+    if (Sys.info()["sysname"] %in% c("Windows", "Linux", "Darwin")){
+      packageStartupMessage("Failed to compile EDF API interface, please read installation instructions.")
+    } else{
+      packageStartupMessage("Unfortunately, there is no EDF API implementation for your plaform.")
+    }
+  }
 }

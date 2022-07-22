@@ -19,7 +19,7 @@ a character vector but with added class \code{eyelinkPreamble} to simplify print
 Read the preamble of the EDF file and parses it into an reading-friendly format
 }
 \examples{
-if (eyelinkReader::is_compiled()) {
-    read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+\donttest{
+  read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
 }
 }
