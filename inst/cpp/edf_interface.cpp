@@ -155,6 +155,7 @@ typedef struct TRAIL_SAMPLES{
 //' @title Converts a float value to an explicit NaN, if necessary
 //' @param value float
 //' @return float
+//' @export
 //' @keywords internal
 inline float float_or_nan(float value) {
   if ((value <= MISSING_DATA) || (value >= 1e8)) return FLOAT_NAN;
@@ -206,6 +207,7 @@ edfapi::EDFFILE* safely_open_edf_file(std::string filename, int consistency, int
 //' Please, do not use this function directly. Instead, call \code{\link{read_preamble}} function
 //' that provides a more consistent interface.
 //' @return string with the preamble
+//' @export
 //' @keywords internal
 //' @examples
 //' read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
@@ -232,13 +234,13 @@ std::string read_preamble_str(std::string filename){
 }
 
 
-// @title Sets trial navigation for EDF API
-// @description Sets trial navigation via the markers for the start and the end of the trial.
-// @param EDFFILE* edfFile, pointer to the EDF file
-// @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
-// @param std::string end_marker_string, event that marks trial end
-// @seealso safely_open_edf_file
-// @keywords internal
+//' @title Sets trial navigation for EDF API
+//' @description Sets trial navigation via the markers for the start and the end of the trial.
+//' @param EDFFILE* edfFile, pointer to the EDF file
+//' @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
+//' @param std::string end_marker_string, event that marks trial end
+//' @seealso safely_open_edf_file
+//' @keywords internal
 void set_trial_navigation_up(edfapi::EDFFILE* edfFile, std::string start_marker_string, std::string end_marker_string){
   // converting strings to char buffers
   char * start_marker_char = new char[start_marker_string.size() + 1];
@@ -259,12 +261,12 @@ void set_trial_navigation_up(edfapi::EDFFILE* edfFile, std::string start_marker_
   delete[] end_marker_char;
 }
 
-// @title Jumps to the i-th trial
-// @description Jumps to the i-th trial, throws an exception and prints an error message, if fails.
-// @param EDFFILE* edfFile, pointer to the EDF file
-// @param int iTrial, index of the desired trial
-// @seealso safely_open_edf_file, set_trial_navigation_up
-// @keywords internal
+//' @title Jumps to the i-th trial
+//' @description Jumps to the i-th trial, throws an exception and prints an error message, if fails.
+//' @param EDFFILE* edfFile, pointer to the EDF file
+//' @param int iTrial, index of the desired trial
+//' @seealso safely_open_edf_file, set_trial_navigation_up
+//' @keywords internal
 void jump_to_trial(edfapi::EDFFILE* edfFile, int iTrial){
   if (edfapi::edf_jump_to_trial(edfFile, iTrial) != 0){
     std::stringstream error_message_stream;
@@ -273,11 +275,11 @@ void jump_to_trial(edfapi::EDFFILE* edfFile, int iTrial){
   }
 }
 
-// @title Prepare matrix for trial headers
-// @description Prepare matrix for trial headers.
-// @param int total_trials, total number of trials, i.e. number of rows in the matrix
-// @return NumericMatrix total_trials (rows) x 15 (columns)
-// @keywords internal
+//' @title Prepare matrix for trial headers
+//' @description Prepare matrix for trial headers.
+//' @param int total_trials, total number of trials, i.e. number of rows in the matrix
+//' @return NumericMatrix total_trials (rows) x 15 (columns)
+//' @keywords internal
 NumericMatrix prepare_trial_headers(int total_trials){
   // row names
   NumericVector row_index(total_trials);
@@ -299,14 +301,14 @@ NumericMatrix prepare_trial_headers(int total_trials){
   return (trial_headers);
 }
 
-// @title Read header for the i-th trial
-// @description Read head and store it in the i-th row of the headers matrix
-// @param EDFFILE* edfFile, pointer to the EDF file
-// @param NumericMatrix &trial_headers, reference to the trial header matrix
-// @param int iTrial, the row in which the header will be stored.
-// Functions assumes that the correct trial within the EDF file was already navigated to.
-// @return modifes trial_headers i-th row in place
-// @keywords internal
+//' @title Read header for the i-th trial
+//' @description Read head and store it in the i-th row of the headers matrix
+//' @param EDFFILE* edfFile, pointer to the EDF file
+//' @param NumericMatrix &trial_headers, reference to the trial header matrix
+//' @param int iTrial, the row in which the header will be stored.
+//' Functions assumes that the correct trial within the EDF file was already navigated to.
+//' @return modifes trial_headers i-th row in place
+//' @keywords internal
 void read_trial_header(edfapi::EDFFILE* edfFile, NumericMatrix &trial_headers, int iTrial){
 
   // obtaining the trial header
@@ -335,15 +337,15 @@ void read_trial_header(edfapi::EDFFILE* edfFile, NumericMatrix &trial_headers, i
   trial_headers(iTrial,14) = current_header.rec->eye;
 }
 
-// @title Appends event to the even structure
-// @description Appends a new event to the even structure and copies all the data
-// @param TRIAL_EVENTS &events, reference to the trial events structure
-// @param FEVENT new_event, structure with event info, as described in the EDF API manual
-// @param int iTrial, the index of the trial the event belongs to
-// @param UINT32 trial_start, the timestamp of the trial start.
-// Is used to compute event time relative to it.
-// @return modifies events structure
-// @keywords internal
+//' @title Appends event to the even structure
+//' @description Appends a new event to the even structure and copies all the data
+//' @param TRIAL_EVENTS &events, reference to the trial events structure
+//' @param FEVENT new_event, structure with event info, as described in the EDF API manual
+//' @param int iTrial, the index of the trial the event belongs to
+//' @param UINT32 trial_start, the timestamp of the trial start.
+//' Is used to compute event time relative to it.
+//' @return modifies events structure
+//' @keywords internal
 void append_event(TRIAL_EVENTS &events, edfapi::FEVENT new_event, unsigned int iTrial, edfapi::UINT32 trial_start){
   events.trial_index.push_back(iTrial);
   events.time.push_back(new_event.time);
@@ -402,15 +404,15 @@ void append_event(TRIAL_EVENTS &events, edfapi::FEVENT new_event, unsigned int i
   }
 }
 
-// @title Appends recording to the recording structure
-// @description Appends a new recording to the recordings structure and copies all the data
-// @param TRIAL_RECORDINGS &recordings, reference to the trial recording structure
-// @param RECORDINGS new_rec, structure with recordiong info, as described in the EDF API manual
-// @param int iTrial, the index of the trial the event belongs to
-// @param UINT32 trial_start, the timestamp of the trial start.
-// Is used to compute event time relative to it.
-// @return modifies recordings structure
-// @keywords internal
+//' @title Appends recording to the recording structure
+//' @description Appends a new recording to the recordings structure and copies all the data
+//' @param TRIAL_RECORDINGS &recordings, reference to the trial recording structure
+//' @param RECORDINGS new_rec, structure with recordiong info, as described in the EDF API manual
+//' @param int iTrial, the index of the trial the event belongs to
+//' @param UINT32 trial_start, the timestamp of the trial start.
+//' Is used to compute event time relative to it.
+//' @return modifies recordings structure
+//' @keywords internal
 void append_recording(TRIAL_RECORDINGS &recordings, edfapi::RECORDINGS new_rec, unsigned int iTrial, edfapi::UINT32 trial_start){
   recordings.trial_index.push_back(iTrial+1);
   recordings.time.push_back(new_rec.time);
@@ -428,15 +430,15 @@ void append_recording(TRIAL_RECORDINGS &recordings, edfapi::RECORDINGS new_rec, 
 }
 
 
-// @title Appends sample to the samples structure
-// @description Appends a new sample to the samples structure and copies all the data
-// @param TRIAL_SAMPLES &samples, reference to the trial samples structure
-// @param FSAMPLE new_sample, structure with sample info, as described in the EDF API manual
-// @param int iTrial, the index of the trial the event belongs to
-// @param UINT32 trial_start, the timestamp of the trial start. Is used to compute event time relative to it.
-// @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
-// @return modifies samples structure
-// @keywords internal
+//' @title Appends sample to the samples structure
+//' @description Appends a new sample to the samples structure and copies all the data
+//' @param TRIAL_SAMPLES &samples, reference to the trial samples structure
+//' @param FSAMPLE new_sample, structure with sample info, as described in the EDF API manual
+//' @param int iTrial, the index of the trial the event belongs to
+//' @param UINT32 trial_start, the timestamp of the trial start. Is used to compute event time relative to it.
+//' @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
+//' @return modifies samples structure
+//' @keywords internal
 void append_sample(TRIAL_SAMPLES &samples, edfapi::FSAMPLE new_sample, unsigned int iTrial, edfapi::UINT32 trial_start, LogicalVector sample_attr_flag)
 {
   samples.trial_index.push_back(iTrial+1);
@@ -569,23 +571,24 @@ void append_sample(TRIAL_SAMPLES &samples, edfapi::FSAMPLE new_sample, unsigned 
 
 // Internal function that reads EDF file
 //
-// @title Internal funciton that reads EDF file
-// @description Reads EDF file into a list that contains events, samples, and recordings.
-// DO NOT call this function directly. Instead, use read_edf function that implements
-// parameter checks and additional postprocessing.
-// @param std::string filename, full name of the EDF file
-// @param int consistency, consistency check control (for the time stamps of the start
-// and end events, etc). 0, no consistency check. 1, check consistency and report.
-// 2, check consistency and fix.
-// @param bool import_events, load/skip loading events.
-// @param bool import_recordings, load/skip loading recordings.
-// @param bool import_samples, load/skip loading of samples.
-// @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
-// @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
-// @param std::string end_marker_string, event that marks trial end
-// @param verbose, whether to show progressbar and report number of trials
-// @keywords internal
-// @return List, contents of the EDF file. Please see read_edf for details.
+//' @title Internal function that reads EDF file
+//' @description Reads EDF file into a list that contains events, samples, and recordings.
+//' DO NOT call this function directly. Instead, use read_edf function that implements
+//' parameter checks and additional postprocessing.
+//' @param std::string filename, full name of the EDF file
+//' @param int consistency, consistency check control (for the time stamps of the start
+//' and end events, etc). 0, no consistency check. 1, check consistency and report.
+//' 2, check consistency and fix.
+//' @param bool import_events, load/skip loading events.
+//' @param bool import_recordings, load/skip loading recordings.
+//' @param bool import_samples, load/skip loading of samples.
+//' @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
+//' @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
+//' @param std::string end_marker_string, event that marks trial end
+//' @param verbose, whether to show progressbar and report number of trials
+//' @export
+//' @keywords internal
+//' @return List, contents of the EDF file. Please see read_edf for details.
 //[[Rcpp::export]]
 List read_edf_file(std::string filename,
                    int consistency,

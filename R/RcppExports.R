@@ -15,3 +15,38 @@ convert_NAs <- function(original_frame) {
     .Call('_eyelinkReader_convert_NAs', PACKAGE = 'eyelinkReader', original_frame)
 }
 
+#' @title Internal function that reads EDF file
+#' @description Reads EDF file into a list that contains events, samples, and recordings.
+#' DO NOT call this function directly. Instead, use read_edf function that implements
+#' parameter checks and additional postprocessing.
+#' @param std::string filename, full name of the EDF file
+#' @param int consistency, consistency check control (for the time stamps of the start
+#' and end events, etc). 0, no consistency check. 1, check consistency and report.
+#' 2, check consistency and fix.
+#' @param bool import_events, load/skip loading events.
+#' @param bool import_recordings, load/skip loading recordings.
+#' @param bool import_samples, load/skip loading of samples.
+#' @param LogicalVector sample_attr_flag, boolean vector that indicates which sample fields are to be stored
+#' @param std::string start_marker_string, event that marks trial start. Defaults to "TRIALID", if empty.
+#' @param std::string end_marker_string, event that marks trial end
+#' @param verbose, whether to show progressbar and report number of trials
+#' @export
+#' @keywords internal
+#' @return List, contents of the EDF file. Please see read_edf for details.
+read_edf_file <- function(filename, consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, verbose) {
+    .Call('_eyelinkReader_read_edf_file', PACKAGE = 'eyelinkReader', filename, consistency, import_events, import_recordings, import_samples, sample_attr_flag, start_marker_string, end_marker_string, verbose)
+}
+
+#' @title Reads preamble of the EDF file as a single string.
+#' @description Reads preamble of the EDF file as a single string.
+#' Please, do not use this function directly. Instead, call \code{\link{read_preamble}} function
+#' that provides a more consistent interface.
+#' @return string with the preamble
+#' @export
+#' @keywords internal
+#' @examples
+#' read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+read_preamble_str <- function(filename) {
+    .Call('_eyelinkReader_read_preamble_str', PACKAGE = 'eyelinkReader', filename)
+}
+
