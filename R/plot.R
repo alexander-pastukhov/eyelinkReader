@@ -1,7 +1,7 @@
 #' Plot fixations and saccades for a set of trials
 #'
 #' This is only a basic plotting utility intended primarily
-#' for a quick visual check. Please refer to [companion vignette on plotting](Plotting.html)
+#' for a quick visual check. Please refer to companion vignette on plotting
 #' for details about geoms and implementing your own custom plotting routine.
 #'
 #' @param x \code{\link{eyelinkRecording}} object
@@ -50,47 +50,47 @@ plot.eyelinkRecording <- function(x,
                                   color_legend = ifelse(saccade_color_property == "sttime_rel", "Saccade onset [ms]", NA),
                                   ...){
   # empty plot with equally scaled x- and y-axes
-  gaze_plot <-
+  the_plot <-
     ggplot() +
     coord_equal(expand=FALSE)
 
   # setting limits based on display coordinated (if available)
   if ("display_coords" %in% names(x)) {
-    gaze_plot <-
-      gaze_plot +
+    the_plot <-
+      the_plot +
       scale_x_continuous(name = "x", limits = x$display_coords[c(1, 3)]) +
       scale_y_reverse(name = "y", limits = x$display_coords[c(4, 2)])
   }
 
   # adding fixations
-  if (show_fixations & "fixations" %in% names(gaze)) {
+  if (show_fixations & "fixations" %in% names(x)) {
     if (is.null(trial)) {
-      fixations <- gaze$fixations
+      fixations <- x$fixations
     } else {
-      fixations <- gaze$fixations[x$fixations$trial %in% trial, ]
+      fixations <- x$fixations[x$fixations$trial %in% trial, ]
     }
-    gaze_plot <- gaze_plot + geom_point(data=fixations, aes_string(x = "gavx", y = "gavy", size = fixation_size_property), alpha=0.3)
+    the_plot <- the_plot + geom_point(data=fixations, aes_string(x = "gavx", y = "gavy", size = fixation_size_property), alpha=0.3)
 
     if (!is.null(fixation_size_property) & !is.na(size_legend)) {
-      gaze_plot <- gaze_plot + labs(size = size_legend)
+      the_plot <- the_plot + labs(size = size_legend)
     }
   }
 
   # adding saccades
-  if (show_saccades & "saccades" %in% names(gaze)) {
+  if (show_saccades & "saccades" %in% names(x)) {
     if (is.null(trial)) {
-      saccades <- gaze$saccades
+      saccades <- x$saccades
     } else {
-      saccades <- gaze$saccades[x$saccades$trial %in% trial, ]
+      saccades <- x$saccades[x$saccades$trial %in% trial, ]
     }
-    gaze_plot <-
-      gaze_plot +
+    the_plot <-
+      the_plot +
       geom_segment(data=saccades, aes_string(x = "gstx", y = "gsty", xend = "genx", yend = "geny", color = saccade_color_property))
 
     if (!is.null(saccade_color_property) & !is.na(color_legend)) {
-      gaze_plot <- gaze_plot + labs(color = color_legend)
+      the_plot <- the_plot + labs(color = color_legend)
     }
   }
 
-  gaze_plot
+  the_plot
 }

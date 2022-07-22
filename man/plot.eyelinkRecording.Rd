@@ -48,7 +48,7 @@ ggplot object
 }
 \description{
 This is only a basic plotting utility intended primarily
-for a quick visual check. Please refer to \href{Plotting.html}{companion vignette on plotting}
+for a quick visual check. Please refer to companion vignette on plotting
 for details about geoms and implementing your own custom plotting routine.
 }
 \examples{

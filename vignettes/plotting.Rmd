@@ -17,9 +17,7 @@ knitr::opts_chunk$set(
 ```{r setup}
 ```
 
-The package provides basic plotting functionality via [plot](eyelinkReader::plot.eyelinkRecording()) function that uses [ggplot2](https://ggplot2.tidyverse.org/) as a back end. This means that you can extend the plot by adding further layers and geoms. Below is the basic code that shows how to use [ggplot2](https://ggplot2.tidyverse.org/) to generate a custom plot replicating the [plot](eyelinkReader::plot.eyelinkRecording()) function.
-
-
+The package provides basic plotting functionality via \code{plot} function that uses [ggplot2](https://ggplot2.tidyverse.org/) as a back end. This means that you can extend the plot by adding further layers and geoms. Below is the basic code that shows how to use [ggplot2](https://ggplot2.tidyverse.org/) to generate a custom plot replicating the \code{plot}.
 ```{r out.width='100%', fig.width=10, fig.height=8}
 library(eyelinkReader)
 library(ggplot2)
