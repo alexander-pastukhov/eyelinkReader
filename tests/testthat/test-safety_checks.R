@@ -34,6 +34,6 @@ test_that("check_string_parameter works", {
 })
 
 
-test_that("is_compiled works", {
-  expect_type(is_compiled(), "logical" )
+test_that("compiled_library_status() works", {
+  expect_type(compiled_library_status(), "logical" )
 })

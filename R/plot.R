@@ -63,11 +63,11 @@ plot.eyelinkRecording <- function(x,
   }
 
   # adding fixations
-  if (show_fixations & "fixations" %in% names(gaze)) {
+  if (show_fixations & "fixations" %in% names(x)) {
     if (is.null(trial)) {
-      fixations <- gaze$fixations
+      fixations <- x$fixations
     } else {
-      fixations <- gaze$fixations[x$fixations$trial %in% trial, ]
+      fixations <- x$fixations[x$fixations$trial %in% trial, ]
     }
     gaze_plot <- gaze_plot + geom_point(data=fixations, aes_string(x = "gavx", y = "gavy", size = fixation_size_property), alpha=0.3)
 
@@ -77,11 +77,11 @@ plot.eyelinkRecording <- function(x,
   }
 
   # adding saccades
-  if (show_saccades & "saccades" %in% names(gaze)) {
+  if (show_saccades & "saccades" %in% names(x)) {
     if (is.null(trial)) {
-      saccades <- gaze$saccades
+      saccades <- x$saccades
     } else {
-      saccades <- gaze$saccades[x$saccades$trial %in% trial, ]
+      saccades <- x$saccades[x$saccades$trial %in% trial, ]
     }
     gaze_plot <-
       gaze_plot +
