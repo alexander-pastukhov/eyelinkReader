@@ -37,6 +37,9 @@
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_that_compiled.html</loc>
   </url>
   <url>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/compiled_library_status.html</loc>
+  </url>
+  <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/compute_cyclopean_samples.html</loc>
   </url>
   <url>
@@ -44,6 +47,9 @@
   </url>
   <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_recording_codes.html</loc>
+  </url>
+  <url>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/dot-onAttach.html</loc>
   </url>
   <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/dot-onLoad.html</loc>
@@ -82,9 +88,6 @@
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/is_compiled.html</loc>
-  </url>
-  <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/logical_index_for_sample_attributes.html</loc>
   </url>
   <url>
@@ -97,6 +100,12 @@
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_edf.html</loc>
   </url>
   <url>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_edf_file.html</loc>
+  </url>
+  <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_preamble.html</loc>
+  </url>
+  <url>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_preamble_str.html</loc>
   </url>
 </urlset>
