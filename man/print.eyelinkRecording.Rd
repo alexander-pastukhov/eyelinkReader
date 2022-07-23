@@ -16,7 +16,9 @@ Print info about \code{\link{eyelinkRecording}}
 }
 \examples{
 \donttest{
-recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
-print(recording)
+  if (eyelinkReader::compiled_library_status()) {
+    recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+    print(recording)
+  }
 }
 }

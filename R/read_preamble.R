@@ -11,7 +11,9 @@
 #'
 #' @examples
 #' \donttest{
+#'  if (eyelinkReader::compiled_library_status()) {
 #'   read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' }
 #' }
 read_preamble <- function(file, fail_loudly = TRUE){
   # failing with NULL, if no error was forced

@@ -10,7 +10,11 @@ using namespace Rcpp;
 //' @export
 //' @keywords internal
 //' @examples
-//' read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+//' \donttest{
+//' if (eyelinkReader::compiled_library_status()) {
+//'   read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+//' }
+//' }
 //[[Rcpp::export]]
 std::string read_preamble_str(std::string filename){
   return("");

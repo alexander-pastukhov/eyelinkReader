@@ -11,6 +11,19 @@ compiled_library_status <- function() {
     .Call('_eyelinkReader_compiled_library_status', PACKAGE = 'eyelinkReader')
 }
 
+#' @title Convert -32767 (missing info) to NA
+#' @description Converts all -32767 (smallest INT16  value indicating missing info) to NA.
+#' You don't need to call this function directly, as it is automatically envoked within
+#' \code{\link{read_edf}} function.
+#' @param List original_frame, data.frame to be processed
+#' @return processed data.frame
+#' @examples
+#' \donttest{
+#'   gaze <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
+#'   gaze$samples <- convert_NAs(GazeData$samples)
+#' }
+NULL
+
 convert_NAs <- function(original_frame) {
     .Call('_eyelinkReader_convert_NAs', PACKAGE = 'eyelinkReader', original_frame)
 }
@@ -45,7 +58,11 @@ read_edf_file <- function(filename, consistency, import_events, import_recording
 #' @export
 #' @keywords internal
 #' @examples
-#' read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' \donttest{
+#' if (eyelinkReader::compiled_library_status()) {
+#'   read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#' }
+#' }
 read_preamble_str <- function(filename) {
     .Call('_eyelinkReader_read_preamble_str', PACKAGE = 'eyelinkReader', filename)
 }

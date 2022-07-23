@@ -13,8 +13,7 @@
     NA),
   show_saccades = TRUE,
   saccade_color_property = "sttime_rel",
-  color_legend = ifelse(saccade_color_property == "sttime_rel", "Saccade onset [ms]",
-    NA),
+  color_legend = ifelse(saccade_color_property == "sttime_rel", "Saccade onset [ms]", NA),
   ...
 )
 }

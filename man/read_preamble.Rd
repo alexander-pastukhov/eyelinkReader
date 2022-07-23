@@ -20,6 +20,8 @@ Read the preamble of the EDF file and parses it into an reading-friendly format
 }
 \examples{
 \donttest{
+ if (eyelinkReader::compiled_library_status()) {
   read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+}
 }
 }

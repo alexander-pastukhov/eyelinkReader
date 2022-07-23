@@ -3,11 +3,12 @@
 #' @param x \code{\link{eyelinkRecording}} object
 #' @param ... Addition parameters (unused)
 #' @export
-#'
 #' @examples
 #' \donttest{
-#' recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
-#' print(recording)
+#'   if (eyelinkReader::compiled_library_status()) {
+#'     recording <- read_edf(system.file("extdata", "example.edf", package = "eyelinkReader"))
+#'     print(recording)
+#'   }
 #' }
 print.eyelinkRecording <- function(x, ...){
   if (nrow(x$headers)==1){

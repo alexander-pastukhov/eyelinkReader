@@ -210,7 +210,9 @@ edfapi::EDFFILE* safely_open_edf_file(std::string filename, int consistency, int
 //' @export
 //' @keywords internal
 //' @examples
+//' \donttest{
 //' read_preamble(system.file("extdata", "example.edf", package = "eyelinkReader"))
+//' }
 //[[Rcpp::export]]
 std::string read_preamble_str(std::string filename){
   edfapi::EDFFILE* edfFile = safely_open_edf_file(filename, 2, 0, 0);
