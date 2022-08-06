@@ -229,7 +229,7 @@ similar to how it is done in M/EEG.
 \item \code{trial} Trial index.
 \item \code{sttime} Start time.
 \item \code{sttime_rel} Start time, relative to the start time of the trial.
-\item \code{label} <label> part of the message, can contain white spaces.
+\item \code{label} \emph{label} part of the message, can contain white spaces.
 }
 }
 
