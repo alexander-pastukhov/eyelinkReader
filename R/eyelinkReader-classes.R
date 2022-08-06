@@ -183,7 +183,7 @@
 #' * \code{trial} Trial index.
 #' * \code{sttime} Start time.
 #' * \code{sttime_rel} Start time, relative to the start time of the trial.
-#' * \code{label} <label> part of the message, can contain white spaces.
+#' * \code{label} \emph{label} part of the message, can contain white spaces.
 #'
 #' @section AOIs:
 #' Rectangular areas of interest (AOI), as defined by "!V IAREA RECTANGLE" command.
