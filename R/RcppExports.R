@@ -22,8 +22,6 @@ compiled_library_status <- function() {
 #'   gaze <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 #'   gaze$samples <- convert_NAs(GazeData$samples)
 #' }
-NULL
-
 convert_NAs <- function(original_frame) {
     .Call('_eyelinkReader_convert_NAs', PACKAGE = 'eyelinkReader', original_frame)
 }
