@@ -5,14 +5,13 @@ using namespace Rcpp;
 //' @description Converts all -32767 (smallest INT16  value indicating missing info) to NA.
 //' You don't need to call this function directly, as it is automatically envoked within
 //' \code{\link{read_edf}} function.
-//' @param List original_frame, data.frame to be processed
+//' @param original_frame data.frame to be processed
 //' @return processed data.frame
 //' @examples
 //' \donttest{
 //'   gaze <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
 //'   gaze$samples <- convert_NAs(GazeData$samples)
 //' }
-
 //[[Rcpp::export]]
 List convert_NAs(List original_frame){
   List target_frame = clone(original_frame);
