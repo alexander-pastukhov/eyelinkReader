@@ -13,14 +13,15 @@ compiled_library_status <- function() {
 
 #' @title Convert -32767 (missing info) to NA
 #' @description Converts all -32767 (smallest INT16  value indicating missing info) to NA.
-#' You don't need to call this function directly, as it is automatically envoked within
+#' You don't need to call this function directly, as it is automatically evoked within
 #' \code{\link{read_edf}} function.
-#' @param List original_frame, data.frame to be processed
+#' @param original_frame data.frame to be processed
 #' @return processed data.frame
+#' @export
 #' @examples
 #' \donttest{
-#'   gaze <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
-#'   gaze$samples <- convert_NAs(GazeData$samples)
+#'   data(gaze)
+#'   gaze$samples <- convert_NAs(gaze$samples)
 #' }
 convert_NAs <- function(original_frame) {
     .Call('_eyelinkReader_convert_NAs', PACKAGE = 'eyelinkReader', original_frame)

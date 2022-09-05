@@ -7,19 +7,19 @@
 convert_NAs(original_frame)
 }
 \arguments{
-\item{List}{original_frame, data.frame to be processed}
+\item{original_frame}{data.frame to be processed}
 }
 \value{
 processed data.frame
 }
 \description{
 Converts all -32767 (smallest INT16  value indicating missing info) to NA.
-You don't need to call this function directly, as it is automatically envoked within
+You don't need to call this function directly, as it is automatically evoked within
 \code{\link{read_edf}} function.
 }
 \examples{
 \donttest{
-  gaze <- read_edf(system.file("extdata", "example.edf", package = "edfR"))
-  gaze$samples <- convert_NAs(GazeData$samples)
+  data(gaze)
+  gaze$samples <- convert_NAs(gaze$samples)
 }
 }

@@ -2,6 +2,7 @@
 #'
 #' @param x \code{\link{eyelinkRecording}} object
 #' @param ... Addition parameters (unused)
+#' @return No return value, called for printing to console.
 #' @export
 #' @examples
 #' \donttest{

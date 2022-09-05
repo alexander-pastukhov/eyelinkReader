@@ -11,6 +11,9 @@
 
 \item{pkgname}{character}
 }
+\value{
+No return value, called to check and warn if compiled EDF API interface is missing.
+}
 \description{
 Check if the library was compiled
 }

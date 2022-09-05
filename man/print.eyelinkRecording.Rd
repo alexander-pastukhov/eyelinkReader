@@ -11,6 +11,9 @@
 
 \item{...}{Addition parameters (unused)}
 }
+\value{
+No return value, called for printing to console.
+}
 \description{
 Print info about \code{\link{eyelinkRecording}}
 }

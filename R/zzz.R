@@ -2,7 +2,7 @@
 #'
 #' @param libname character
 #' @param pkgname character
-#' @return NULL
+#' @return No return value, called to compile EDF API interface.
 #' @export
 #' @importFrom methods is
 #' @keywords internal
@@ -88,7 +88,7 @@
 #'
 #' @param libname character
 #' @param pkgname character
-#' @return NULL
+#' @return No return value, called to check and warn if compiled EDF API interface is missing.
 #' @export
 #' @keywords internal
 .onAttach <- function(libname, pkgname) {

@@ -11,6 +11,9 @@
 
 \item{pkgname}{character}
 }
+\value{
+No return value, called to compile EDF API interface.
+}
 \description{
 Compiles the library linking it to EDF API
 }

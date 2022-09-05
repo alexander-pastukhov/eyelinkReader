@@ -6,6 +6,7 @@
 #' for test use only).
 #'
 #' @export
+#' @return No return value. Stops the computation, if compiled interface to EDF API in missing.
 #' @keywords internal
 #'
 #' @examples
