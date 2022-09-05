@@ -140,33 +140,37 @@
 <div class="section level3">
 <h3 id="install-the-library">Install the library<a class="anchor" aria-label="anchor" href="#install-the-library"></a>
 </h3>
+<p>To install from CRAN</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"eyelinkReader"</span><span class="op">)</span></span></code></pre></div>
 <p>To install from github</p>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"alexander-pastukhov/eyelinkReader"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"alexander-pastukhov/eyelinkReader"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p>The main function is <code><a href="reference/read_edf.html">read_edf()</a></code> that imports an EDF file (or throws an error, if EDF API is not installed). By default it will import all events and attempt to extract standard events: saccades, blinks, fixations, logged variables, etc.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alexander-pastukhov/eyelinkReader/" class="external-link">eyelinkReader</a></span><span class="op">)</span></span>
 <span><span class="va">gaze</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_edf.html">read_edf</a></span><span class="op">(</span><span class="st">'eyelink-recording.edf'</span><span class="op">)</span></span></code></pre></div>
 <p>Events and individual event types are stored as tables inside the <code>eyelinkRecording</code> object with <code>trial</code> column identifying individual trials. Trial 0 correspond to events (e.g, <code>DISPLAY_COORDS</code> message, etc.) sent to the eye tracker before the first trial.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/View.html" class="external-link">View</a></span><span class="op">(</span><span class="va">gaze</span><span class="op">$</span><span class="va">saccades</span><span class="op">)</span></span></code></pre></div>
 <p>There is a basic utility for plotting saccades and fixations for an individual trial</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gaze</span>, trial <span class="op">=</span> <span class="fl">1</span>, show_fixations <span class="op">=</span> <span class="cn">TRUE</span>, show_saccades <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>or across trials</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gaze</span>, trial <span class="op">=</span> <span class="cn">NULL</span>, show_fixations <span class="op">=</span> <span class="cn">TRUE</span>, show_saccades <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>The package also includes functions to parse non-standard events: recorded areas of interest (<code>extract_AOIs</code>) and trigger events that help to time events (<code>extract_triggers</code>). These need to be called separately.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gaze</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_AOIs.html">extract_AOIs</a></span><span class="op">(</span><span class="va">gaze</span><span class="op">)</span></span>
 <span><span class="va">gaze</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_triggers.html">extract_triggers</a></span><span class="op">(</span><span class="va">gaze</span><span class="op">)</span></span></code></pre></div>
 <p>To import samples, add <code>import_samples = TRUE</code> and, optionally, specify which sample attributes need to be imported, e.g., <code>sample_attributes = c('time', 'gx', 'gy')</code>. All attributes are imported if <code>sample_attributes</code> is not specified. See package and EDF API documentation for the full list of attribute names.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># import samples with all attributes</span></span>
 <span><span class="va">gaze</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_edf.html">read_edf</a></span><span class="op">(</span><span class="st">'eyelink-recording.edf'</span>, import_samples <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
