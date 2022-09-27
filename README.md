@@ -45,9 +45,8 @@ EDFAPI_INC="/usr/include/EyeLink"
 
 #### Mac OS
 
-**Warning**
-
-Currently (27.09.2022) eyelinkReader _does not_ work on ARM Macs because EDF API library is compiled for Intel-architecture. The issue will resolve itself once SR-Research publishes an EyeLink Developers Kit built for ARM architecture but there is nothing  I can do at my end.
+> **Warning**
+> Currently (27.09.2022) eyelinkReader _does not_ work on ARM Macs because EDF API library is compiled for Intel-architecture. The issue will resolve itself once SR-Research publishes an EyeLink Developers Kit built for ARM architecture but there is nothing  I can do at my end.
 
 * `EDFAPI_LIB`: path to EDF API framework. Defaults to `/Library/Frameworks`
 * `EDFAPI_INC` : path to C header files necessary for compilation. Specifically, the package requires _edf.h_, _edf_data.h_, and _edftypes.h_. Defaults to `/Library/Frameworks/edfapi.framework/Headers`
