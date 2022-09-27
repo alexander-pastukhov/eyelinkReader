@@ -1,11 +1,11 @@
-pandoc: '2.18'
+pandoc: 2.7.3
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   installation: installation.html
   plotting: plotting.html
   usage: usage.html
-last_built: 2022-09-27T08:16Z
+last_built: 2022-09-27T08:56Z
 urls:
   reference: https://alexander-pastukhov.github.io/eyelinkReader/reference
   article: https://alexander-pastukhov.github.io/eyelinkReader/articles
