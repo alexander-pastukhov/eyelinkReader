@@ -46,7 +46,7 @@
                                      "c:/Program Files (x86)/SR Research/EyeLink/libs"))
     }
 
-    if (all(!is.null(c(include_path, library_path)))) {
+    if (all(c(!is.null(include_path), !is.null(library_path)))) {
       Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
       Sys.setenv("PKG_LIBS"=sprintf('-L"%s" -l%s', library_path, library_file))
       compilation_outcome <- try(Rcpp::sourceCpp(filename, env = parent.env(environment())))
