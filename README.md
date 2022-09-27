@@ -45,8 +45,7 @@ EDFAPI_INC="/usr/include/EyeLink"
 
 #### Mac OS
 
-> **Warning**
-> 
+> **Warning**  
 > Currently (27.09.2022) eyelinkReader _does not_ work on ARM Macs because EDF API library is compiled for Intel-architecture and the linker fails with an error `building for macOS-arm64 but attempting to link with file built for macOS-x86_64`. The issue will resolve itself once SR-Research publishes an EyeLink Developers Kit built for ARM architecture but there is nothing  I can do at my end.
 
 * `EDFAPI_LIB`: path to EDF API framework. Defaults to `/Library/Frameworks`
