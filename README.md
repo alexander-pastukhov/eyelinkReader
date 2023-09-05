@@ -48,7 +48,7 @@ EDFAPI_INC="/usr/include/EyeLink"
 * `EDFAPI_LIB`: path to EDF API framework. Defaults to `/Library/Frameworks`
 * `EDFAPI_INC` : path to C header files necessary for compilation. Specifically, the package requires _edf.h_, _edf_data.h_, and _edftypes.h_. Defaults to `/Library/Frameworks/edfapi.framework/Headers`
 
-Your `.Renviron` file include lines similar to the ones below
+Your `.Renviron` file should include lines similar to the ones below
 ```
 EDFAPI_LIB="/Library/Frameworks"
 EDFAPI_INC="/Library/Frameworks/edfapi.framework/Headers"
