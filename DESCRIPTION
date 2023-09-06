@@ -1,6 +1,6 @@
 Package: eyelinkReader
 Title: Import Gaze Data for EyeLink Eye Tracker
-Version: 1.0.0
+Version: 1.0.1
 Authors@R:
   person(given = "Alexander",
          family = "Pastukhov",
@@ -35,7 +35,7 @@ Imports:
   tidyr,
   methods,
   ggplot2
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 SystemRequirements: GNU make
 Suggests: 
