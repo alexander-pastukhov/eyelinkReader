@@ -14,6 +14,7 @@
   show_saccades = TRUE,
   saccade_color_property = "sttime_rel",
   color_legend = ifelse(saccade_color_property == "sttime_rel", "Saccade onset [ms]", NA),
+  background_grobs = NULL,
   ...
 )
 }
@@ -39,6 +40,8 @@ title is unmodified (i.e., determined by ggplot).}
 \item{color_legend}{An optional legend title, defaults to \code{"Saccade onset [ms]"}
 if \code{saccade_color_property} is \code{"sttime_rel"} and to \code{NA} otherwise. In the latter case, the legend
 title is unmodified (i.e., determined by ggplot).}
+
+\item{background_grobs}{ggplot2 graphic objects add to the plot \emph{before} plotting data.}
 
 \item{...}{Addition parameters (unused)}
 }

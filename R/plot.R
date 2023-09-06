@@ -18,6 +18,7 @@
 #' @param color_legend An optional legend title, defaults to \code{"Saccade onset [ms]"}
 #' if \code{saccade_color_property} is \code{"sttime_rel"} and to \code{NA} otherwise. In the latter case, the legend
 #' title is unmodified (i.e., determined by ggplot).
+#' @param background_grobs ggplot2 graphic objects add to the plot \emph{before} plotting data.
 #' @param ... Addition parameters (unused)
 #'
 #' @return ggplot object
@@ -48,11 +49,13 @@ plot.eyelinkRecording <- function(x,
                                   show_saccades = TRUE,
                                   saccade_color_property = "sttime_rel",
                                   color_legend = ifelse(saccade_color_property == "sttime_rel", "Saccade onset [ms]", NA),
+                                  background_grobs = NULL,
                                   ...){
   # empty plot with equally scaled x- and y-axes
   the_plot <-
     ggplot() +
-    coord_equal(expand=FALSE)
+    coord_equal(expand=FALSE) +
+    background_grobs
 
   # setting limits based on display coordinated (if available)
   if ("display_coords" %in% names(x)) {
