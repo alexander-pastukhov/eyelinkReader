@@ -1,5 +1,7 @@
-#' eyelinkReader
-#'
+#' @keywords internal
+"_PACKAGE"
+
+## usethis namespace: start
 #' @description Imports gaze data recorded by a SR Research EyeLink eye tracker from an EDF file.
 #' Includes options to import events and/or recorded samples and extract
 #' individual events such as saccades, fixations, blinks, and recorded variables.
@@ -10,7 +12,5 @@
 #' @importFrom Rcpp evalCpp
 #' @useDynLib eyelinkReader
 #' @name eyelinkReader
+## usethis namespace: end
 NULL
-
-
-#  usethis::use_git_config(user.name = "Alexander (Sasha) Pastukhov", user.email = "pastukhov.alexander@gmail.com")
