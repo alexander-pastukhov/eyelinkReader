@@ -22,6 +22,9 @@
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/index.html</loc>
   </url>
   <url>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/adjust_message_time.html</loc>
   </url>
   <url>
@@ -43,10 +46,10 @@
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/compute_cyclopean_samples.html</loc>
   </url>
   <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_NAs.html</loc>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_header_codes.html</loc>
   </url>
   <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_header_codes.html</loc>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_NAs.html</loc>
   </url>
   <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_recording_codes.html</loc>
@@ -79,7 +82,7 @@
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_variables.html</loc>
   </url>
   <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/eyelinkReader.html</loc>
+    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/eyelinkReader-package.html</loc>
   </url>
   <url>
     <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/eyelinkRecording-class.html</loc>
