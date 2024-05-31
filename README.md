@@ -22,6 +22,8 @@ The package needs to configure compiler flags for its dependency on EDF API libr
 If compilation with default paths fails, you need to define R environment variables as described below. These variables must be defined either in user or project [.Renviron](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html) file. The simplest way to edit it is via [usethis](https://usethis.r-lib.org/) library and [edit_r_environ()](https://usethis.r-lib.org/reference/edit.html) function. Type `usethis::edit_r_environ()` for user and `usethis::edit_r_environ('project')` for projects environments (note that the latter shadows the former, read [documentation](https://usethis.r-lib.org/) for details). Note that in the case of Windows, you do not need to worry about forward vs. backward slashes as R will normalize strings for you. Once you define the variables, restart session and check them by typing `Sys.getenv()` (to see all variables) or `Sys.getenv("EDFAPI_INC")` to check a specific one.
 
 #### Windows
+For the package to work on Windows, you must install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). Please note that as of 31.05.2024, you need [Rtool43](https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html) even if your R version is 4.4.x, the compilation fails with Rtools44.
+
 Default values assume that the EyeLink Developers Kit is installed in `c:/Program Files (x86)/SR Research/EyeLink` (default installation path).
 
 * `EDFAPI_LIB` : path to `edfapi.dll` for **32-bit systems**. Defaults to `c:/Program Files (x86)/SR Research/EyeLink/libs`.
