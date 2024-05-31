@@ -2,8 +2,8 @@
 % Please edit documentation in R/eyelinkReader-package.R
 \docType{package}
 \name{eyelinkReader}
-\alias{eyelinkReader}
 \alias{eyelinkReader-package}
+\alias{eyelinkReader}
 \title{eyelinkReader: Import Gaze Data for EyeLink Eye Tracker}
 \description{
 Imports gaze data recorded by a SR Research EyeLink eye tracker from an EDF file.
