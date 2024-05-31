@@ -29,10 +29,10 @@ and end events, etc. Could be \code{'no consistency check'},
 \code{'check consistency and report'} (default), \code{'check consistency and fix'}.}
 
 \item{import_events}{logical, whether to import events, defaults to
-code{TRUE}}
+\code{TRUE}}
 
 \item{import_recordings}{logical, whether to import information about start/end of the recording, defaults to
-code{TRUE}}
+\code{TRUE}}
 
 \item{import_samples}{logical, whether to import samples, defaults to \code{FALSE}.
 Please note that specifying\code{sample_attributes} automatically sets it to \code{TRUE}.}
