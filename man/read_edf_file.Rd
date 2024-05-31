@@ -17,20 +17,28 @@ read_edf_file(
 )
 }
 \arguments{
-\item{verbose, }{whether to show progressbar and report number of trials}
+\item{filename}{full name of the EDF file}
 
-\item{int}{consistency, consistency check control (for the time stamps of the start
+\item{consistency}{consistency check control (for the time stamps of the start
 and end events, etc). 0, no consistency check. 1, check consistency and report.
 2, check consistency and fix.}
 
-\item{bool}{import_samples, load/skip loading of samples.}
+\item{import_events}{load/skip loading events.}
 
-\item{LogicalVector}{sample_attr_flag, boolean vector that indicates which sample fields are to be stored}
+\item{import_recordings}{load/skip loading recordings.}
 
-\item{std::string}{end_marker_string, event that marks trial end}
+\item{import_samples}{load/skip loading of samples.}
+
+\item{sample_attr_flag}{boolean vector that indicates which sample fields are to be stored}
+
+\item{start_marker_string}{event that marks trial start. Defaults to "TRIALID", if empty.}
+
+\item{end_marker_string}{event that marks trial end}
+
+\item{verbose}{whether to show progressbar and report number of trials}
 }
 \value{
-List, contents of the EDF file. Please see read_edf for details.
+contents of the EDF file. Please see read_edf for details.
 }
 \description{
 Reads EDF file into a list that contains events, samples, and recordings.
