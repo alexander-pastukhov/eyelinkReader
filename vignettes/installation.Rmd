@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 The library installation involves three easy (famous last words) steps.
 
 ### Install SR Research EyeLink Developers Kit
-This package relies on _edfapi_ library that is as part of the _EyeLink Developers Kit_. Therefore, `read_edf()` function **will not work without it** but you will still be able to use utility functions. The _EyeLink Developers Kit_ can be downloaded from [sr-support.com](https://www.sr-support.com/) website. Note that you need to register and wait for your account to be activated. Next, follow instructions to install _EyeLink Developers Kit_ for your platform. The forum thread should be under _SR Support Forum › Downloads › EyeLink Developers Kit / API › Download: EyeLink Developers Kit / API Downloads (Windows, macOS, Linux)_.
+This package relies on _edfapi_ library that is as part of the _EyeLink Developers Kit_. Therefore, `read_edf()` function **will not work without it** but you will still be able to use utility functions. The _EyeLink Developers Kit_ can be downloaded from [www.sr-research.com/support](https://www.sr-research.com/support/) website. Note that you need to register and wait for your account to be activated. Next, follow instructions to install _EyeLink Developers Kit_ for your platform. The forum thread should be under _SR Support Forum › Downloads › EyeLink Developers Kit / API › Download: EyeLink Developers Kit / API Downloads (Windows, macOS, Linux)_.
 
 ### Configure R environment variables
 
