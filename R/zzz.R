@@ -67,7 +67,7 @@
     include_path <- locate_files(required_headers,
                                  c(Sys.getenv("EDFAPI_INC"),
                                    '/Library/Frameworks/edfapi.framework/Headers/'))
-    library_path <-'/Library/Frameworks/edfapi.framework/'
+    library_path <-'/Library/Frameworks/'
     if (!is.null(include_path)) {
       Sys.setenv("PKG_CXXFLAGS"=sprintf('-I"%s"', include_path))
       Sys.setenv("PKG_LIBS"=sprintf('-framework edfapi -F%s -rpath %s', library_path, library_path))
