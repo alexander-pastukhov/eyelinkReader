@@ -1,6 +1,6 @@
 Package: eyelinkReader
 Title: Import Gaze Data for EyeLink Eye Tracker
-Version: 1.0.1
+Version: 1.0.2
 Date: 2023-09-06
 Authors@R:
   person(given = "Alexander",
@@ -31,6 +31,7 @@ LinkingTo: Rcpp, RcppProgress
 Imports:
   dplyr,
   fs,
+  purrr,
   Rcpp,
   stringr,
   tidyr,
