@@ -32,7 +32,7 @@ extract_AOIs <- function(object) { UseMethod("extract_AOIs") }
 #' @importFrom tidyr separate
 #' @importFrom stringr str_remove_all str_split
 #' @importFrom rlang .data
-#' @importFrom purrr map_ch map_int
+#' @importFrom purrr map_chr map_int
 extract_AOIs.data.frame <- function(object){
   object %>%
     dplyr::filter(.data$type == "MESSAGEEVENT", stringr::str_starts(.data$message, "!V IAREA RECTANGLE")) |>
