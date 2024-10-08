@@ -112,6 +112,7 @@ read_edf <- function(file,
   }
   if (import_events){
     edf_recording$events <- data.frame(edf_recording$events)
+    edf_recording$events$message <- iconv(edf_recording$events$message, from = "ISO-8859-1", to = "UTF-8")
 
   }
   if (import_recordings){
