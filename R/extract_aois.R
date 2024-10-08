@@ -34,17 +34,17 @@ extract_AOIs <- function(object) { UseMethod("extract_AOIs") }
 #' @importFrom rlang .data
 extract_AOIs.data.frame <- function(object){
   object %>%
-    dplyr::filter(stringr::str_detect(.data$message, '^!V IAREA RECTANGLE')) %>%
-    tidyr::separate(col = .data$message,
-             into = c("Exclamation", "IAREA", "RECTANGLE", "index", "left", "top", "right", "bottom", "label"),
-             sep = ' ',
-             remove = FALSE) %>%
-    dplyr::select(c("trial", "sttime", "sttime_rel", "index", "label", "left", "top", "right", "bottom")) %>%
-    dplyr::mutate(left= as.numeric(.data$left),
-                  right= as.numeric(.data$right),
-                  top= as.numeric(.data$top),
-                  bottom= as.numeric(.data$bottom),
-                  index= as.integer(.data$index))
+    dplyr::filter(.data$type == "MESSAGEEVENT", stringr::str_starts(.data$message, "!V IAREA RECTANGLE")) |>
+    dplyr::select("trial", "sttime", "sttime_rel", "message") |>
+    dplyr::mutate(message = stringr::str_remove_all(.data$message, "!V IAREA RECTANGLE "),
+                  chunks = stringr::str_split(.data$message, " "),
+                  index = purrr::map_int(.data$chunks, ~as.integer(.[1])),
+                  label = purrr::map_chr(.data$chunks, ~paste0(.[6:length(.)], collapse = " ")),
+                  left = purrr::map_int(.data$chunks, ~as.integer(.[2])),
+                  top = purrr::map_int(.data$chunks, ~as.integer(.[3])),
+                  right = purrr::map_int(.data$chunks, ~as.integer(.[4])),
+                  bottom = purrr::map_int(.data$chunks, ~as.integer(.[5]))) |>
+    dplyr::select(-"chunks", -"message")
 }
 
 #' @rdname extract_AOIs
