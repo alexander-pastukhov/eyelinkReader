@@ -43,7 +43,7 @@ extract_triggers.data.frame <- function(object, message_prefix = "TRIGGER"){
 
   object %>%
     dplyr::filter(grepl(paste0('^', message_prefix), message)) %>%
-    dplyr::mutate(label = trimws(gsub('TRIGGER', '', .data$message))) %>%
+    dplyr::mutate(label = trimws(gsub(message_prefix, '', .data$message))) %>%
     dplyr::select(c("trial", "sttime", "sttime_rel", "label"))
 }
 
