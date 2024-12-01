@@ -1,117 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/404.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/articles/installation.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/articles/plotting.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/articles/usage.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/index.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/adjust_message_time.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_consistency_flag.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_logical_flag.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_string_parameter.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_that_compiled.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/compiled_library_status.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/compute_cyclopean_samples.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_header_codes.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_NAs.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_recording_codes.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/dot-onAttach.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/dot-onLoad.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_AOIs.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_blinks.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_display_coords.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_fixations.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_saccades.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_triggers.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_variables.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/eyelinkReader-package.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/eyelinkRecording-class.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/gaze.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/logical_index_for_sample_attributes.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/plot.eyelinkRecording.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/print.eyelinkRecording.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_edf.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_edf_file.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_preamble.html</loc>
-  </url>
-  <url>
-    <loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_preamble_str.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/404.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/articles/index.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/articles/installation.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/articles/plotting.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/articles/usage.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/authors.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/index.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/news/index.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/adjust_message_time.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_consistency_flag.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_logical_flag.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_string_parameter.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/check_that_compiled.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/compiled_library_status.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/compute_cyclopean_samples.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_NAs.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_header_codes.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/convert_recording_codes.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/dot-onAttach.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/dot-onLoad.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_AOIs.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_blinks.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_display_coords.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_fixations.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_saccades.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_triggers.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/extract_variables.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/eyelinkReader.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/eyelinkRecording-class.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/gaze.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/index.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/logical_index_for_sample_attributes.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/plot.eyelinkRecording.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/print.eyelinkRecording.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_edf.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_edf_file.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_preamble.html</loc></url>
+<url><loc>https://alexander-pastukhov.github.io/eyelinkReader/reference/read_preamble_str.html</loc></url>
 </urlset>
+
