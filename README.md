@@ -1,4 +1,4 @@
-# eyelinkReader <img align="right" src="https://raw.githubusercontent.com/alexander-pastukhov/eyelinkReader/refs/heads/master/eyelinkReader.svg" height="138" style="float:right; height:138px;">
+# eyelinkReader <img align="right" src="https://raw.githubusercontent.com/alexander-pastukhov/eyelinkReader/refs/heads/master/eyelinkReader.svg" alt="Logo" height="138" style="float:right; height:138px;">
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7050482.svg)](https://doi.org/10.5281/zenodo.7050482)
 [![CRAN status](https://www.r-pkg.org/badges/version/eyelinkReader)](https://cran.r-project.org/package=eyelinkReader)
