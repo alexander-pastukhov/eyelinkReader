@@ -196,7 +196,7 @@ edfapi::EDFFILE* safely_open_edf_file(std::string filename, int consistency, int
   if (ReturnValue != 0){
     std::stringstream error_message_stream;
     error_message_stream << "Error opening file '" << filename << "', error code: " << ReturnValue;
-    ::Rf_error(error_message_stream.str().c_str());
+    ::Rf_error("%s", error_message_stream.str().c_str());
   }
 
   return edfFile;
@@ -225,7 +225,7 @@ std::string read_preamble_str(std::string filename){
   {
     std::stringstream error_message_stream;
     error_message_stream << "Error reading preable for file '" << filename << "', error code: " << ReturnValue;
-    ::Rf_error(error_message_stream.str().c_str());
+    ::Rf_error("%s", error_message_stream.str().c_str());
   }
   std::string preamble(preamble_buffer);
 
@@ -273,7 +273,7 @@ void jump_to_trial(edfapi::EDFFILE* edfFile, int iTrial){
   if (edfapi::edf_jump_to_trial(edfFile, iTrial) != 0){
     std::stringstream error_message_stream;
     error_message_stream << "Error jumping to trial " << iTrial+1;
-    ::Rf_error(error_message_stream.str().c_str());
+    ::Rf_error("%s", error_message_stream.str().c_str());
   }
 }
 
@@ -318,7 +318,7 @@ void read_trial_header(edfapi::EDFFILE* edfFile, NumericMatrix &trial_headers, i
   if (edf_get_trial_header(edfFile, &current_header) != 0){
     std::stringstream error_message_stream;
     error_message_stream << "Error obtaining the header for the trial " << iTrial+1;
-    ::Rf_error(error_message_stream.str().c_str());
+    ::Rf_error("%s", error_message_stream.str().c_str());
   }
 
   // copying it over
