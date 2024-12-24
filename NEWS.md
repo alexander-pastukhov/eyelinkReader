@@ -14,3 +14,7 @@
 * Bug fix in plot function
 * UTF-8 encoding for event message strings
 * AOI parsing function now allows for labels with white spaces
+
+# eyelinkReader 1.0.3
+## Bug Fixes
+* Format string for the error message
